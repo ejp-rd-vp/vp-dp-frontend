@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar v-if="$route.path !== '/'" color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
-        <img src="@/assets/logo/ejp-rd-logo-450.png">
+        <img src="@/assets/images/logo/ejp-rd-logo-450.png">
       </v-toolbar-title>
       <v-spacer />
       <v-btn x-large large tile color="#44a0fc">
