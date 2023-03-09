@@ -16,6 +16,14 @@ export default {
       ]
     }
   },
+  methods: {
+    truncate(input) {
+      if (input.length > 12) {
+        return input.substring(0, 12) + '...';
+      }
+      return input;
+    }
+  }
 }
 </script>
 
@@ -38,50 +46,61 @@ export default {
     }"
   >
     <template v-slot:item.name="{ item }">
-      <v-card :href="item.homepage" target="_blank"  outlined color="transparent" height="100%" class="pt-3">
-        <v-tooltip v-if="item.type.toLowerCase() === 'PatientRegistryDataset'" bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              :color="'green'"
-              large
-              v-bind="attrs"
-              v-on="on"
-              small
-            >
-              mdi-clipboard-text-search-outline
-            </v-icon>
-          </template>
-          <span>This resource is a patient registry.</span>
-        </v-tooltip>
-        <v-tooltip v-if="item.type.toLowerCase() === 'cell line'" bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              :color="'orange'"
-              large
-              v-bind="attrs"
-              v-on="on"
-              small
-            >
-              mdi-gesture
-            </v-icon>
-          </template>
-          <span>This resource is a cell line.</span>
-        </v-tooltip>
-        <v-tooltip v-if="item.type.toLowerCase() === 'BiobankDataset'" bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              :color="'blue'"
-              large
-              v-bind="attrs"
-              v-on="on"
-              small
-            >
-              mdi-test-tube
-            </v-icon>
-          </template>
-          <span>The resource is a biobank.</span>
-        </v-tooltip>
-        {{ item.name }}
+      <v-card :href="item.homepage" target="_blank"  outlined color="transparent" height="100%" style="width: 150px;" class="pt-3">
+        <div class="text-center d-inline align-center justify-space-around">
+          <v-tooltip v-if="item.type === 'PatientRegistryDataset'" bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                :color="'green'"
+                large
+                v-bind="attrs"
+                v-on="on"
+                small
+              >
+                mdi-clipboard-text-search-outline
+              </v-icon>
+            </template>
+            <span>This resource is a patient registry.</span>
+          </v-tooltip>
+          <v-tooltip v-if="item.type === 'cell line'" bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                :color="'orange'"
+                large
+                v-bind="attrs"
+                v-on="on"
+                small
+              >
+                mdi-gesture
+              </v-icon>
+            </template>
+            <span>This resource is a cell line.</span>
+          </v-tooltip>
+          <v-tooltip v-if="item.type === 'BiobankDataset'" bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                :color="'blue'"
+                large
+                v-bind="attrs"
+                v-on="on"
+                small
+              >
+                mdi-test-tube
+              </v-icon>
+            </template>
+            <span>The resource is a biobank.</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+        <span
+          class="ml-1"
+          v-bind="attrs"
+          v-on="on"
+        >{{ truncate(item.name) }}</span>
+            </template>
+            <span>{{ item.name }}</span>
+          </v-tooltip>
+        </div>
       </v-card>
     </template>
     <template v-slot:item.description="{ item }">
@@ -96,3 +115,18 @@ export default {
     </template>
   </v-data-table>
 </template>
+
+<style scoped>
+.v-card--link:before {
+  background: none;
+}
+
+.item-name {
+  color: black;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden !important;
+  width: 150px;
+  white-space: nowrap;
+}
+</style>

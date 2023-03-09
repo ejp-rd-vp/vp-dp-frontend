@@ -2,25 +2,16 @@
 import Common from '~/assets/js/common'
 export default {
   props: {
-    currentOrphaCode: { required: true, type: String }
+    currentOrphaCode: { required: true, type: String },
+    searchParams: { required: true, type: Object }
   },
   data () {
     return {
       searchResults: [],
-      loading: false,
-      searchParams: {
-        types: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
-        countries: ['DE', 'NL'],
-        genders: ['male', 'female', 'undetermined', 'unknown'],
-        ageThisYear: [20,39],
-        symptomOnset: [20,39],
-        ageAtDiagnoses: [20,39],
-        hierarchy: ['up']
-      }
+      loading: false
     }
   },
   mounted() {
-    console.log('beforeMount-----------------');
     this.fetchResults(this.currentOrphaCode)
   },
   methods: {
@@ -35,8 +26,6 @@ export default {
           this.loading = false
           this.searchResults = res
           this.searchResults.orphaCode = orphaCode
-          console.log('this.searchResults');
-          console.log(this.searchResults);
         }.bind(this))
         .catch(function (err) {
           console.log('Unable to fetch search results: ' + err)
@@ -72,13 +61,13 @@ export default {
                 {{ result.name }}
               </div>
               <div class="eph-results">
-                {{ result.content.resourceResponses.length }} result(s)
+                {{ result.numTotalResults }} result(s)
               </div>
               <div class="flex-grow-0 eph-term">
                 ORPHA:{{ searchResults.orphaCode }}
               </div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content style="min-width: 100%">
+            <v-expansion-panel-content v-if="result.content.resourceResponses" style="min-width: 100%">
               <SearchResultContent
                 :resultContent="result.content.resourceResponses"
               />
@@ -110,7 +99,7 @@ export default {
 }
 .eph-results {
   color: black;
-  max-width: 100px;
+  max-width: 120px;
   margin-inline: 10px;
 }
 .eph-title {

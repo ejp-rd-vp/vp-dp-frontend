@@ -1,106 +1,69 @@
 <script>
 import Codes from '~/assets/js/orphacode_complete'
+import Countries from '~/assets/js/countries'
 export default {
   data () {
     return {
-      hierarchy: {
-        current: 'Up',
-        variations: ['Up', 'Down', 'Undefined']
+      searchParams: {
+        types: [],
+        countries: [],
+        genders: [],
+        ageThisYear: [0,100],
+        symptomOnset: [0,100],
+        ageAtDiagnoses: [0,100],
+        hierarchy: []
       },
+      hierarchy: [
+        {
+          type: 'Up',
+          checked: false
+        },
+        {
+          type: 'Down',
+          checked: false
+        },
+        {
+          type: 'Undefined',
+          checked: true
+        }
+      ],
       selectedCode: null,
       selectedCodeObject: null,
       showFilters: false,
       symptomOnset: {
         min: 0,
-        max: 100,
-        range: [10, 40]
+        max: 100
       },
       ageThisYear: {
         min: 0,
-        max: 100,
-        range: [30, 40]
+        max: 100
       },
       ageAtDiagnosis: {
         min: 0,
-        max: 100,
-        range: [35, 40]
+        max: 100
       },
       sex: [
         {
           type: 'Female',
-          checked: false
+          checked: true
         },
         {
           type: 'Male',
-          checked: false
+          checked: true
         },
         {
           type: 'Undetermined',
-          checked: false
+          checked: true
         },
         {
           type: 'Unknown',
-          checked: false
+          checked: true
         }
       ],
       items1: ['Patient Registries', 'Biobanks', 'Knowledge Bases'],
       value1: ['Patient Registries', 'Biobanks', 'Knowledge Bases'],
-      items2: ['Austria',
-        'Belgium',
-        'Bulgaria',
-        'Cyprus',
-        'Czech Republic',
-        'Germany',
-        'Denmark',
-        'Estonia',
-        'Spain',
-        'Finland',
-        'France',
-        'United Kingdom',
-        'Greece',
-        'Hungary',
-        'Croatia',
-        'Ireland, Republic of (EIRE)',
-        'Italy',
-        'Lithuania',
-        'Luxembourg',
-        'Latvia',
-        'Malta',
-        'Netherlands',
-        'Poland',
-        'Portugal',
-        'Romania',
-        'Sweden',
-        'Slovenia',
-        'Slovakia',],
-      value2: ['Austria',
-        'Belgium',
-        'Bulgaria',
-        'Cyprus',
-        'Czech Republic',
-        'Germany',
-        'Denmark',
-        'Estonia',
-        'Spain',
-        'Finland',
-        'France',
-        'United Kingdom',
-        'Greece',
-        'Hungary',
-        'Croatia',
-        'Ireland, Republic of (EIRE)',
-        'Italy',
-        'Lithuania',
-        'Luxembourg',
-        'Latvia',
-        'Malta',
-        'Netherlands',
-        'Poland',
-        'Portugal',
-        'Romania',
-        'Sweden',
-        'Slovenia',
-        'Slovakia',],
+      items2: Countries.euCountriesNames(),
+      value2: Countries.euCountriesNames(),
     }
   },
   methods: {
@@ -131,6 +94,67 @@ export default {
     highlightMatchingSubString(str, subStr) {
       let reg = new RegExp('(' +subStr+ ')', 'gi');
       return  str.replace(reg, '<mark>$1</mark>');
+    }
+  },
+  watch: {
+    value1: {
+      handler () {
+        let newTypes = []
+        for (let type of this.value1) {
+          if (type.toLowerCase() === 'patient registries') {
+            newTypes.push('PatientRegistryDataset')
+          }
+          if (type.toLowerCase() === 'biobanks') {
+            newTypes.push('BiobankDataset')
+          }
+          if (type.toLowerCase() === 'knowledge bases') {
+            newTypes.push('KnowledgeDataset')
+          }
+        }
+        this.searchParams.types = newTypes
+      },
+      deep: true,
+      immediate: true
+    },
+    value2: {
+      handler () {
+        this.searchParams.countries = Countries.euCountriesNamesToCodes(this.value2)
+      },
+      deep: true,
+      immediate: true
+    },
+    sex: {
+      handler () {
+        let genders = []
+        for (let gender of this.sex) {
+          if (gender.checked) {
+            genders.push(gender.type.toLowerCase())
+          }
+        }
+        this.searchParams.genders = genders
+      },
+      deep: true,
+      immediate: true
+    },
+    hierarchy: {
+      handler () {
+        let hierarchies = []
+        for (let hy of this.hierarchy) {
+          if (hy.checked) {
+            hierarchies.push(hy.type.toLowerCase())
+          }
+        }
+        this.searchParams.hierarchy = hierarchies
+      },
+      deep: true,
+      immediate: true
+    },
+    searchParams: {
+      handler () {
+        this.$emit('updateSearchParams', this.searchParams)
+      },
+      deep: true,
+      immediate: true
     }
   },
   computed: {
@@ -224,23 +248,18 @@ export default {
             Search Options
           </h3>
           <v-divider />
-          <v-row class="px-3 pt-3">
+          <v-row class="px-3 pt-3 pb-3">
             <v-col>
-              <v-row>
-                <v-col>
-                  <p>Hierarchy/Classification</p>
-                  <v-radio-group
-                    v-model="hierarchy.current"
-                    row
-                  >
-                    <v-radio
-                      v-for="variation in hierarchy.variations"
-                      :key="variation"
-                      :label="variation"
-                      :value="variation"
-                      color="primary"
-                    ></v-radio>
-                  </v-radio-group>
+              <p>Hierarchy/Classification</p>
+              <v-row style="margin-top: -30px;">
+                <v-col class="flex-grow-0 mr-14" v-for="s in hierarchy" :key="hierarchy.type">
+                  <v-checkbox
+                    v-model="s.checked"
+                    :label="s.type"
+                    color="blue"
+                    :value="s.checked"
+                    hide-details
+                  ></v-checkbox>
                 </v-col>
               </v-row>
             </v-col>
@@ -330,7 +349,7 @@ export default {
               </p>
               <v-range-slider
                 color="primary"
-                v-model="symptomOnset.range"
+                v-model="searchParams.symptomOnset"
                 :max="symptomOnset.max"
                 :min="symptomOnset.min"
                 hide-details
@@ -347,7 +366,7 @@ export default {
               </p>
               <v-range-slider
                 color="primary"
-                v-model="ageThisYear.range"
+                v-model="searchParams.ageThisYear"
                 :max="ageThisYear.max"
                 :min="ageThisYear.min"
                 hide-details
@@ -362,7 +381,7 @@ export default {
               </p>
               <v-range-slider
                 color="primary"
-                v-model="ageAtDiagnosis.range"
+                v-model="searchParams.ageAtDiagnoses"
                 :max="ageAtDiagnosis.max"
                 :min="ageAtDiagnosis.min"
                 hide-details

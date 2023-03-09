@@ -21,10 +21,12 @@
     />
     <DiscoverySearch
       @changeCurrentOrphaCode="currentOrphaCode = $event"
+      @updateSearchParams="searchParams = $event"
     />
     <DiscoverySearchResults
       :key="currentOrphaCode"
       :currentOrphaCode="currentOrphaCode"
+      :search-params="searchParams"
     />
     <FeedBackButton />
     <cookies-notification
@@ -61,7 +63,16 @@ export default {
     return {
       currentOrphaCode: '',
       showDisclaimerNotice: true,
-      showCookiesNotification: true
+      showCookiesNotification: true,
+      searchParams: {
+        types: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
+        countries: ['DE', 'NL'],
+        genders: ['male', 'female', 'undetermined', 'unknown'],
+        ageThisYear: [20,39],
+        symptomOnset: [20,39],
+        ageAtDiagnoses: [20,39],
+        hierarchy: ['up']
+      }
     }
   }
 }
