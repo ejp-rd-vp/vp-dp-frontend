@@ -1,25 +1,56 @@
 <template>
   <v-app>
-    <v-app-bar v-if="$route.path !== '/'" color="#1f3863" height="130px" fixed app>
+    <v-app-bar dark v-if="$route.path !== '/'" color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
-        <img src="@/assets/images/logo/ejp-rd-logo-450.png">
+        <a href="https://www.ejprarediseases.org/" target="_blank">
+          <img src="@/assets/images/logo/ejp-rd-logo-450.png">
+        </a>
       </v-toolbar-title>
       <v-spacer />
-      <v-btn x-large large tile color="#44a0fc">
-        Resource Discovery
-      </v-btn>
-      <v-btn x-large text>
-        Connected Sources
-        <v-icon>
-          mdi-chevron-down
-        </v-icon>
-      </v-btn>
-      <v-btn class="mr-5" x-large text>
+      <v-btn-toggle
+        v-model="discoverySubPages"
+        class="mr-3"
+        color="#44a0fc"
+        group
+        borderless
+      >
+        <v-btn x-large large tile value="discovery">
+          Resource Discovery
+        </v-btn>
+
+        <v-btn x-large text value="sources">
+          Connected Sources
+        </v-btn>
+      </v-btn-toggle>
+      <v-btn v-if="!$auth.loggedIn && $route.path !== '/'" class="mr-5" @click="loginWithKeycloak" x-large text>
         <v-icon>
           mdi-account
         </v-icon>
         login
       </v-btn>
+      <v-menu v-if="$auth.loggedIn" offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="white"
+            x-large
+            text
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-account</v-icon>
+            {{ $auth.user.name }}
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            link
+            @click="logout"
+          >
+            <v-icon>mdi-logout</v-icon>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -37,11 +68,17 @@
   </v-app>
 </template>
 
+<style>
+html, body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+</style>
+
 <script>
 export default {
-  name: 'DefaultLayout',
   data() {
     return {
+      discoverySubPages: '',
       clipped: false,
       drawer: false,
       fixed: false,
@@ -63,5 +100,35 @@ export default {
       title: 'Vuetify.js',
     }
   },
+  watch: {
+    discoverySubPages: {
+      handler () {
+        if (this.discoverySubPages === 'discovery') {
+          this.$router.push({ path: '/discovery' })
+        }
+        if (this.discoverySubPages === 'sources') {
+          this.$router.push({ path: '/discovery/sources' })
+        }
+      },
+      deep: true,
+      immediate: true
+    }
+  },
+  methods: {
+    loginWithKeycloak () {
+      try {
+        this.$auth.loginWith('keycloak')
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async logout () {
+      try {
+        await this.$auth.logout()
+      } catch (err) {
+
+      }
+    }
+  }
 }
 </script>
