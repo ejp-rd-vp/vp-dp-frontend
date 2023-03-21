@@ -20,12 +20,13 @@
       @closeDisclaimerNotice="showDisclaimerNotice = false"
     />
     <DiscoverySearch
-      @changeCurrentOrphaCode="currentOrphaCode = $event"
+      @changeCurrentOrphaCodes="currentOrphaCodes = $event"
       @updateSearchParams="searchParams = $event"
     />
     <DiscoverySearchResults
-      :key="currentOrphaCode"
-      :currentOrphaCode="currentOrphaCode"
+      :key="currentOrphaCodes"
+      :resources="resources"
+      :currentOrphaCodes="currentOrphaCodes"
       :search-params="searchParams"
     />
     <FeedBackButton />
@@ -55,13 +56,15 @@ import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
 import DiscoverySearchResults from "@/components/search/DiscoverySearchResults.vue";
 import FeedBackButton from "@/components/common/FeedBackButton.vue";
 import CookiesNotification from "@/components/common/CookiesNotification.vue";
+import Common from "assets/js/common";
 
 export default {
   components: {CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch},
   auth: false,
   data () {
     return {
-      currentOrphaCode: '',
+      currentOrphaCodes: [],
+      resources: [],
       showDisclaimerNotice: true,
       showCookiesNotification: true,
       searchParams: {
@@ -73,6 +76,22 @@ export default {
         ageAtDiagnoses: [20,39],
         hierarchy: ['up']
       }
+    }
+  },
+  mounted() {
+    this.fetchResources()
+  },
+  methods: {
+    async fetchResources () {
+      await this.$axios.$get(process.env.backendUrl + '/resources')
+        .then(function (res) {
+          if (res) {
+            this.resources = res
+          }
+        }.bind(this))
+        .catch(function (err) {
+          console.log('Unable to fetch resources: ' + err)
+        }.bind(this))
     }
   }
 }
