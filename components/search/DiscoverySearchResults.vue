@@ -2,8 +2,9 @@
 import Common from '~/assets/js/common'
 export default {
   props: {
-    currentOrphaCode: { required: true, type: String },
-    searchParams: { required: true, type: Object }
+    currentOrphaCodes: { required: true, type: Array },
+    searchParams: { required: true, type: Object },
+    resources: { required: true, type: Array }
   },
   data () {
     return {
@@ -12,24 +13,30 @@ export default {
     }
   },
   mounted() {
-    this.fetchResults(this.currentOrphaCode)
+    this.fetchResults(this.currentOrphaCodes)
   },
   methods: {
-    async fetchResults (orphaCode) {
-      if(!orphaCode || orphaCode === '') {
+    async fetchResults (orphaCodes) {
+      if(!orphaCodes || orphaCodes.length < 1) {
         return
       }
       this.loading = true
-      await this.$axios.$get(process.env.backendUrl + '/search?disease=' + orphaCode,
-        { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
-        .then(function (res) {
-          this.loading = false
-          this.searchResults = res
-          this.searchResults.orphaCode = orphaCode
-        }.bind(this))
-        .catch(function (err) {
-          console.log('Unable to fetch search results: ' + err)
-        }.bind(this))
+      this.searchResults.orphaCodes = orphaCodes
+      for (let resource of this.resources) {
+        this.searchParams.diseases = this.currentOrphaCodes
+        this.searchParams.source = resource
+        this.$axios.$get(process.env.backendUrl + '/search',
+          { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
+          .then(function (res) {
+            if (res) {
+              this.searchResults = this.searchResults.concat(res)
+            }
+          }.bind(this))
+          .catch(function (err) {
+            console.log('Unable to fetch search results: ' + err)
+          }.bind(this))
+      }
+      this.loading = false
     }
   }
 }
@@ -38,33 +45,18 @@ export default {
   <v-container>
     <v-row no-gutters justify="center">
       <v-col cols="12">
+        <p v-if="searchResults.orphaCodes">Search results for orphanet codes: {{ searchResults.orphaCodes }}</p>
         <v-expansion-panels v-if="searchResults.length > 0 && !loading">
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
           >
-            <v-expansion-panel-header class="expansion-header" tile color="rgb(68, 160, 252)">
+            <v-expansion-panel-header :disabled="!result.content.resourceResponses" :hide-actions="!result.content.resourceResponses" class="expansion-header" tile color="rgb(68, 160, 252)">
               <div class="eph-title">
-<!--                <v-tooltip bottom>-->
-<!--                  <template v-slot:activator="{ on, attrs }">-->
-<!--                    <v-icon-->
-<!--                      :color="'orange'"-->
-<!--                      large-->
-<!--                      v-bind="attrs"-->
-<!--                      v-on="on"-->
-<!--                    >-->
-<!--                      mdi-lightbulb-on-outline-->
-<!--                    </v-icon>-->
-<!--                  </template>-->
-<!--                  <span>This source hold knowledge on rare diseases.</span>-->
-<!--                </v-tooltip>-->
                 {{ result.name }}
               </div>
               <div class="eph-results">
                 {{ result.numTotalResults }} result(s)
-              </div>
-              <div class="flex-grow-0 eph-term">
-                ORPHA:{{ searchResults.orphaCode }}
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content v-if="result.content.resourceResponses" style="min-width: 100%">

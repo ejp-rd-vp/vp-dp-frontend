@@ -17,11 +17,16 @@ export default {
     }
   },
   methods: {
-    truncate(input) {
-      if (input.length > 12) {
-        return input.substring(0, 12) + '...';
+    getCountry(item) {
+      if(item['location']) {
+        return  item.location.country
       }
-      return input;
+      else if (item['publisher'] && item.publisher['location']) {
+        return item.publisher.location.id
+      }
+      else {
+        return '-'
+      }
     }
   }
 }
@@ -46,7 +51,7 @@ export default {
     }"
   >
     <template v-slot:item.name="{ item }">
-      <v-card :href="item.homepage" target="_blank"  outlined color="transparent" height="100%" style="width: 150px;" class="pt-3">
+      <v-card :href="item.homepage" target="_blank"  outlined color="transparent" style="width: 200px;" class="py-1">
         <div class="text-center d-inline align-center justify-space-around">
           <v-tooltip v-if="item.type === 'PatientRegistryDataset'" bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -90,16 +95,7 @@ export default {
             </template>
             <span>The resource is a biobank.</span>
           </v-tooltip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-        <span
-          class="ml-1"
-          v-bind="attrs"
-          v-on="on"
-        >{{ truncate(item.name) }}</span>
-            </template>
-            <span>{{ item.name }}</span>
-          </v-tooltip>
+          {{ item.name }}
         </div>
       </v-card>
     </template>
@@ -110,7 +106,7 @@ export default {
     </template>
     <template v-slot:item.country="{ item }">
       <v-card :href="item.homepage" target="_blank" outlined color="transparent">
-        {{ item.country }}
+        {{ getCountry(item) }}
       </v-card>
     </template>
   </v-data-table>

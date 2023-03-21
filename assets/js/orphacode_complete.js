@@ -168,7 +168,7 @@ export default {
       {codeList:"icdCode:L93.0,icdCode:L93.2",synonymList:[],orphaCode:"163531",name:"Chronic cutaneous lupus erythematosus"},
       {codeList:"icdCode:D82.0,omimCode:301000,omimCode:600903,omimCode:614493",synonymList:["Eczema-thrombocytopenia-immunodeficiency syndrome","WAS"],orphaCode:"906",name:"Wiskott-Aldrich syndrome"},
       {codeList:"icdCode:Q93.8,omimCode:194050",synonymList:["Deletion 7q11.23","Monosomy 7q11.23","Williams-Beuren syndrome"],orphaCode:"904",name:"Williams syndrome"},
-      {codeLQist:"omimCode:194190,icdCode:Q93.3",synonymList:["4p- syndrome","Distal deletion 4p","Distal monosomy 4p","Telomeric deletion 4p"],orphaCode:"280",name:"Wolf-Hirschhorn syndrome"},
+      {codeList:"omimCode:194190,icdCode:Q93.3",synonymList:["4p- syndrome","Distal deletion 4p","Distal monosomy 4p","Telomeric deletion 4p"],orphaCode:"280",name:"Wolf-Hirschhorn syndrome"},
       {codeList:"icdCode:Q30.8",synonymList:["Isolated apertura pyriformis stenosis","Isolated nasal pyriform aperture hypoplasia"],orphaCode:"162516",name:"Isolated congenital nasal pyriform aperture stenosis"},
       {codeList:"omimCode:100800,icdCode:Q77.4",synonymList:[],orphaCode:"15",name:"Achondroplasia"},
       {codeList:"icdCode:G11.1,omimCode:277460",synonymList:["AVED","Ataxia with isolated vitamin E deficiency","Familial isolated vitamin E deficiency","Friedreich-like ataxia","Isolated vitamin E deficiency"],orphaCode:"96",name:"Ataxia with vitamin E deficiency"},

@@ -13,6 +13,7 @@ export default {
         ageAtDiagnoses: [0,100],
         hierarchy: []
       },
+      orphaCodes: [],
       hierarchy: [
         {
           type: 'Up',
@@ -66,10 +67,37 @@ export default {
       value2: Countries.euCountriesNames(),
     }
   },
+  mounted() {
+    this.orphaCodes = [...Codes.orphaCodes()]
+  },
   methods: {
+    async onChange () {
+      const code = this.selectedCode
+      if (!code) return
+      this.orphaCodes = this.orphaCodes.sort(function (a, b) {
+        let similarityA = 0
+        let similarityB = 0
+        for (const codePart in a) {
+          if (a[codePart].constructor.name === "Array") {
+            for (let part of a[codePart]) {
+              similarityA += part.includes(code) ? (code.length / (part.length + 1)) : 0
+            }
+          } else {
+            similarityA += a[codePart].includes(code) ? (code.length / (a[codePart].length + 1)) : 0
+            similarityB += b[codePart].includes(code) ? (code.length / (b[codePart].length + 1)) : 0
+          }
+          if (b[codePart].constructor.name === "Array") {
+            for (let part of b[codePart]) {
+              similarityB += part.includes(code) ? (code.length / (part.length + 1)) : 0
+            }
+          }
+        }
+        return similarityB - similarityA;
+      })
+    },
     executeSearch () {
       if (this.selectedCodeObject) {
-        this.$emit('changeCurrentOrphaCode', this.selectedCodeObject.orphaCode)
+        this.$emit('changeCurrentOrphaCodes', this.selectedCodeObject.map(item => item.orphaCode))
       }
     },
     customFilter (item, queryText, itemText) {
@@ -156,11 +184,6 @@ export default {
       deep: true,
       immediate: true
     }
-  },
-  computed: {
-    orphaCodes () {
-      return Codes.orphaCodes()
-    }
   }
 }
 </script>
@@ -177,11 +200,15 @@ export default {
           label="Search by rare disease name or orpha/icd10 code ..."
           outlined
           filled
+          multiple
+          clearable
           background-color="white"
           :filter="customFilter"
           item-text="name"
           return-object
           :search-input.sync="selectedCode"
+          @update:search-input="onChange"
+          @click:clear="$emit('changeCurrentOrphaCodes', [])"
         >
           <template v-slot:item="{ item }">
             <v-list-item-content>
