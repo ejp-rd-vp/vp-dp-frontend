@@ -42,10 +42,9 @@ export default {
 }
 </script>
 <template>
-  <v-container>
+  <v-container class="pa-0">
     <v-row no-gutters justify="center">
       <v-col cols="12">
-        <p v-if="searchResults.orphaCodes">Search results for orphanet codes: {{ searchResults.orphaCodes }}</p>
         <v-expansion-panels v-if="searchResults.length > 0 && !loading">
           <v-expansion-panel
             v-for="(result,i) in searchResults"

@@ -101,7 +101,7 @@ export default {
     </template>
     <template v-slot:item.description="{ item }">
       <v-card :href="item.homepage" target="_blank" outlined color="transparent">
-        {{ item.description }}
+        {{ item.description ? item.description : '-' }}
       </v-card>
     </template>
     <template v-slot:item.country="{ item }">
