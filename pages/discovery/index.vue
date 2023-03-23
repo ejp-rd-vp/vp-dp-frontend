@@ -15,20 +15,41 @@
         <img class="mr-8 mt-6" src="@/assets/images/others/api-icon.png" width="60px">
       </v-col>
     </v-row>
-    <DisclaimerNotice
-      v-if="showDisclaimerNotice"
-      @closeDisclaimerNotice="showDisclaimerNotice = false"
-    />
-    <DiscoverySearch
-      @changeCurrentOrphaCodes="currentOrphaCodes = $event"
-      @updateSearchParams="searchParams = $event"
-    />
-    <DiscoverySearchResults
-      :key="currentOrphaCodes"
-      :resources="resources"
-      :currentOrphaCodes="currentOrphaCodes"
-      :search-params="searchParams"
-    />
+    <v-row no-gutters>
+      <v-col>
+        <DisclaimerNotice
+          v-if="$store.getters.getDisclaimerNotificationStatus"
+        />
+        <DiscoverySearch
+          :reloadNeeded="selectedRelatedOrphaCodes.length > 0"
+          :selectedRelatedOrphaCodes="selectedRelatedOrphaCodes"
+          @executeSearch="executeSearch"
+          @changeCurrentOrphaCodes="currentOrphaCodes = $event"
+          @updateSearchParams="searchParams = $event"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-if="currentOrphaCodes && currentOrphaCodes.length > 0" dense>
+      <v-container>
+        <v-row dense>
+          <v-col>
+            <DiscoverySearchResults
+              :key="searchIndex"
+              :resources="resources"
+              :currentOrphaCodes="currentOrphaCodes"
+              :search-params="searchParams"
+            />
+          </v-col>
+          <v-col class="flex-grow-0">
+            <SuggestedCodes
+              :key="searchIndex"
+              :currentOrphaCodes="currentOrphaCodes"
+              @updateCurrentOrphaCodes="updateCurrentOrphaCodes($event)"
+            />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-row>
     <FeedBackButton />
     <cookies-notification
       v-if="$store.getters.getCookiesNotificationStatus"
@@ -56,14 +77,17 @@ import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
 import DiscoverySearchResults from "@/components/search/DiscoverySearchResults.vue";
 import FeedBackButton from "@/components/common/FeedBackButton.vue";
 import CookiesNotification from "@/components/common/CookiesNotification.vue";
-import Common from "assets/js/common";
+import SuggestedCodes from "@/components/search/SuggestedCodes.vue";
 
 export default {
-  components: {CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch},
+  components: {SuggestedCodes, CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch},
   auth: false,
   data () {
     return {
+      searchIndex: 0,
       currentOrphaCodes: [],
+      selectedRelatedOrphaCodes: [],
+      initialSearchObjects: [],
       resources: [],
       showDisclaimerNotice: true,
       showCookiesNotification: true,
@@ -82,6 +106,14 @@ export default {
     this.fetchResources()
   },
   methods: {
+    updateCurrentOrphaCodes(newCodes) {
+      this.selectedRelatedOrphaCodes.length = 0
+      this.selectedRelatedOrphaCodes.push(...newCodes)
+    },
+    executeSearch() {
+      this.searchIndex += 1
+      this.selectedRelatedOrphaCodes.length = 0
+    },
     async fetchResources () {
       await this.$axios.$get(process.env.backendUrl + '/resources')
         .then(function (res) {

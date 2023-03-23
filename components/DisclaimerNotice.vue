@@ -10,7 +10,7 @@
       <p class="mt-2">
         Help us improve by <a href="https://forms.office.com/r/UrgvkD39t8" target="_blank">sending us feedback</a>.
       </p>
-      <v-btn class="accept-button" @click="$emit('closeDisclaimerNotice')" color="rgb(68, 160, 252)">
+      <v-btn class="accept-button" @click="$store.commit('hideDisclaimerNotification')" color="rgb(68, 160, 252)">
         Accept
       </v-btn>
     </div>

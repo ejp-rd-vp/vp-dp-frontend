@@ -2,6 +2,10 @@
 import Codes from '~/assets/js/orphacode_complete'
 import Countries from '~/assets/js/countries'
 export default {
+  props: {
+    reloadNeeded: { required: true },
+    selectedRelatedOrphaCodes: { required: true, type: Array }
+  },
   data () {
     return {
       searchParams: {
@@ -11,25 +15,10 @@ export default {
         ageThisYear: [0,100],
         symptomOnset: [0,100],
         ageAtDiagnoses: [0,100],
-        hierarchy: []
       },
       orphaCodes: [],
-      hierarchy: [
-        {
-          type: 'Up',
-          checked: false
-        },
-        {
-          type: 'Down',
-          checked: false
-        },
-        {
-          type: 'Undefined',
-          checked: true
-        }
-      ],
       selectedCode: null,
-      selectedCodeObject: null,
+      selectedCodeObject: [],
       showFilters: false,
       symptomOnset: {
         min: 0,
@@ -74,21 +63,22 @@ export default {
     async onChange () {
       const code = this.selectedCode
       if (!code) return
+      const codeLength = code.length
       this.orphaCodes = this.orphaCodes.sort(function (a, b) {
         let similarityA = 0
         let similarityB = 0
         for (const codePart in a) {
           if (a[codePart].constructor.name === "Array") {
             for (let part of a[codePart]) {
-              similarityA += part.includes(code) ? (code.length / (part.length + 1)) : 0
+              similarityA += part.includes(code) ? (codeLength / (part.length + 1)) : 0
             }
           } else {
-            similarityA += a[codePart].includes(code) ? (code.length / (a[codePart].length + 1)) : 0
-            similarityB += b[codePart].includes(code) ? (code.length / (b[codePart].length + 1)) : 0
+            similarityA += a[codePart].includes(code) ? (codeLength / (a[codePart].length + 1)) : 0
+            similarityB += b[codePart].includes(code) ? (codeLength / (b[codePart].length + 1)) : 0
           }
           if (b[codePart].constructor.name === "Array") {
             for (let part of b[codePart]) {
-              similarityB += part.includes(code) ? (code.length / (part.length + 1)) : 0
+              similarityB += part.includes(code) ? (codeLength / (part.length + 1)) : 0
             }
           }
         }
@@ -97,6 +87,7 @@ export default {
     },
     executeSearch () {
       if (this.selectedCodeObject) {
+        this.$emit('executeSearch')
         this.$emit('changeCurrentOrphaCodes', this.selectedCodeObject.map(item => item.orphaCode))
       }
     },
@@ -125,6 +116,16 @@ export default {
     }
   },
   watch: {
+    selectedRelatedOrphaCodes: {
+      handler() {
+        const extraObjects = this.orphaCodes.filter(code => {
+          if(this.selectedRelatedOrphaCodes.includes(code.orphaCode)) return code
+        })
+        this.selectedCodeObject = [...new Map(this.selectedCodeObject.concat(extraObjects).map(v => [v.orphaCode, v])).values()]
+      },
+      immediate: true,
+      deep: true
+    },
     value1: {
       handler () {
         let newTypes = []
@@ -164,24 +165,17 @@ export default {
       deep: true,
       immediate: true
     },
-    hierarchy: {
-      handler () {
-        let hierarchies = []
-        for (let hy of this.hierarchy) {
-          if (hy.checked) {
-            hierarchies.push(hy.type.toLowerCase())
-          }
-        }
-        this.searchParams.hierarchy = hierarchies
-      },
-      deep: true,
-      immediate: true
-    },
     searchParams: {
       handler () {
         this.$emit('updateSearchParams', this.searchParams)
       },
       deep: true,
+      immediate: true
+    },
+    selectedCodeObject: {
+      handler() {
+        this.$emit('changeSelectedOrphaCodes', this.selectedCodeObject)
+      },
       immediate: true
     }
   }
@@ -237,25 +231,16 @@ export default {
                 </v-chip>
               </v-list-item-subtitle>
             </v-list-item-content>
-<!--            <v-list-item-action>-->
-<!--              <v-icon>mdi-bitcoin</v-icon>-->
-<!--            </v-list-item-action>-->
           </template>
         </v-autocomplete>
-<!--        <v-text-field-->
-<!--          class="search-field mt-7"-->
-<!--          label="Search by rare disease name or orpha/icd10 code ..."-->
-<!--          height="80px"-->
-<!--          outlined-->
-<!--          filled-->
-<!--          solo-->
-<!--          background-color="white"-->
-<!--        ></v-text-field>-->
       </v-col>
       <v-col class="flex-grow-0">
         <v-btn class="ma-0" height="80px" @click="executeSearch" x-large tile color="rgb(68, 160, 252)">
-          <v-icon x-large>
+          <v-icon v-if="!reloadNeeded" x-large>
             mdi-magnify
+          </v-icon>
+          <v-icon v-else x-large>
+            mdi-reload
           </v-icon>
         </v-btn>
       </v-col>
@@ -269,30 +254,6 @@ export default {
       </v-col>
     </v-row>
     <v-row v-if="showFilters" class="filter-class" dense>
-      <v-col cols="12">
-        <v-card dark color="#1f3863" height="100%" tile>
-          <h3 class="pa-1 ml-1">
-            Search Options
-          </h3>
-          <v-divider />
-          <v-row class="px-3 pt-3 pb-3">
-            <v-col>
-              <p>Hierarchy/Classification</p>
-              <v-row style="margin-top: -30px;">
-                <v-col class="flex-grow-0 mr-14" v-for="s in hierarchy" :key="hierarchy.type">
-                  <v-checkbox
-                    v-model="s.checked"
-                    :label="s.type"
-                    color="blue"
-                    :value="s.checked"
-                    hide-details
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-col>
       <v-col cols="12">
         <v-card dark color="#1f3863" height="100%" tile>
           <h3 class="pa-1 ml-1">
