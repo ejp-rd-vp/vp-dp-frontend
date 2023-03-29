@@ -115,6 +115,11 @@ export default {
       return  str.replace(reg, '<mark>$1</mark>');
     }
   },
+  computed: {
+    loggedIn () {
+      return this.$auth.loggedIn
+    }
+  },
   watch: {
     selectedRelatedOrphaCodes: {
       handler() {
@@ -311,8 +316,11 @@ export default {
         </v-card>
       </v-col>
       <v-col cols="12">
-        <v-card dark color="#1f3863" height="100%" tile>
+        <v-card :disabled="!loggedIn" dark color="#1f3863" height="100%" tile>
           <h3 class="pa-1 ml-1">
+            <v-icon v-if="!loggedIn">
+              mdi-lock
+            </v-icon>
             Record Interrogation Filter Options
           </h3>
           <v-divider />
