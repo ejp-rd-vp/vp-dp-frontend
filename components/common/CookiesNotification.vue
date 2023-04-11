@@ -3,7 +3,7 @@
     <p class="white-text">
       We only use technically necessary cookies to ensure this service operates properly and provides the best user experience for you. If you continue to use this website we assume that you are fine with that.
     </p>
-    <v-btn class="my-3 ml-1" color="rgb(68, 160, 252)" @click="$store.commit('hideCookiesNotification')" small tile>
+    <v-btn class="my-3 ml-1" color="rgb(68, 160, 252)" @click="$cookies.set('showCookiesNotification', false); $router.go(0)" small tile>
       Accept
     </v-btn>
   </v-card>

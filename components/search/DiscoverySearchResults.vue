@@ -45,7 +45,7 @@ export default {
   <v-container class="pa-0">
     <v-row no-gutters justify="center">
       <v-col cols="12">
-        <v-expansion-panels v-if="searchResults.length > 0 && !loading">
+        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14">
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"

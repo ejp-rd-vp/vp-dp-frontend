@@ -8,8 +8,8 @@
 <style>
 .feedback {
   position: absolute;
-  bottom: 15px;
-  margin-left: 15px;
+  bottom: 10px;
+  left: 15px;
   z-index: 1;
   -webkit-box-shadow: 0px 0px 5px 0px #333;
   box-shadow: 0px 0px 5px 0px #333;

@@ -36,6 +36,9 @@ export default {
     '@nuxtjs/vuetify'
   ],
 
+  ssr: true,
+  target: 'server',
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios

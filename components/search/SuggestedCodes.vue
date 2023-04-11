@@ -27,20 +27,22 @@ export default {
         { params: this.hierarchyParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
         .then(function (res) {
           if (res) {
-            this.relatedCodes = res
+            this.relatedCodes = res.filter(item => !this.currentOrphaCodes.includes(item.code))
           }
           this.loadingRelatedCodes = false
         }.bind(this))
         .catch(function (err) {
           console.log('Unable to fetch related codes: ' + err)
         }.bind(this))
+    },
+    emitCodeStatusChanged(orphaCode) {
+      if(this.selectedCodes.includes(orphaCode)) {
+        this.$emit('selectOrphaCode', orphaCode)
+      } else {
+        this.$emit('unselectOrphaCode', orphaCode)
+      }
     }
   },
-  watch: {
-    selectedCodes () {
-      this.$emit('updateCurrentOrphaCodes', this.selectedCodes)
-    }
-  }
 }
 </script>
 
@@ -66,6 +68,7 @@ export default {
             <v-checkbox
               v-model="selectedCodes"
               :value="relatedCode.code"
+              @click="emitCodeStatusChanged(relatedCode.code)"
               color="primary"
             ></v-checkbox>
           </v-list-item-action>
