@@ -112,9 +112,9 @@ v-avatar {
 }
 
 .low-opacity-without-hover {
-  opacity: 90%;
+  opacity: 0.9;
   &:hover {
-    opacity: 100%;
+    opacity: 1;
   }
 }
 
