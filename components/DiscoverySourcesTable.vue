@@ -17,8 +17,8 @@
                   </template>
                   <span>The source is actively connected to the VP.</span>
                 </v-tooltip>
-<!--                <h3 v-if="!source.logo"> {{ source.resourceName }}</h3>-->
-                <v-img :src="logos[index]" contain max-width="200px" max-height="100px" />
+                <h3 v-if="!source.logo"> {{ source.resourceName }}</h3>
+                <v-img :src="logos[source.resourceName]" contain max-width="200px" max-height="100px" />
               </v-list-item-title>
               <v-list-item-subtitle class="mb-1">{{ source.resourceDescription }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -125,21 +125,13 @@ export default {
   name: 'IndexPage',
   data () {
     return {
-      logos: [
-        require('../assets/images/logo/resources/erkreg-logo.png'),
-        require('../assets/images/logo/resources/bbmri-logo.png'),
-        require('../assets/images/logo/resources/img_4.png'),
-        require('../assets/images/logo/resources/cellosaurus-logo.png'),
-        require('../assets/images/logo/resources/img_5.png'),
-        require('../assets/images/logo/resources/img_3.png')
-      ],
-      logo: {
-        'ERKReg': '../assets/images/logo/resources/erkreg-logo.png',
-        'BBMRI-Eric': '../assets/images/logo/resources/bbmri-logo.png',
-        'Orphanet': '../assets/images/logo/resources/img_4.png',
-        'Cellosaurus': '../assets/images/logo/resources/cellosaurus-logo.png',
-        'wikiPathways': '../assets/images/logo/resources/img_5.png',
-        'hPSCreg': '../assets/images/logo/resources/img_3.png'
+      logos: {
+        'ERKReg': require('../assets/images/logo/resources/erkreg-logo.png'),
+        'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
+        'Orphanet': require('../assets/images/logo/resources/img_4.png'),
+        'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
+        'wikiPathways': require('../assets/images/logo/resources/img_5.png'),
+        'hPSCreg': require('../assets/images/logo/resources/img_3.png')
       },
       vpIndexUrl: 'https://qb-index.ejprd.semlab-leiden.nl/catalogues',
       sources: []
