@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-Vue.directive('click-outside', {
+Vue.directive('custom-click-outside', {
   bind: function (el, binding, vnode) {
     el.clickOutsideEvent = function (event) {
       // here I check that click was outside the el and his children
