@@ -38,7 +38,6 @@ export default {
     :headers="headers"
     :items="resultContent"
     fixed-header
-    height="250px"
     hide-default-footer
     item-key="name"
     disable-sort

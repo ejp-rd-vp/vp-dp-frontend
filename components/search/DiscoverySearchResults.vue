@@ -50,7 +50,7 @@ export default {
             v-for="(result,i) in searchResults"
             :key="i"
           >
-            <v-expansion-panel-header :disabled="!result.content.resourceResponses" :hide-actions="!result.content.resourceResponses" class="expansion-header" tile color="rgb(68, 160, 252)">
+            <v-expansion-panel-header v-if="result && result.name && result.numTotalResults" :disabled="!result || !result.content || !result.content.resourceResponses" :hide-actions="!result || !result.content || !result.content.resourceResponses" class="expansion-header" tile color="rgb(68, 160, 252)">
               <div class="eph-title">
                 {{ result.name }}
               </div>
@@ -58,7 +58,7 @@ export default {
                 {{ result.numTotalResults }} result(s)
               </div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content v-if="result.content.resourceResponses" style="min-width: 100%">
+            <v-expansion-panel-content v-if="result && result.content && result.content.resourceResponses" style="min-width: 100%">
               <SearchResultContent
                 :resultContent="result.content.resourceResponses"
               />

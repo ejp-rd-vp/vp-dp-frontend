@@ -102,6 +102,16 @@ export default {
                     <span v-if="isGene(item)" v-html="'hgnc:' + highlightMatchingSubString(item.hgncId, query)"></span>
                   </v-chip>
                   <v-chip
+                    v-if="isGene(item)"
+                    class="mx-1 short"
+                    color="grey"
+                    label
+                    outlined
+                    small
+                  >
+                    <span v-html="'hgnc-symbol:' + highlightMatchingSubString(item.symbol, query)"></span>
+                  </v-chip>
+                  <v-chip
                     v-if="item.codes && query && code.toLowerCase().includes(query.toLowerCase())"
                     v-for="code in getCodeList(item.codes)"
                     :key="code"

@@ -3,11 +3,9 @@
     <div class="disclaimerNotice">
       <h4>Disclaimer</h4>
       <p>
-        Please note that this is a <b>Beta Version</b> of the EJP-RD Resource Discovery Portal. The functionalities on this website are still limited and partially under development.
-        The results displayed are currently not using a resources full metadata potential and are therefore not as precise as they will be in the first major release of this platform.
-        Furthermore currently no information on the use and access conditions of the individual resources are being transmitted as well as no rare disease classification functionalities (e.g. Hierarchical Search) are being used.
+        Please note that this is a <b>Beta Version</b> of the EJP-RD Resource Discovery Portal. The functionalities on this website are still limited and partially under development.  Furthermore, currently no information on the use and access conditions of the individual resources are being transmitted.
       </p>
-      <p class="mt-2">
+      <p>
         Help us improve by <a href="https://forms.office.com/r/UrgvkD39t8" target="_blank">sending us feedback</a>.
       </p>
       <v-btn class="accept-button" @click="$cookies.set('showDisclaimerNotification', false); $router.go(0)" color="rgb(68, 160, 252)">
@@ -23,8 +21,7 @@
   background: rgb(254, 239, 179);
   color: rgb(51, 51, 51);
   border: 1px solid rgb(254, 207, 0);
-  padding: 15px 15px 0px;
-  margin-bottom: 15px;
+  padding: 10px 10px 0px;
   text-align: left;
   font-size: 14px;
   line-height: 20px;

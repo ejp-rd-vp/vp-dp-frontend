@@ -2,7 +2,7 @@
   <v-container>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" v-for="(source, index) in sources" :key="index">
-        <v-card :href="source.catalogueAddress" target="_blank" class="low-opacity-without-hover" tile outlined width="100%">
+        <v-card :href="source.resourceHomePage" target="_blank" class="low-opacity-without-hover" tile outlined width="100%">
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
@@ -17,17 +17,17 @@
                   </template>
                   <span>The source is actively connected to the VP.</span>
                 </v-tooltip>
-                <h3 v-if="!source.logo"> {{ source.catalogueName }}</h3>
-                <v-img v-if="source.logo" :src="source.logo" contain max-width="200px" max-height="100px" />
+<!--                <h3 v-if="!source.logo"> {{ source.resourceName }}</h3>-->
+                <v-img :src="logos[index]" contain max-width="200px" max-height="100px" />
               </v-list-item-title>
-              <v-list-item-subtitle class="mb-1">{{ source.catalogueDescription }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="mb-1">{{ source.resourceDescription }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-avatar
               width="300px"
               height="150px"
             >
               <v-row justify="end">
-                <v-col v-if="source.catalogueType.includes('catalogue')" class="flex-grow-0">
+                <v-col v-if="source.resourceType.includes('catalogue')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -42,7 +42,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.catalogueType.includes('registry')" class="flex-grow-0">
+                <v-col v-if="source.resourceType.includes('patientRegistry')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -51,13 +51,13 @@
                         v-bind="attrs"
                         v-on="on"
                       >
-                        clipboard-text-search-outline
+                        mdi-clipboard-text-search-outline
                       </v-icon>
                     </template>
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.catalogueType.includes('knowledge')" class="flex-grow-0">
+                <v-col v-if="source.resourceType.includes('knowledgeBase')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -125,28 +125,32 @@ export default {
   name: 'IndexPage',
   data () {
     return {
+      logos: [
+        require('../assets/images/logo/resources/erkreg-logo.png'),
+        require('../assets/images/logo/resources/bbmri-logo.png'),
+        require('../assets/images/logo/resources/img_4.png'),
+        require('../assets/images/logo/resources/cellosaurus-logo.png'),
+        require('../assets/images/logo/resources/img_5.png'),
+        require('../assets/images/logo/resources/img_3.png')
+      ],
+      logo: {
+        'ERKReg': '../assets/images/logo/resources/erkreg-logo.png',
+        'BBMRI-Eric': '../assets/images/logo/resources/bbmri-logo.png',
+        'Orphanet': '../assets/images/logo/resources/img_4.png',
+        'Cellosaurus': '../assets/images/logo/resources/cellosaurus-logo.png',
+        'wikiPathways': '../assets/images/logo/resources/img_5.png',
+        'hPSCreg': '../assets/images/logo/resources/img_3.png'
+      },
       vpIndexUrl: 'https://qb-index.ejprd.semlab-leiden.nl/catalogues',
       sources: []
     }
   },
   methods: {
     async fetchSources () {
-      await this.$axios.$get(this.vpIndexUrl)
+      await this.$axios.$get(process.env.backendUrl + '/resources')
         .then(function (res) {
-          // TODO source.queryable should be delivered from the backend
-          for (let i = 0; i < res.length; i++) {
-            res[i].queryable = this.sourceIsQueryable(res[i])
-          }
           this.sources = res
         }.bind(this))
-    },
-    sourceIsQueryable (source) {
-      for (let i = 0; i < source.theme.length; i++) {
-        if (source.theme[i].toLowerCase().includes('queryable')) {
-          return true;
-        }
-      }
-      return false;
     }
   },
   beforeMount() {

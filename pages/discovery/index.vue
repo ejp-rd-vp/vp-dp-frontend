@@ -38,6 +38,9 @@ export default {
     this.showCookiesNotification = this.$cookies.get('showCookiesNotification')
   },
   methods: {
+    handleNewSearchQuery(newSearchQuery) {
+      this.searchQuery = newSearchQuery
+    },
     hideSearchAutoComplete () {
       this.showSearchAutoComplete = false
     },
@@ -45,14 +48,6 @@ export default {
       return {
         orphaCode: orphaCode
       }
-    },
-    updateSelectedOrphaCodes(newCodes) {
-      this.selectedOrphaCodes.length = 0
-      this.selectedOrphaCodes.push(...newCodes.map(code => {
-          return {
-            orphaCode: code
-          }
-          }))
     },
     addSelectedCodeObject(codeObject) {
       this.selectedCodesObjects.push(codeObject)
@@ -66,7 +61,6 @@ export default {
     executeSearch() {
       this.searchIndex += 1
       this.currentOrphaCodes = [...this.selectedOrphaCodes]
-      // this.selectedOrphaCodes.length = 0
     },
     async fetchResources () {
       await this.$axios.$get(process.env.backendUrl + '/resources')
@@ -79,16 +73,31 @@ export default {
           console.log('Unable to fetch resources: ' + err)
         }.bind(this))
     },
-    async fetchHgncMapping(hgncId) {
+    async getAssociatedOrphaForHgncId(hgncId) {
+      let orphaCode = '0'
       await this.$axios.$get(process.env.genesAndRareDiseasesUrl + "/v1/genes/" + hgncId + "/mapping")
-        .then(function (res) {
-          if (res) {
-            return res
-          }
-        }.bind(this))
+        .then(function(res) {
+          orphaCode = res.orphaCode
+        })
         .catch(function (err) {
           console.log('Unable to fetch mapping: ' + err)
-        }.bind(this))
+        })
+        return orphaCode
+    },
+    arraysAreEqual(a, b) {
+      if (a === b) return true;
+      if (a == null || b == null) return false;
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; ++i) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+  },
+  computed: {
+    searchReloadNeeded() {
+      return !this.arraysAreEqual(this.selectedOrphaCodes, this.currentOrphaCodes)
+        && this.selectedCodesObjects.length > 0
     }
   },
   watch: {
@@ -96,16 +105,17 @@ export default {
       this.showSearchAutoComplete = true
     },
     selectedCodesObjects: {
-      handler() {
-        this.selectedOrphaCodes = this.selectedCodesObjects.map(item => {
-          if (item.orphaCode !== '0') {
-            return item.orphaCode
+      async handler() {
+        let orphaCodes = []
+        for (let i = 0; i < this.selectedCodesObjects.length; i++) {
+          if (this.selectedCodesObjects[i].orphaCode !== '0') {
+            orphaCodes.push(this.selectedCodesObjects[i].orphaCode)
           } else {
-            const orphaCode = this.fetchHgncMapping(item.hgncId).orphaCode
-            return orphaCode ? orphaCode : '0'
+            const orphaCode = await this.getAssociatedOrphaForHgncId(this.selectedCodesObjects[i].hgncId)
+            orphaCodes.push(orphaCode)
           }
-        })
-          .filter(item => item !== '0')
+        }
+        this.selectedOrphaCodes = orphaCodes.filter(item => item !== '0')
       },
       immediate: true,
       deep: true
@@ -129,6 +139,13 @@ export default {
         </v-btn>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <DisclaimerNotice
+          v-if="showDisclaimerNotification"
+        />
+      </v-col>
+    </v-row>
     <v-row no-gutters>
       <v-col cols="12">
         <SearchSelectedObjectsList
@@ -140,25 +157,21 @@ export default {
         />
       </v-col>
       <v-col cols="12">
-        <DisclaimerNotice
-          v-if="showDisclaimerNotification"
-        />
         <DiscoverySearch
           :key="selectedCodesObjects.length"
-          :reloadNeeded="selectedOrphaCodes.length !== currentOrphaCodes.length"
+          :reloadNeeded="searchReloadNeeded"
           @executeSearch="executeSearch"
           @hideShowSearchFilters="showSearchFilters = !showSearchFilters"
-          @updateSearchQuery="searchQuery = $event"
+          @updateSearchQuery="handleNewSearchQuery($event)"
         />
-      </v-col>
-      <v-col cols="12" style="position: absolute; z-index: 4;" :style="selectedCodesObjects.length === 0 ? 'margin-top: 113px' : 'margin-top: 195px'">
         <SearchAutoComplete
-          v-show="showSearchAutoComplete"
-          v-click-outside="hideSearchAutoComplete"
-          :key="searchQuery"
-          :query="searchQuery"
-          @addSelectedCodesObjects="addSelectedCodesObjects($event)"
-        />
+        style="position: absolute; z-index: 4 !important; margin-top: -54px; left: 50%; transform: translate(-50.05%, 0);"
+        v-if="showSearchAutoComplete"
+        v-custom-click-outside="hideSearchAutoComplete"
+        :key="searchQuery"
+        :query="searchQuery"
+        @addSelectedCodesObjects="addSelectedCodesObjects($event); hideSearchAutoComplete()"
+      />
       </v-col>
       <v-col cols="12">
         <SearchFilters
@@ -172,7 +185,8 @@ export default {
     <v-row
       v-if="currentOrphaCodes
       && currentOrphaCodes.length > 0
-      && selectedCodesObjects.length > 0"
+      && selectedOrphaCodes.length > 0
+      && !searchReloadNeeded"
       dense
     >
       <v-container>
