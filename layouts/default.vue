@@ -101,6 +101,17 @@ export default {
     }
   },
   watch: {
+    '$route.path': {
+      handler() {
+        if(this.$route.path === '/discovery') {
+          this.discoverySubPages = 'discovery'
+        }
+        if(this.$route.path === '/discovery/sources') {
+          this.discoverySubPages = 'sources'
+        }
+      },
+      immediate: true
+    },
     discoverySubPages: {
       handler () {
         if (this.discoverySubPages === 'discovery') {
@@ -128,6 +139,14 @@ export default {
       } catch (err) {
 
       }
+    }
+  },
+  created() {
+    if(this.$cookies.get('showDisclaimerNotification') !== false) {
+      this.$cookies.set('showDisclaimerNotification' , true, "1y")
+    }
+    if(this.$cookies.get('showCookiesNotification') !== false) {
+      this.$cookies.set('showCookiesNotification' , true, "1y")
     }
   }
 }

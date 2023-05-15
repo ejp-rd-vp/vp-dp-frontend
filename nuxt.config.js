@@ -2,7 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   env: {
-    backendUrl: process.env.BACKEND_URL || 'http://localhost:3006',
+    backendUrl: process.env.BACKEND_URL_1 || 'http://localhost:3006',
+    genesAndRareDiseasesUrl: process.env.BACKEND_URL_2
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -24,7 +25,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vuex-persist', ssr: false }
+    { src: '~/plugins/directives.js', ssr: true }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,11 +37,15 @@ export default {
     '@nuxtjs/vuetify'
   ],
 
+  ssr: true,
+  target: 'server',
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    'cookie-universal-nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

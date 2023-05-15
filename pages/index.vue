@@ -84,8 +84,8 @@ export default {
     </div>
     <v-row class="main-row" no-gutters>
       <v-col cols="12">
-        <v-card tile href="/discovery" height="100%" class="resources low-opacity-without-hover text-center">
-          <div class="vertical-center px-4">
+        <a @click="$router.push({ path: '/discovery' })">
+          <div class="resources low-opacity-without-hover text-center">
             <h1>
               Resources
             </h1>
@@ -96,11 +96,11 @@ export default {
               for rare disease related data
             </p>
           </div>
-        </v-card>
+        </a>
       </v-col>
       <v-col cols="12" md="6">
-        <v-card tile href="https://www.ejprarediseases.org/fairification/" target="_blank" height="100%" class="fairification low-opacity-without-hover text-center">
-          <div class="vertical-center px-4">
+        <a href="https://www.ejprarediseases.org/fairification/" target="_blank">
+          <div class="fairification low-opacity-without-hover text-center">
             <h1>
               FAIRification
             </h1>
@@ -108,11 +108,11 @@ export default {
               Receive support on how to <span>make your data FAIR</span>
             </p>
           </div>
-        </v-card>
+        </a>
       </v-col>
       <v-col cols="12" md="6">
-        <v-card tile href="https://resourcemap.ejprarediseases.org/#/" target="_blank" height="100%" class="knowledge low-opacity-without-hover text-center">
-          <div class="vertical-center px-4">
+        <a href="https://resourcemap.ejprarediseases.org/#/" target="_blank">
+          <div class="knowledge low-opacity-without-hover text-center">
             <h1>
               Knowledge
             </h1>
@@ -120,7 +120,7 @@ export default {
               Discover more information about rare diseases using the <span>EJP-RD Mindmap</span>
             </p>
           </div>
-        </v-card>
+        </a>
       </v-col>
     </v-row>
   </v-container>
@@ -141,6 +141,10 @@ export default {
 
 h2 {
   font-weight: 300;
+}
+
+a {
+  text-decoration: none !important;
 }
 
 .view-headline {
@@ -174,12 +178,22 @@ h2 {
 }
 
 h1 {
+  position: relative;
+  top: 40%;
+  -ms-transform: translateY(-40%);
+  -webkit-transform: translateY(-40%);
+  transform: translateY(-40%);
   font-size: 50px;
   color: #333;
   text-align: center;
 }
 
 p {
+  position: relative;
+  top: 40%;
+  -ms-transform: translateY(-40%);
+  -webkit-transform: translateY(-40%);
+  transform: translateY(-40%);
   margin-top: 10px;
   font-size: 22px;
   color: #333;
@@ -189,9 +203,9 @@ p {
 }
 
 .low-opacity-without-hover {
-  opacity: 90%;
+  opacity: 0.9;
   &:hover {
-    opacity: 100%;
+    opacity: 1;
   }
 }
 
@@ -209,14 +223,25 @@ p {
 }
 
 .knowledge {
-  background-color: $knowledge-color;
+  height: 100%;
+  padding: 140px 50px;
+  min-height: 300px;
+  background-color: #fecf00;
 }
 
 .fairification {
-  background-color: $fairification-color;
+  height: 100%;
+  padding: 140px 50px;
+  min-height: 300px;
+  padding-inline: 30px;
+  background-color: #e31a46;
 }
 
 .resources {
-  background-color: $resources-color;
+  height: 100%;
+  padding: 140px 50px;
+  min-height: 300px;
+  padding-inline: 30px;
+  background-color: #3bb392;
 }
 </style>

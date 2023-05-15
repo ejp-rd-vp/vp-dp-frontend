@@ -11,9 +11,6 @@
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col align="right">
-        <img class="mr-8 mt-6" src="@/assets/images/others/api-icon.png" width="60px">
-      </v-col>
     </v-row>
     <DiscoverySourcesTable />
   </div>
@@ -39,7 +36,6 @@ export default {
   name: 'IndexPage',
   data () {
     return {
-
     }
   }
 }
