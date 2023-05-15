@@ -32,6 +32,7 @@
 </style>
 
 <script>
+import DiscoverySourcesTable from "@/components/DiscoverySourcesTable.vue";
 export default {
   name: 'IndexPage',
   data () {
