@@ -142,10 +142,11 @@ export default {
     }
   },
   created() {
-    if(this.$cookies.get('showDisclaimerNotification') !== false) {
+    this.$cookies.nodeCookie
+    if(this.$cookies.get('showDisclaimerNotification') === undefined) {
       this.$cookies.set('showDisclaimerNotification' , true, "1y")
     }
-    if(this.$cookies.get('showCookiesNotification') !== false) {
+    if(this.$cookies.get('showCookiesNotification') === undefined) {
       this.$cookies.set('showCookiesNotification' , true, "1y")
     }
   }
