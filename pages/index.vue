@@ -1,0 +1,247 @@
+<script>
+import FeedBackButton from "@/components/common/FeedBackButton.vue";
+
+export default {
+  components: {FeedBackButton},
+  data() {
+    return {
+      viewHeadlineHover: false,
+    }
+  }
+}
+</script>
+<template>
+  <v-container class="ma-0 pa-0" fluid fill-height>
+    <FeedBackButton />
+    <div class="hidden-md-and-up" style="background-color: #1f3863; width: 100%;">
+      <v-row>
+        <v-col>
+          <a href="https://www.ejprarediseases.org/" target="_blank">
+            <img width="300px" src="@/assets/images/logo/ejp-rd-logo-450.png">
+          </a>
+        </v-col>
+        <v-col class="flex-grow-0 mr-4 mt-3">
+          <v-menu offset-y>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                dark
+                x-large
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-view-headline
+              </v-icon>
+            </template>
+            <v-list>
+              <v-list-item-group>
+                <v-list-item href="/discovery" style="color: #3bb392;">
+                  <h5>Resource Discovery</h5>
+                </v-list-item>
+                <v-list-item href="https://www.ejprarediseases.org/fairification/" target="_blank" style="color: #e31a46;">
+                  <h5>FAIRification</h5>
+                </v-list-item>
+                <v-list-item href="https://resourcemap.ejprarediseases.org/#/" target="_blank" style="color: #fecf00;">
+                  <h5>RD Knowledge</h5>
+                </v-list-item>
+                <v-list-item href="/imprint" style="color: #44a0fc;">
+                  <h5>Imprint</h5>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-menu>
+        </v-col>
+      </v-row>
+    </div>
+    <div class="hidden-sm-and-down">
+      <a href="https://www.ejprarediseases.org/" target="_blank">
+        <img class="logo" src="@/assets/images/logo/ejp-rd-logo-450.png">
+      </a>
+      <div
+        @mouseover="viewHeadlineHover = true"
+        @mouseleave="viewHeadlineHover = false"
+      >
+        <v-icon dark class="view-headline">mdi-view-headline</v-icon>
+        <v-list v-if="viewHeadlineHover" class="view-headline-list">
+          <v-list-item-group>
+            <v-list-item href="/discovery" style="color: #3bb392;">
+              <h5>Resource Discovery</h5>
+            </v-list-item>
+            <v-list-item href="https://www.ejprarediseases.org/fairification/" target="_blank" style="color: #e31a46;">
+              <h5>FAIRification</h5>
+            </v-list-item>
+            <v-list-item href="https://resourcemap.ejprarediseases.org/#/" target="_blank" style="color: #fecf00;">
+              <h5>RD Knowledge</h5>
+            </v-list-item>
+            <v-list-item href="/imprint" style="color: #44a0fc;">
+              <h5>Imprint</h5>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </div>
+      <div class="centered-title">
+        <h2>I am looking for ...</h2>
+      </div>
+    </div>
+    <v-row class="main-row" no-gutters>
+      <v-col cols="12">
+        <a @click="$router.push({ path: '/discovery' })">
+          <div class="resources low-opacity-without-hover text-center">
+            <h1>
+              Resources
+            </h1>
+            <p>
+              Use the EJP-RD discovery ecosystem to search connected sources like
+              <span>Patient Registries, Biobanks</span> or
+              <span>Knowledge Bases</span>
+              for rare disease related data
+            </p>
+          </div>
+        </a>
+      </v-col>
+      <v-col cols="12" md="6">
+        <a href="https://www.ejprarediseases.org/fairification/" target="_blank">
+          <div class="fairification low-opacity-without-hover text-center">
+            <h1>
+              FAIRification
+            </h1>
+            <p>
+              Receive support on how to <span>make your data FAIR</span>
+            </p>
+          </div>
+        </a>
+      </v-col>
+      <v-col cols="12" md="6">
+        <a href="https://resourcemap.ejprarediseases.org/#/" target="_blank">
+          <div class="knowledge low-opacity-without-hover text-center">
+            <h1>
+              Knowledge
+            </h1>
+            <p>
+              Discover more information about rare diseases using the <span>EJP-RD Mindmap</span>
+            </p>
+          </div>
+        </a>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<style scoped lang="scss">
+.centered-title {
+  font-size: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  padding: 10px 100px;
+  color: rgb(209, 209, 209);
+  background-color: #1f3863;
+}
+
+h2 {
+  font-weight: 300;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.view-headline {
+  font-size: 80px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1;
+  background-color: #1f3863;
+}
+
+.view-headline-list {
+  font-size: 25px;
+  position: absolute;
+  top: 85px;
+  right: 15px;
+  z-index: 1;
+  background-color: #1f3863;
+}
+
+.logo {
+  top: 15px;
+  padding: 5px;
+  margin-left: 15px;
+  position: absolute;
+  z-index: 1;
+  -webkit-box-shadow: 0px 0px 5px 0px #333;
+  box-shadow: 0px 0px 5px 0px #333;
+  background-color: #1f3863;
+  width: 350px;
+}
+
+h1 {
+  position: relative;
+  top: 40%;
+  -ms-transform: translateY(-40%);
+  -webkit-transform: translateY(-40%);
+  transform: translateY(-40%);
+  font-size: 50px;
+  color: #333;
+  text-align: center;
+}
+
+p {
+  position: relative;
+  top: 40%;
+  -ms-transform: translateY(-40%);
+  -webkit-transform: translateY(-40%);
+  transform: translateY(-40%);
+  margin-top: 10px;
+  font-size: 22px;
+  color: #333;
+  span {
+    color: white;
+  }
+}
+
+.low-opacity-without-hover {
+  opacity: 0.9;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.vertical-center {
+  margin: 0;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.main-row {
+  height: 100%;
+}
+
+.knowledge {
+  height: 100%;
+  padding: 140px 50px;
+  min-height: 300px;
+  background-color: #fecf00;
+}
+
+.fairification {
+  height: 100%;
+  padding: 140px 50px;
+  min-height: 300px;
+  padding-inline: 30px;
+  background-color: #e31a46;
+}
+
+.resources {
+  height: 100%;
+  padding: 140px 50px;
+  min-height: 300px;
+  padding-inline: 30px;
+  background-color: #3bb392;
+}
+</style>

@@ -1,0 +1,42 @@
+<template>
+  <div class="main-container">
+    <v-row>
+      <v-col>
+        <v-btn href="/" class="mt-8 ml-12 home-button" color="#44a0fc" icon id="no-background-hover">
+          <v-icon size="40">
+            mdi-arrow-left
+          </v-icon>
+          <v-icon class="ml-6" size="40">
+            mdi-home-outline
+          </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+    <DiscoverySourcesTable />
+  </div>
+</template>
+
+<style scoped lang="scss">
+
+#no-background-hover::before {
+  background-color: transparent !important;
+}
+
+.main-container {
+  background: url("@/assets/images/others/dust_scratches.png");
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+}
+</style>
+
+<script>
+export default {
+  name: 'IndexPage',
+  data () {
+    return {
+    }
+  }
+}
+</script>

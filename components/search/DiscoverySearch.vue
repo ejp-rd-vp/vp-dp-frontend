@@ -1,0 +1,111 @@
+<script>
+import Codes from '~/assets/js/orphacode_complete'
+import Countries from '~/assets/js/countries'
+import SelectedObjectsList from "@/components/search/SelectedObjectsList.vue";
+export default {
+  components: { SelectedObjectsList },
+  props: {
+    reloadNeeded: { required: true }
+  },
+  data () {
+    return {
+      selectedCodeObjects: [],
+      selectedOrphaCodes: [],
+      searchQuery: '',
+      showAutoComplete: false,
+      orphaCodes: [],
+      selectedCode: null,
+      selectedCodeObject: []
+    }
+  },
+  mounted() {
+    this.orphaCodes = [...Codes.orphaCodes()]
+  },
+  methods: {
+    executeSearch () {
+      if (this.selectedCodeObjects) {
+        this.$emit('executeSearch')
+        this.$emit('changeCurrentOrphaCodes', this.selectedOrphaCodes)
+      }
+    },
+    getCodeList (codes) {
+      return codes && codes.length > 0 ? codes.split(',') : null
+    },
+    autoCompleteText (item) {
+      let finalTitle = item.name
+      if (this.selectedCode) {
+        const filteredSynonymList =
+          item.synonymList.filter(synonym => synonym.toLowerCase().includes(this.selectedCode.toLowerCase()))
+        if (filteredSynonymList.length > 0) {
+          finalTitle = '[' + filteredSynonymList + '] ' + finalTitle
+        }
+      }
+      return this.highlightMatchingSubString(finalTitle, this.selectedCode)
+    },
+    highlightMatchingSubString(str, subStr) {
+      let reg = new RegExp('(' +subStr+ ')', 'gi');
+      return  str.replace(reg, '<mark>$1</mark>');
+    }
+  },
+  watch: {
+    searchQuery() {
+      this.$emit('updateSearchQuery', this.searchQuery)
+    }
+  }
+}
+</script>
+
+<template>
+  <v-container>
+    <v-row no-gutters justify="center" align="center">
+      <v-col class="flex-grow-1">
+        <v-text-field
+          v-model="searchQuery"
+          class="search-field mt-8"
+          label="Search by rare disease name or orpha/icd10 code ..."
+          background-color="white"
+          height="80px"
+          clearable
+          outlined
+          filled
+        />
+      </v-col>
+      <v-col class="flex-grow-0">
+        <v-btn class="ma-0" height="80px" @click="executeSearch" x-large tile color="rgb(68, 160, 252)">
+          <v-icon v-if="!reloadNeeded" x-large>
+            mdi-magnify
+          </v-icon>
+          <v-icon v-else x-large>
+            mdi-reload
+          </v-icon>
+        </v-btn>
+      </v-col>
+      <v-col class="flex-grow-0">
+        <v-btn dark class="py-6" height="80px" x-large tile color="#1f3863" @click="$emit('hideShowSearchFilters')">
+          Filter Search
+          <v-icon>
+            mdi-chevron-down
+          </v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
+
+<style scoped lang="scss">
+.short{
+  width: 150px;
+  span{
+    width: 150px;
+    text-align: center;
+  }
+}
+
+.search-field {
+  border-radius: 0;
+}
+
+.filter-button {
+  height: 100%;
+}
+</style>
