@@ -9,6 +9,7 @@ export default {
   data () {
     return {
       searchResults: [],
+      fetchedResources: 0,
       loading: false
     }
   },
@@ -21,13 +22,14 @@ export default {
         return
       }
       this.loading = true
-      this.searchResults.orphaCodes = orphaCodes
+      this.fetchedResources = 0
       for (let resource of this.resources) {
         this.searchParams.diseases = this.currentOrphaCodes
         this.searchParams.source = resource
         this.$axios.$get(process.env.backendUrl + '/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
+            this.fetchedResources += 1
             if (res) {
               this.searchResults = this.searchResults.concat(res)
             }
@@ -46,6 +48,11 @@ export default {
     <v-row no-gutters justify="center">
       <v-col cols="12">
         <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14">
+          <v-progress-linear
+            v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
+            indeterminate
+            color="blue"
+          ></v-progress-linear>
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
@@ -65,13 +72,6 @@ export default {
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-progress-circular
-          v-if="loading"
-          class="progress-circular"
-          :size="150"
-          color="primary"
-          indeterminate
-        ></v-progress-circular>
       </v-col>
     </v-row>
   </v-container>
