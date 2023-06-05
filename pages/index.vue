@@ -41,7 +41,7 @@ export default {
           text: 'Explore Rare Disease resources with the EJP Mind Map'
         },
         {
-          icon: 'mdi-sort-clock-descending',
+          img: require('../assets/images/logo/smart-guidance.png'),
           buttonText: 'SMART GUIDANCE RD',
           buttonColor: '#4a71af',
           text: 'Explore Rare Disease resources with the EJP Mind Map'
@@ -104,9 +104,10 @@ export default {
           </h3>
         </v-col>
         <v-col class="text-center" cols="12" sm="3" v-for="tool in tools" :key="tool">
-          <v-icon class="black--text mb-6 align-center justify-center" size="120px">
+          <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
             {{ tool.icon }}
           </v-icon>
+          <v-img v-if="tool.img" class="mt-4 mb-6" style="display: inline-block;" :src="tool.img" contain max-width="200px" max-height="100px" />
           <v-btn large width="100%" :color="tool.buttonColor" class="white--text">
             {{ tool.buttonText }}
           </v-btn>
