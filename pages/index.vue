@@ -1,7 +1,12 @@
 <script>
+import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
+import DiscoverySearchWithAutoComplete from "@/components/search/DiscoverySearchWithAutoComplete.vue";
+
 export default {
+  components: { DiscoverySearchWithAutoComplete, DiscoverySearch },
   data () {
     return {
+      searchQuery: '',
       colors: [
         'indigo',
         'warning',
@@ -43,7 +48,14 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    addObjectAndForwardToDiscoveryPage(codeObject) {
+      this.$store.commit('setSelectedObject', codeObject)
+      this.$router.push({ path: '/discovery' })
+    }
   }
+
 }
 </script>
 
@@ -75,26 +87,13 @@ export default {
           <h3>
             Discover rare diseases resources and data:
           </h3>
-          <v-text-field
-            class="mt-2"
-            label="Search by rare disease name or orpha/icd10 code ..."
-            background-color="white"
-            append-outer-icon="mdi-magnify"
-            clearable
-            outlined
-            filled
-          >
-            <template v-slot:append-outer>
-              <v-btn>
-                Search
-                <v-icon>
-                  mdi-magnify
-                </v-icon>
-              </v-btn>
-            </template>
-          </v-text-field>
+          <DiscoverySearchWithAutoComplete
+            :reload-needed="false"
+            :hide-filters-button="true"
+            @codeObjectIsSelected="addObjectAndForwardToDiscoveryPage($event)"
+          />
           <p>
-            <a>Advanced Search</a> to filter by specific criteria
+            <a href="/discovery">Advanced Search</a> to filter by specific criteria
           </p>
         </v-col>
       </v-row>

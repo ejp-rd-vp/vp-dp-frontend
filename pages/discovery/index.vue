@@ -1,13 +1,18 @@
 <script>
+import Common from "assets/js/common";
 import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
 import SearchFilters from "@/components/search/SearchFilters.vue";
 import DiscoverySearchResults from "@/components/search/DiscoverySearchResults.vue";
 import FeedBackButton from "@/components/common/FeedBackButton.vue";
 import CookiesNotification from "@/components/common/CookiesNotification.vue";
 import SuggestedCodes from "@/components/search/SuggestedCodes.vue";
+import DiscoverySearchWithAutoComplete from "@/components/search/DiscoverySearchWithAutoComplete.vue";
 
 export default {
-  components: {SuggestedCodes, CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch},
+  components: {
+    DiscoverySearchWithAutoComplete,
+    SuggestedCodes, CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch
+  },
   auth: false,
   data () {
     return {
@@ -32,6 +37,13 @@ export default {
       }
     }
   },
+  created() {
+    const initSelectedCodeObjects = this.$store.state.selectedObject
+    if (initSelectedCodeObjects) {
+      this.addSelectedCodesObjects(initSelectedCodeObjects)
+      setTimeout(() => this.executeSearch(), 600);
+    }
+  },
   mounted() {
     this.fetchResources()
     this.showDisclaimerNotification = this.$cookies.get('showDisclaimerNotification')
@@ -53,7 +65,14 @@ export default {
       this.selectedCodesObjects.push(codeObject)
     },
     addSelectedCodesObjects(codesObjects) {
-      this.selectedCodesObjects.push(...codesObjects)
+      const finalArray = this.selectedCodesObjects.concat(codesObjects)
+      this.selectedCodesObjects.length = 0
+      this.selectedCodesObjects.push(...Common.removeDuplicatesFromArray(finalArray))
+    },
+    replaceSelectedCodesObjects(codesObjects) {
+      if (!codesObjects) return
+      this.selectedCodesObjects.length = 0
+      this.selectedCodesObjects.push(...Common.removeDuplicatesFromArray(codesObjects))
     },
     removeSelectedCodeObject(codeObject) {
       this.selectedCodesObjects = this.selectedCodesObjects.filter(obj => obj.orphaCode !== codeObject.orphaCode)
@@ -153,31 +172,14 @@ export default {
           style="margin-bottom: -45px"
           :key="selectedCodesObjects.length"
           :selected-codes-objects="selectedCodesObjects"
-          @updateSelectedCodesObjects="selectedCodesObjects = $event"
+          @updateSelectedCodesObjects="replaceSelectedCodesObjects($event)"
         />
       </v-col>
       <v-col cols="12">
-        <DiscoverySearch
-          :key="selectedCodesObjects.length"
-          :reloadNeeded="searchReloadNeeded"
+        <DiscoverySearchWithAutoComplete
+          :reload-needed="searchReloadNeeded"
           @executeSearch="executeSearch"
-          @hideShowSearchFilters="showSearchFilters = !showSearchFilters"
-          @updateSearchQuery="handleNewSearchQuery($event)"
-        />
-        <SearchAutoComplete
-        style="position: absolute; z-index: 4 !important; margin-top: -54px; left: 50%; transform: translate(-50.05%, 0);"
-        v-if="showSearchAutoComplete"
-        v-custom-click-outside="hideSearchAutoComplete"
-        :key="searchQuery"
-        :query="searchQuery"
-        @addSelectedCodesObjects="addSelectedCodesObjects($event); hideSearchAutoComplete()"
-      />
-      </v-col>
-      <v-col cols="12">
-        <SearchFilters
-          v-show="showSearchFilters"
-          style="margin-top: -42px;"
-          class="search-filters"
+          @updateSelectedObjects="addSelectedCodesObjects($event)"
           @updateSearchParams="searchParams = $event"
         />
       </v-col>

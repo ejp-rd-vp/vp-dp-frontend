@@ -2,10 +2,17 @@
 import Codes from '~/assets/js/orphacode_complete'
 import Countries from '~/assets/js/countries'
 import SelectedObjectsList from "@/components/search/SelectedObjectsList.vue";
+import searchFilters from "@/components/search/SearchFilters.vue";
 export default {
+  computed: {
+    searchFilters() {
+      return searchFilters
+    }
+  },
   components: { SelectedObjectsList },
   props: {
-    reloadNeeded: { required: true }
+    reloadNeeded: { required: true },
+    hideFilters: { required: false, default: false }
   },
   data () {
     return {
@@ -80,7 +87,7 @@ export default {
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col class="flex-grow-0">
+      <v-col v-if="!hideFilters" class="flex-grow-0">
         <v-btn dark class="py-6" height="80px" x-large tile color="#1f3863" @click="$emit('hideShowSearchFilters')">
           Filter Search
           <v-icon>

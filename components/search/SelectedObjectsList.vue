@@ -1,4 +1,5 @@
 <script>
+import Common from "assets/js/common";
 export default {
   props: {
     selectedCodesObjects: { required: false, default: () => [] }
@@ -10,7 +11,7 @@ export default {
     deleteSelectedObjectByIndex(itemIndex) {
       this.tags.splice(itemIndex, 1)
       this.selectedCodesObjects.splice(itemIndex, 1)
-      this.$emit('updateSelectedCodesObjects', this.selectedCodesObjects)
+      this.$emit('updateSelectedCodesObjects', Common.removeDuplicatesFromArray(this.selectedCodesObjects))
     }
   },
   watch: {
@@ -25,6 +26,7 @@ export default {
             }
           )
         }
+        this.tags = Common.removeDuplicatesFromArray(this.tags)
       },
       immediate: true
     }
