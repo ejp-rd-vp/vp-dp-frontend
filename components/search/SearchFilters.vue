@@ -211,6 +211,13 @@ export default {
               mdi-lock
             </v-icon>
             Record Interrogation Filter Options
+            <v-chip
+              v-if="!loggedIn"
+              outlined
+              color="red"
+            >
+              Only logged in users have access to these filters
+            </v-chip>
           </h3>
           <v-divider />
           <v-row class="px-3 pt-3">
