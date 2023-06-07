@@ -1,6 +1,8 @@
 <script>
 import Common from '~/assets/js/common'
+import ResourceInfoDialog from "@/components/dialogs/ResourceInfoDialog.vue";
 export default {
+  components: { ResourceInfoDialog },
   props: {
     currentOrphaCodes: { required: true, type: Array },
     searchParams: { required: true, type: Object },
@@ -10,7 +12,11 @@ export default {
     return {
       searchResults: [],
       fetchedResources: 0,
-      loading: false
+      loading: false,
+      resourceInfoDialog: {
+        show: false,
+        resourceInfo: null
+      }
     }
   },
   mounted() {
@@ -30,7 +36,8 @@ export default {
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
             this.fetchedResources += 1
-            if (res) {
+            if (res && res.length > 0 && typeof res[0] === 'object') {
+              res[0].resourceInfo = resource
               this.searchResults = this.searchResults.concat(res)
             }
           }.bind(this))
@@ -39,12 +46,24 @@ export default {
           }.bind(this))
       }
       this.loading = false
+    },
+    handleResourceInfoDialogIconClicked (resourceInfo) {
+      this.resourceInfoDialog.resourceInfo = resourceInfo
+      this.resourceInfoDialog.show = !this.resourceInfoDialog.show
+    },
+    closeResourceInfoDialog () {
+      this.resourceInfoDialog.show = false
     }
   }
 }
 </script>
 <template>
   <v-container class="pa-0">
+    <ResourceInfoDialog
+      v-if="resourceInfoDialog.show"
+      :resource-info="resourceInfoDialog.resourceInfo"
+      @closeResourceInfoDialog="closeResourceInfoDialog"
+    />
     <v-row no-gutters justify="center">
       <v-col cols="12">
         <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14">
@@ -59,6 +78,9 @@ export default {
           >
             <v-expansion-panel-header v-if="result && result.name && result.numTotalResults" :disabled="!result || !result.content || !result.content.resourceResponses" :hide-actions="!result || !result.content || !result.content.resourceResponses" class="expansion-header" tile color="rgb(68, 160, 252)">
               <div class="eph-title">
+                <v-icon class="mr-1" @click.native.stop @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
+                  mdi-information-variant
+                </v-icon>
                 {{ result.name }}
               </div>
               <div class="eph-results">
@@ -98,13 +120,13 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 350px;
-  height: 1.2em;
+  height: 1.7em;
   white-space: nowrap;
   margin-right: 20px;
 }
 
 .expansion-header {
-  height: 40px;
+  height: 55px;
   border-radius: 0;
 }
 </style>
