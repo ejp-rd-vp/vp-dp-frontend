@@ -69,7 +69,7 @@ export default {
         <v-text-field
           v-model="searchQuery"
           class="search-field mt-8"
-          label="Search by rare disease name or orpha/icd10 code ..."
+          label="Search for a disease name (e.g. ADPKD), gene (e.g. PKD1), or Orphacode (e.g. 730)"
           background-color="white"
           height="80px"
           clearable

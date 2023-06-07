@@ -79,7 +79,7 @@ export default {
           </p>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-img :src="require('../assets/images/others/PLACE-HOLDER.png')" contain />
+          <v-img :src="require('../assets/images/others/vp-parts.png')" contain height="500px" />
         </v-col>
       </v-row>
       <v-row class="mt-12">
@@ -116,38 +116,38 @@ export default {
           </p>
         </v-col>
       </v-row>
-      <v-row class="mt-12">
-        <v-col cols="12">
-          <v-carousel
-            cycle
-            height="400"
-            hide-delimiter-background
-            show-arrows-on-hover
-          >
-            <v-carousel-item
-              v-for="(slide, i) in slides"
-              :key="i"
-            >
-              <v-sheet
-                :color="colors[i]"
-                height="100%"
-              >
-                <v-row
-                  class="fill-height"
-                  align="center"
-                  justify="center"
-                >
-                  <div class="text-h2">
-                    {{ slide }} Slide
-                  </div>
-                </v-row>
-              </v-sheet>
-            </v-carousel-item>
-          </v-carousel>
-        </v-col>
-      </v-row>
+<!--      <v-row class="mt-12">-->
+<!--        <v-col cols="12">-->
+<!--          <v-carousel-->
+<!--            cycle-->
+<!--            height="400"-->
+<!--            hide-delimiter-background-->
+<!--            show-arrows-on-hover-->
+<!--          >-->
+<!--            <v-carousel-item-->
+<!--              v-for="(slide, i) in slides"-->
+<!--              :key="i"-->
+<!--            >-->
+<!--              <v-sheet-->
+<!--                :color="colors[i]"-->
+<!--                height="100%"-->
+<!--              >-->
+<!--                <v-row-->
+<!--                  class="fill-height"-->
+<!--                  align="center"-->
+<!--                  justify="center"-->
+<!--                >-->
+<!--                  <div class="text-h2">-->
+<!--                    {{ slide }} Slide-->
+<!--                  </div>-->
+<!--                </v-row>-->
+<!--              </v-sheet>-->
+<!--            </v-carousel-item>-->
+<!--          </v-carousel>-->
+<!--        </v-col>-->
+<!--      </v-row>-->
     </v-container>
-    <v-footer class="d-flex justify-space-around mt-4 pt-4">
+    <v-footer absolute class="d-flex justify-space-around mt-4 pt-4">
       <p>
         <b>2020-2022 European Rare Diseases Joint Programme</b>
       </p>
