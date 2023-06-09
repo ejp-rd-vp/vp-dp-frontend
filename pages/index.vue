@@ -32,19 +32,19 @@ export default {
           icon: 'mdi-sync',
           buttonText: 'USING DATA',
           buttonColor: '#fecf00',
-          text: 'Explore Rare Disease resources with the EJP Mind Map'
+          text: 'Find out how the VP can help you do research'
         },
         {
           icon: 'mdi-gesture-double-tap',
           buttonText: 'CONNECT',
           buttonColor: '#3bb392',
-          text: 'Explore Rare Disease resources with the EJP Mind Map'
+          text: 'Contact us to connect your Rare  Disease resource  to  the Virtual  Platform'
         },
         {
           img: require('../assets/images/logo/smart-guidance.png'),
-          buttonText: 'SMART GUIDANCE RD',
+          buttonText: 'FAIRification Material',
           buttonColor: '#4a71af',
-          text: 'Explore Rare Disease resources with the EJP Mind Map'
+          text: 'Get guidance how to make your registry mor FAIR'
         }
       ]
     }
@@ -79,7 +79,7 @@ export default {
           </p>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-img :src="require('../assets/images/others/vp-parts.png')" contain height="500px" />
+          <v-img :src="require('../assets/images/others/vp-parts.jpg')" contain height="500px" />
         </v-col>
       </v-row>
       <v-row class="mt-12">
@@ -97,7 +97,7 @@ export default {
           </p>
         </v-col>
       </v-row>
-      <v-row class="mt-12">
+      <v-row class="mt-12" style="margin-bottom: 150px;">
         <v-col cols="12">
           <h3>
             Tools and Resources
