@@ -83,7 +83,7 @@ export default {
           </p>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-img :src="require('../assets/images/others/vp-parts.jpg')" contain height="500px" />
+          <v-img :src="require('../assets/images/others/vp-parts.png')" contain height="500px" />
         </v-col>
       </v-row>
       <v-row class="mt-12">
@@ -107,12 +107,12 @@ export default {
             Tools and Resources
           </h3>
         </v-col>
-        <v-col class="text-center" cols="12" sm="3" v-for="tool in tools" :key="tool">
+        <v-col class="text-center" cols="12" sm="3" v-for="tool in tools" :key="tool.buttonText">
           <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
             {{ tool.icon }}
           </v-icon>
           <v-img v-if="tool.img" class="mt-4 mb-6" style="display: inline-block;" :src="tool.img" contain max-width="200px" max-height="100px" />
-          <v-btn large width="100%" :color="tool.buttonColor" class="white--text">
+          <v-btn :href="tool.url" target="_blank" f large width="100%" :color="tool.buttonColor" class="white--text">
             {{ tool.buttonText }}
           </v-btn>
           <p style="font-size: max(0.6vw, 20px);">
