@@ -99,7 +99,7 @@ export default {
                     small
                   >
                     <span v-if="!isGene(item)" v-html="'orpha:' + highlightMatchingSubString(item.orphaCode, query)"></span>
-                    <span v-if="isGene(item)" v-html="'hgnc:' + highlightMatchingSubString(item.hgncId, query)"></span>
+                    <span v-if="isGene(item)" v-html="'hgnc-symbol:' + highlightMatchingSubString(item.symbol, query)"></span>
                   </v-chip>
                   <v-chip
                     v-if="isGene(item)"
@@ -109,7 +109,7 @@ export default {
                     outlined
                     small
                   >
-                    <span v-html="'hgnc-symbol:' + highlightMatchingSubString(item.symbol, query)"></span>
+                    <span v-html="'hgnc-id:' + highlightMatchingSubString(item.hgncId, query)"></span>
                   </v-chip>
                   <v-chip
                     v-if="item.codes && query && code.toLowerCase().includes(query.toLowerCase())"
