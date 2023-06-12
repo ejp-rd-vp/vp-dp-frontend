@@ -87,7 +87,11 @@ export default {
                 {{ result.numTotalResults }} result(s)
               </div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content v-if="result && result.content && result.content.resourceResponses" style="min-width: 100%">
+            <v-expansion-panel-content
+              v-if="result && result.content &&
+              result.content.resourceResponses"
+              style="min-width: 100%;"
+            >
               <SearchResultContent
                 :resultContent="result.content.resourceResponses"
               />

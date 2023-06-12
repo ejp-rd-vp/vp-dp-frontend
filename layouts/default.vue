@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar dark v-if="$route.path !== '/'" color="#1f3863" height="130px" fixed app>
+    <v-app-bar dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
         <a href="https://www.ejprarediseases.org/" target="_blank">
           <img src="@/assets/images/logo/ejp-rd-logo-450.png">
@@ -22,7 +22,7 @@
           Connected Sources
         </v-btn>
       </v-btn-toggle>
-      <v-btn v-if="!$auth.loggedIn && $route.path !== '/'" class="mr-5" @click="loginWithKeycloak" x-large text>
+      <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="loginWithKeycloak" x-large text>
         <v-icon>
           mdi-account
         </v-icon>
