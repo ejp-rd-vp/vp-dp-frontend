@@ -26,24 +26,28 @@ export default {
           icon: 'mdi-arrow-right-circle-outline',
           buttonText: 'EXPLORE',
           buttonColor: '#e31a46',
+          url: 'https://resourcemap.ejprarediseases.org/#/',
           text: 'Explore Rare Disease resources with the EJP Mind Map'
         },
         {
           icon: 'mdi-sync',
           buttonText: 'USING DATA',
           buttonColor: '#fecf00',
+          url: 'https://www.ejprarediseases.org/fairification/',
           text: 'Find out how the VP can help you do research'
         },
         {
           icon: 'mdi-gesture-double-tap',
           buttonText: 'CONNECT',
           buttonColor: '#3bb392',
+          url: 'https://forms.office.com/r/UrgvkD39t8',
           text: 'Contact us to connect your Rare  Disease resource  to  the Virtual  Platform'
         },
         {
           img: require('../assets/images/logo/smart-guidance.png'),
           buttonText: 'FAIRification Material',
           buttonColor: '#4a71af',
+          url: 'https://smartguidance-rd.ds-wizard.org/ smart guidance tool',
           text: 'Get guidance how to make your registry mor FAIR'
         }
       ]
