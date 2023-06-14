@@ -111,6 +111,7 @@ export default {
 .v-text-field ::v-deep label {
   font-size: 1.8em;
   min-height: 20px;
+  font-style: italic;
 }
 
 .v-input {
@@ -125,6 +126,7 @@ export default {
   .v-text-field ::v-deep label {
     font-size: 1em;
     min-height: 20px;
+    font-style: italic;
   }
 
   .v-input {
