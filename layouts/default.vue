@@ -1,11 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar dark color="#1f3863" height="130px" fixed app>
+    <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
-        <a href="https://www.ejprarediseases.org/" target="_blank">
-          <img src="@/assets/images/logo/ejp-rd-logo-450.png">
-        </a>
+        <img src="@/assets/images/logo/ejp-rd-logo-450.png">
       </v-toolbar-title>
+      <v-spacer />
+      <h1 style="color: #fffeff; font-family: Great Vibes cursive; font-size: 60px; line-height: 60px; font-weight: normal; margin-bottom: 0px; text-align: center; text-shadow: 0 1px 1px #fff;">
+        VP-PORTAL
+      </h1>
       <v-spacer />
       <v-btn-toggle
         v-model="discoverySubPages"
@@ -17,9 +19,8 @@
         <v-btn x-large large tile value="discovery">
           Resource Discovery
         </v-btn>
-
         <v-btn x-large text value="sources">
-          Connected Sources
+          VP Network Resources
         </v-btn>
       </v-btn-toggle>
       <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="loginWithKeycloak" x-large text>
@@ -48,6 +49,73 @@
           >
             <v-icon>mdi-logout</v-icon>
             <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-app-bar>
+    <v-app-bar  v-else dark color="#1f3863" height="130px" fixed app>
+      <v-toolbar-title>
+        <img src="@/assets/images/logo/ejp-rd-logo-small.png">
+      </v-toolbar-title>
+      <v-spacer />
+      <h1 style="color: #fffeff; font-family: Great Vibes cursive; font-size: 30px; line-height: 30px; font-weight: normal; margin-bottom: 0px; text-align: center; text-shadow: 0 1px 1px #fff;">
+        VP-PORTAL
+      </h1>
+      <v-spacer />
+      <v-menu offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="white"
+            x-large
+            text
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon x-large>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            link
+            href="/discovery"
+          >
+            <v-list-item-title>
+              Resource Discovery
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
+            href="/discovery/sources"
+          >
+            <v-list-item-title>
+              VP Network Resources
+            </v-list-item-title>
+          </v-list-item>
+          <v-divider />
+          <v-list-item
+            v-if="$auth.loggedIn"
+            link
+          >
+            <v-icon>mdi-account</v-icon>
+            {{ $auth.user.name }}
+          </v-list-item>
+          <v-list-item
+            v-if="!$auth.loggedIn"
+            link
+            @click="loginWithKeycloak"
+          >
+            <v-icon>
+              mdi-account
+            </v-icon>
+            <v-list-item-title>login</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            v-if="$auth.loggedIn"
+            link
+            @click="loginWithKeycloak"
+          >
+            <v-icon>mdi-logout</v-icon>
+            <v-list-item-title>logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

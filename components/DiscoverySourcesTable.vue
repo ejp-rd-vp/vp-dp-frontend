@@ -83,7 +83,7 @@
                         v-bind="attrs"
                         v-on="on"
                       >
-                        VP Queryable
+                        VP CONTENT DISCOVERY
                       </v-chip>
                     </template>
                     <span>The source is queryable via the VP Discovery Portal.</span>
