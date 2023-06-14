@@ -33,22 +33,22 @@ export default {
           icon: 'mdi-sync',
           buttonText: 'USING DATA',
           buttonColor: '#fecf00',
-          url: 'https://www.ejprarediseases.org/fairification/',
+          url: '',
           text: 'Find out how the VP can help you do research'
         },
         {
-          icon: 'mdi-gesture-double-tap',
-          buttonText: 'CONNECT',
-          buttonColor: '#3bb392',
-          url: 'https://forms.office.com/r/UrgvkD39t8',
-          text: 'Contact us to connect your Rare  Disease resource  to  the Virtual  Platform'
-        },
-        {
-          img: require('../assets/images/logo/smart-guidance.png'),
+          icon: 'mdi-lightbulb-on-outline',
           buttonText: 'FAIRification Material',
           buttonColor: '#4a71af',
-          url: 'https://smartguidance-rd.ds-wizard.org/ smart guidance tool',
+          url: 'https://www.ejprarediseases.org/fairification/',
           text: 'Get guidance how to make your registry mor FAIR'
+        },
+        {
+          icon: 'mdi-gesture-double-tap',
+          buttonText: 'FEEDBACK',
+          buttonColor: '#3bb392',
+          url: 'https://forms.office.com/r/UrgvkD39t8',
+          text: 'We kindly request your valuable feedback to enhance and improve the VP-PORTAL.'
         }
       ]
     }
@@ -72,14 +72,14 @@ export default {
             The EJP-RD Virtual Platform
           </h1>
           <p>
-            The Virtual Platform (VP) connects rare disease resources <br> to improve research and health care.
+            The Virtual Platform (VP) connects rare disease resources to improve research and health care.
           </p>
           <p>
-            The VP enables discovery and analysis of information and <br> scientific data about rare diseases, those affecting fewer <br> than 5 in 10,000 people.
+            The VP enables discovery and analysis of information and scientific data about rare diseases, those affecting fewer than 5 in 10,000 people.
           </p>
           <p>
             It also offers information to make rare disease resources
-            <br><b>Findable, Accessible, Interoperable, and Reusable (FAIR).</b>
+            <b>Findable, Accessible, Interoperable, and Reusable (FAIR).</b>
           </p>
         </v-col>
         <v-col cols="12" sm="6">
@@ -101,7 +101,7 @@ export default {
           </p>
         </v-col>
       </v-row>
-      <v-row class="mt-12" style="margin-bottom: 150px;">
+      <v-row class="mt-12" style="margin-bottom: 180px;">
         <v-col cols="12">
           <h3>
             Tools and Resources
@@ -112,7 +112,7 @@ export default {
             {{ tool.icon }}
           </v-icon>
           <v-img v-if="tool.img" class="mt-4 mb-6" style="display: inline-block;" :src="tool.img" contain max-width="200px" max-height="100px" />
-          <v-btn :href="tool.url" target="_blank" f large width="100%" :color="tool.buttonColor" class="white--text">
+          <v-btn :href="tool.url" target="_blank" f large width="100%" :color="tool.buttonColor" class="white--text mb-2">
             {{ tool.buttonText }}
           </v-btn>
           <p style="font-size: max(0.6vw, 20px);">
@@ -156,7 +156,9 @@ export default {
         <b>2020-2022 European Rare Diseases Joint Programme</b>
       </p>
       <div class="d-flex justify-center">
-        <img class="mr-2" src="@/assets/images/logo/ejp-rd-logo-450.png" height="55px" />
+        <a href="https://www.ejprarediseases.org/" target="_blank">
+          <img class="mr-2" height="55px" src="@/assets/images/logo/ejp-rd-logo-450.png">
+        </a>
         <img class="mr-2" src="@/assets/images/others/eu-emblem.jpg" height="55px" />
         <p style="font-size: 12px; line-height: 14px">
           This work is supported by the funding from <br>
