@@ -69,9 +69,9 @@ export default {
         <v-text-field
           v-model="searchQuery"
           class="search-field mt-8"
-          label="Search for a disease name (e.g. ADPKD), gene (e.g. PKD1), or Orphacode (e.g. 730)"
           background-color="white"
           height="80px"
+          label="Search for a disease name (e.g. ADPKD), gene (e.g. PKD1), or Orphacode (e.g. 730)"
           clearable
           outlined
           filled
@@ -105,6 +105,34 @@ export default {
   span{
     width: 150px;
     text-align: center;
+  }
+}
+
+.v-text-field ::v-deep label {
+  font-size: 1.8em;
+  min-height: 20px;
+}
+
+.v-input {
+  ::v-deep .v-label {
+    height: 40px;
+    line-height: 30px;
+    letter-spacing: normal;
+  }
+}
+
+@media (max-width: 900px) {
+  .v-text-field ::v-deep label {
+    font-size: 1em;
+    min-height: 20px;
+  }
+
+  .v-input {
+    ::v-deep .v-label {
+      height: 20px;
+      line-height: 20px;
+      letter-spacing: normal;
+    }
   }
 }
 

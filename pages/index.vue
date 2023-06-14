@@ -31,24 +31,17 @@ export default {
         },
         {
           icon: 'mdi-sync',
-          buttonText: 'USING DATA',
+          buttonText: 'GUIDANCE',
           buttonColor: '#fecf00',
           url: '',
           text: 'Find out how the VP can help you do research'
         },
         {
-          icon: 'mdi-lightbulb-on-outline',
-          buttonText: 'FAIRification Material',
-          buttonColor: '#4a71af',
-          url: 'https://www.ejprarediseases.org/fairification/',
-          text: 'Get guidance how to make your registry mor FAIR'
-        },
-        {
           icon: 'mdi-gesture-double-tap',
-          buttonText: 'FEEDBACK',
+          buttonText: 'CONNECT',
           buttonColor: '#3bb392',
           url: 'https://forms.office.com/r/UrgvkD39t8',
-          text: 'We kindly request your valuable feedback to enhance and improve the VP-PORTAL.'
+          text: 'Contact us for information or feedback'
         }
       ]
     }
@@ -107,7 +100,7 @@ export default {
             Tools and Resources
           </h3>
         </v-col>
-        <v-col class="text-center" cols="12" sm="3" v-for="tool in tools" :key="tool.buttonText">
+        <v-col class="text-center" cols="12" sm="4" v-for="tool in tools" :key="tool.buttonText">
           <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
             {{ tool.icon }}
           </v-icon>
