@@ -8,7 +8,7 @@
         mdi-home-outline
       </v-icon>
     </v-btn>
-    <h1 style="margin-bottom: 100px;">
+    <h1 style="margin-bottom: 50px;">
       Imprint
     </h1>
     <v-card-title class="ml-2">
@@ -18,6 +18,13 @@
       INSERM IDF Centre Est: Bâtiment A, site Biopark <br>
       8, rue de la Croix-Jarry <br>
       75013 Paris
+    </p>
+
+    <p class="ml-6 mt-6">
+      Email:
+      <a href="mailto:coordination@ejprarediseases.org">
+        coordination@ejprarediseases.org
+      </a>
     </p>
     <img class="ml-6 mt-6" src="@/assets/images/others/eu-emblem.jpg" width="300px" />
     <img class="ml-6 mt-6" src="@/assets/images/logo/INSERM.png" width="300px" />
