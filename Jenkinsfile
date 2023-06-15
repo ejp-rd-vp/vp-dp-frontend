@@ -1,1 +1,6 @@
 
+pipeline {
+    triggers {
+        githubPush()
+    }
+}
