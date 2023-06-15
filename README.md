@@ -1,3 +1,3 @@
 # vp-dp-frontend
 
-## Description....
+## Description.
