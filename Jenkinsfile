@@ -1,16 +1,6 @@
 pipeline {
   agent any
   stages {
-    stage('Check for vulnerabilities') {
-      steps {
-      }
-    }
-
-    stage('Check linting') {
-      steps {
-      }
-    }
-
     stage('Docker build') {
 		steps {
                 script {
