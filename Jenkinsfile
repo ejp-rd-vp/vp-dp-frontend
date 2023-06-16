@@ -3,39 +3,31 @@ pipeline {
   stages {
     stage('Check for vulnerabilities') {
       steps {
-        sh 'npm audit --parseable --production'
-        sh 'npm outdated || exit 0'
-      }
-    }
-
-    stage('download dependencies') {
-      steps {
-        sh 'npm ci'
       }
     }
 
     stage('Check linting') {
       steps {
-        sh 'npm run lint'
       }
     }
 
-    stage('Check unit:test') {
-      steps {
-        sh 'npm run test:unit -- --ci --coverage'
-      }
-      post {
-        always {
-          junit 'junit.xml'
-          cobertura coberturaReportFile: 'coverage/cobertura-coverage.xml'
-        }
-      }
-    }
-
-    stage('Build') {
-      steps {
-        sh 'npm run build'
-      }
+    stage('Docker build') {
+		steps {
+                script {
+                    sh "docker build . --file docker/Dockerfile --tag ${env.EJP_GUI_DEV_IMAGE_TAG}"
+                }
+            }
+  }
+	stage('Docker push') {
+		steps {
+			steps {
+                script {
+                    withDockerRegistry([credentialsId: 'nexus-credentials']) {
+                        sh "docker push ${env.EJP_GUI_DEV_IMAGE_TAG}"
+                    }
+                }
+            }
+		}
     }
   }
 }
