@@ -33,8 +33,8 @@ export default {
           icon: 'mdi-sync',
           buttonText: 'GUIDANCE',
           buttonColor: '#fecf00',
-          url: '',
-          text: 'Find out how the VP can help you do research'
+          url: 'https://www.ejprarediseases.org/fairification',
+          text: 'Find out how to make your data more FAIR'
         },
         {
           icon: 'mdi-gesture-double-tap',
@@ -65,14 +65,13 @@ export default {
             The EJP-RD Virtual Platform
           </h1>
           <p>
-            The Virtual Platform (VP) connects rare disease resources to improve research and health care.
+            The Virtual Platform (VP) is a growing <b>network</b> of Findable, Accessible , Interoperable and Reusable (FAIR) resources , ready to serve the rare disease RD research community.
           </p>
           <p>
-            The VP enables discovery and analysis of information and scientific data about rare diseases, those affecting fewer than 5 in 10,000 people.
+            It includes catalogues of resources, registries, biobanks, knowledge bases and tools compliant with agreed standards.
           </p>
           <p>
-            It also offers information to make rare disease resources
-            <b>Findable, Accessible, Interoperable, and Reusable (FAIR).</b>
+            The <b>VP Portal</b> allows you to search the VP network resources at once in real time to find those of interest to your research.
           </p>
         </v-col>
         <v-col cols="12" sm="6">
@@ -161,8 +160,8 @@ export default {
         </p>
       </div>
       <p class="float-right">
-        <a href="/imprint">
-          <b>Imprint</b>
+        <a href="/legal-notice">
+          <b>Legal Notice</b>
         </a>
       </p>
     </v-footer>

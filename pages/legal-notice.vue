@@ -9,7 +9,7 @@
       </v-icon>
     </v-btn>
     <h1 style="margin-bottom: 100px;">
-      Imprint
+      Legal Notice
     </h1>
     <v-card-title class="ml-2">
       Where we are

@@ -216,7 +216,7 @@ export default {
               outlined
               color="red"
             >
-              Only logged in users have access to these filters
+              Please log in to activate these filters
             </v-chip>
           </h3>
           <v-divider />
