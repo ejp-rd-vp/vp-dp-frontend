@@ -1,16 +1,10 @@
 <template>
   <v-row justify="center" align="center">
     <div class="disclaimerNotice">
-      <h4>Disclaimer</h4>
-      <p>
-        Please note that this is a <b>Beta Version</b> of the EJP-RD Resource Discovery Portal. The functionalities on this website are still limited and partially under development.  Furthermore, currently no information on the use and access conditions of the individual resources are being transmitted.
+      <p class="px-2">
+        We are continuously working on improvements of the portal and love to hear
+        <a href="https://forms.office.com/r/UrgvkD39t8" target="_blank">your feedback and suggestions</a>.
       </p>
-      <p>
-        Help us improve by <a href="https://forms.office.com/r/UrgvkD39t8" target="_blank">sending us feedback</a>.
-      </p>
-      <v-btn class="accept-button" @click="$cookies.set('showDisclaimerNotification', false); $router.go(0)" color="rgb(68, 160, 252)">
-        Accept
-      </v-btn>
     </div>
   </v-row>
 </template>
@@ -26,8 +20,11 @@
   font-size: 14px;
   line-height: 20px;
   font-family: Helvetica neue, Helvetica, sans-serif;
-  max-width: 60vw;
+  max-width: 80vw;
   margin-top: -35px;
+  @media screen and (max-width: 950px) {
+    margin-top: 10px;
+  }
 }
 
 .accept-button {
