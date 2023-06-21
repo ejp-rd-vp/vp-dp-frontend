@@ -32,7 +32,7 @@ export default {
       for (let resource of this.resources) {
         this.searchParams.diseases = this.currentOrphaCodes
         this.searchParams.source = resource
-        this.$axios.$get(process.env.backendUrl + '/search',
+        this.$axios.$get('/queryApi/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
             this.fetchedResources += 1
