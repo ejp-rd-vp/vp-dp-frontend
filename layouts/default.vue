@@ -2,12 +2,8 @@
   <v-app>
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
-        <img src="@/assets/images/logo/ejp-rd-logo-450.png">
+        <img src="@/assets/images/logo/VP-PORTAL.png">
       </v-toolbar-title>
-      <v-spacer />
-      <h1 style="color: #fffeff; font-family: Great Vibes cursive; font-size: 60px; line-height: 60px; font-weight: normal; margin-bottom: 0px; text-align: center; text-shadow: 0 1px 1px #fff;">
-        VP-PORTAL
-      </h1>
       <v-spacer />
       <v-btn-toggle
         v-model="discoverySubPages"
