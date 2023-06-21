@@ -139,7 +139,7 @@ export default {
   },
   methods: {
     async fetchSources () {
-      await this.$axios.$get(process.env.backendUrl + '/resources')
+      await this.$axios.$get('/queryApi/resources')
         .then(function (res) {
           this.sources = res
         }.bind(this))

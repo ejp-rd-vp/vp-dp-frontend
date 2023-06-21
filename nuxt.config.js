@@ -1,10 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  env: {
-    backendUrl: process.env.BACKEND_URL_1 || 'http://localhost:3006',
-    genesAndRareDiseasesUrl: process.env.BACKEND_URL_2
-  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: 'EJP-RD Resource Discovery Portal',
@@ -52,6 +48,17 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     // baseURL: '/',
+    proxy: true
+  },
+  proxy: {
+    '/genesAndRareDiseasesApi': {
+      target: process.env.BACKEND_URL_2,
+      pathRewrite: {"^/genesAndRareDiseasesApi/": ""}
+    },
+    '/queryApi': {
+      target: process.env.BACKEND_URL_1,
+      pathRewrite: {"^/queryApi/": ""}
+    }
   },
 
   auth: {

@@ -51,7 +51,7 @@ export default {
       return  str.replace(reg, '<mark>$1</mark>');
     },
     async fetchAutoCompletes () {
-      await this.$axios.$get(process.env.genesAndRareDiseasesUrl + '/v1/autocomplete',
+      await this.$axios.$get('/genesAndRareDiseasesApi/v1/autocomplete',
         {
           params: this.params, paramsSerializer (params) { return Common.paramsSerializer(params) },
           headers: {}
