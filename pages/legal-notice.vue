@@ -19,6 +19,13 @@
       8, rue de la Croix-Jarry <br>
       75013 Paris
     </p>
+
+    <p class="ml-6 mt-6">
+      Email:
+      <a href="mailto:coordination@ejprarediseases.org">
+        coordination@ejprarediseases.org
+      </a>
+    </p>
     <img class="ml-6 mt-6" src="@/assets/images/others/eu-emblem.jpg" width="300px" />
     <img class="ml-6 mt-6" src="@/assets/images/logo/INSERM.png" width="300px" />
     <p class="ml-6 mt-6" style="max-width: 600px">
