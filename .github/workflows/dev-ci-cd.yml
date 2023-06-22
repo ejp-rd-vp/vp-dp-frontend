@@ -1,0 +1,26 @@
+name: DEV-CI-CD
+  
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+
+  ci:
+
+    runs-on: ubuntu-latest
+    environment: DEV
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build the Docker image
+      run: docker build . --build-arg KEYCLOAK_REALM=${{ secrets.KEYCLOAK_REALM }} --build-arg KEYCLOAK_CLIENT_ID=${{ secrets.KEYCLOAK_CLIENT_ID }} --build-arg KEYCLOAK_URL=${{ secrets.KEYCLOAK_URL }} --build-arg BACKEND_URL_1=${{ secrets.BACKEND_URL_1 }} --build-arg BACKEND_URL_2=${{ secrets.BACKEND_URL_2 }} --file docker/Dockerfile --tag $(DEV.DOCKER_IMAGE_TAG)-$(GITHUB_RUN_ATTEMPT)
+      
+    - name: Login to Registry
+      run: echo ${{ secrets.REGISTRY_PASSWORD }} | docker login -u ${{ secrets.REGISTRY_USERNAME }} --password-stdin
+      
+    - name: Push the latest DEV image
+      run: docker push $(DEV.DOCKER_IMAGE_TAG)-$(GITHUB_RUN_ATTEMPT)
