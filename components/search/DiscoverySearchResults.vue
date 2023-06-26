@@ -30,6 +30,7 @@ export default {
       this.loading = true
       this.fetchedResources = 0
       for (let resource of this.resources) {
+        if (!resource.queryable) continue
         this.searchParams.diseases = this.currentOrphaCodes
         this.searchParams.source = resource
         this.$axios.$get('/queryApi/search',
