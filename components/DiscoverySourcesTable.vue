@@ -17,8 +17,9 @@
                   </template>
                   <span>The source is actively connected to the VP.</span>
                 </v-tooltip>
-                <h3 v-if="!source.logo"> {{ source.resourceName }}</h3>
-                <v-img :src="logos[source.resourceName]" contain max-width="200px" max-height="100px" />
+                <h3 v-if="!source.logo && !logos[source.resourceName]"> {{ source.resourceName }}</h3>
+                <v-img v-if="logos[source.resourceName]" :src="logos[source.resourceName]" contain max-width="180px" max-height="150px" />
+                <v-img v-if="!logos[source.resourceName] && source.logo" :src="source.logo" contain max-width="180px" max-height="150px" />
               </v-list-item-title>
               <v-list-item-subtitle class="mb-1">{{ source.resourceDescription }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -130,8 +131,11 @@ export default {
         'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
         'Orphanet': require('../assets/images/logo/resources/img_4.png'),
         'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
-        'wikiPathways': require('../assets/images/logo/resources/img_5.png'),
-        'hPSCreg': require('../assets/images/logo/resources/img_3.png')
+        'WikiPathways': require('../assets/images/logo/resources/img_5.png'),
+        'hPSCreg': require('../assets/images/logo/resources/img_3.png'),
+        'EuRRECa': require('../assets/images/logo/resources/eurreca-logo.png'),
+        'Genturis': require('../assets/images/logo/resources/Genturis.png'),
+        'DDP': require('../assets/images/logo/resources/img_1.png'),
       },
       vpIndexUrl: 'https://qb-index.ejprd.semlab-leiden.nl/catalogues',
       sources: []
