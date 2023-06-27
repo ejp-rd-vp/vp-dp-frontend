@@ -137,7 +137,6 @@ export default {
         'Genturis': require('../assets/images/logo/resources/Genturis.png'),
         'DDP': require('../assets/images/logo/resources/img_1.png'),
       },
-      vpIndexUrl: 'https://qb-index.ejprd.semlab-leiden.nl/catalogues',
       sources: []
     }
   },

@@ -39,15 +39,6 @@ export default {
               Not Available
             </div>
           </v-card-subtitle>
-          <v-card-title>Email:</v-card-title>
-          <v-card-subtitle>
-            <a v-if="resourceInfo.eMail" :href="'mailto:' + resourceInfo.eMail | lowercase">
-              {{ resourceInfo.eMail }}
-            </a>
-            <div v-else>
-              Not Available
-            </div>
-          </v-card-subtitle>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
