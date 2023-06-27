@@ -3,8 +3,6 @@ name: DEV-CI-CD
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
 
 jobs:
 
@@ -24,3 +22,14 @@ jobs:
       
     - name: Push the latest DEV image
       run: docker push ${{ secrets.DOCKER_IMAGE_TAG }}
+    
+  cd:
+    name: Redeploy - Webhook call
+    runs-on: ubuntu-latest
+    environment: DEV
+    needs: ci
+    steps:
+      - name: Redeploy
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBHOOK_URL  }}
