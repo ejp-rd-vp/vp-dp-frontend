@@ -4,22 +4,19 @@ import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
 import SearchFilters from "@/components/search/SearchFilters.vue";
 import DiscoverySearchResults from "@/components/search/DiscoverySearchResults.vue";
 import FeedBackButton from "@/components/common/FeedBackButton.vue";
-import CookiesNotification from "@/components/common/CookiesNotification.vue";
 import SuggestedCodes from "@/components/search/SuggestedCodes.vue";
 import DiscoverySearchWithAutoComplete from "@/components/search/DiscoverySearchWithAutoComplete.vue";
 
 export default {
   components: {
     DiscoverySearchWithAutoComplete,
-    SuggestedCodes, CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch
+    SuggestedCodes, FeedBackButton, DiscoverySearchResults, DiscoverySearch
   },
   auth: false,
   data () {
     return {
       searchIndex: 0,
       searchQuery: '',
-      showDisclaimerNotification: false,
-      showCookiesNotification: false,
       showSearchAutoComplete: false,
       showSearchFilters: false,
       currentOrphaCodes: [],
@@ -46,8 +43,6 @@ export default {
   },
   mounted() {
     this.fetchResources()
-    this.showDisclaimerNotification = this.$cookies.get('showDisclaimerNotification')
-    this.showCookiesNotification = this.$cookies.get('showCookiesNotification')
   },
   methods: {
     handleNewSearchQuery(newSearchQuery) {
@@ -160,9 +155,7 @@ export default {
     </v-row>
     <v-row>
       <v-col>
-        <DisclaimerNotice
-          v-if="showDisclaimerNotification"
-        />
+        <DisclaimerNotice />
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -211,9 +204,6 @@ export default {
       </v-container>
     </v-row>
     <FeedBackButton />
-    <cookies-notification
-      v-if="showCookiesNotification"
-    />
   </div>
 </template>
 
