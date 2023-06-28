@@ -42,7 +42,7 @@ export default {
 
 
         <v-list-group
-          :value="true"
+          :value="false"
         >
           <template v-slot:activator>
             <v-list-item-title>Display utilized cookies</v-list-item-title>
