@@ -28,7 +28,7 @@
               height="150px"
             >
               <v-row justify="end">
-                <v-col v-if="source.resourceType.includes('catalogue')" class="flex-grow-0">
+                <v-col v-if="source.resourceType.length > 1" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -43,7 +43,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.resourceType.includes('patientRegistry')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('patientRegistry')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -58,7 +58,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.resourceType.includes('knowledgeBase')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('knowledgeBase')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
