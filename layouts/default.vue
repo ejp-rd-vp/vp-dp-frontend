@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <AcceptFunctionalCookiesDialog v-if="!cookiesAccepted" />
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
         <img src="@/assets/images/logo/VP-PORTAL.png">
@@ -139,10 +140,14 @@ html, body {
 </style>
 
 <script>
+import AcceptFunctionalCookiesDialog from "@/components/dialogs/AcceptFunctionalCookiesDialog.vue";
+
 export default {
+  components: { AcceptFunctionalCookiesDialog },
   data() {
     return {
       discoverySubPages: '',
+      cookiesAccepted: true,
       clipped: false,
       drawer: false,
       fixed: false,
@@ -189,6 +194,9 @@ export default {
       immediate: true
     }
   },
+  mounted() {
+    this.cookiesAccepted = this.$cookies.get('cookiesAccepted')
+  },
   methods: {
     loginWithKeycloak () {
       try {
@@ -207,11 +215,8 @@ export default {
   },
   created() {
     this.$cookies.nodeCookie
-    if(this.$cookies.get('showDisclaimerNotification') === undefined) {
-      this.$cookies.set('showDisclaimerNotification' , true, "1y")
-    }
-    if(this.$cookies.get('showCookiesNotification') === undefined) {
-      this.$cookies.set('showCookiesNotification' , true, "1y")
+    if(this.$cookies.get('cookiesAccepted') === undefined) {
+      this.$cookies.set('cookiesAccepted' , false, "1y")
     }
   }
 }
