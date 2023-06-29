@@ -147,7 +147,6 @@ export default {
   data() {
     return {
       discoverySubPages: '',
-      cookiesAccepted: true,
       clipped: false,
       drawer: false,
       fixed: false,
@@ -194,8 +193,10 @@ export default {
       immediate: true
     }
   },
-  mounted() {
-    this.cookiesAccepted = this.$cookies.get('cookiesAccepted')
+  computed: {
+    cookiesAccepted() {
+      return this.$store.getters["user_configs/areCookiesAccepted"]
+    }
   },
   methods: {
     loginWithKeycloak () {
@@ -213,11 +214,5 @@ export default {
       }
     }
   },
-  created() {
-    this.$cookies.nodeCookie
-    if(this.$cookies.get('cookiesAccepted') === undefined) {
-      this.$cookies.set('cookiesAccepted' , false, "1y")
-    }
-  }
 }
 </script>
