@@ -61,7 +61,7 @@ export default {
             class="px-6 mx-8 mb-2"
             color="green"
             rounded
-            @click="$cookies.set('cookiesAccepted', true); $router.go(0)"
+            @click="$store.commit('user_configs/setCookiesAccepted')"
           >
             Accept Functional Cookies
           </v-btn>
