@@ -65,7 +65,7 @@ export default {
             The EJP-RD Virtual Platform
           </h1>
           <p>
-            The Virtual Platform (VP) is a growing <b>network</b> of Findable, Accessible , Interoperable and Reusable (FAIR) resources , ready to serve the rare disease RD research community.
+            The Virtual Platform (VP) is a growing <b>network</b> of Findable, Accessible, Interoperable and Reusable (FAIR) resources, ready to serve the rare disease (RD) research community.
           </p>
           <p>
             It includes catalogues of resources, registries, biobanks, knowledge bases and tools compliant with agreed standards.
