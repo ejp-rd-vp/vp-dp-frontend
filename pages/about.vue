@@ -34,7 +34,7 @@ export default {
       </v-row>
       <v-row class="mt-10">
         <v-col>
-          <div class="px-4 markdown-class" style="max-width: 700px;" v-html="markdownToHtml" />
+          <div class="px-4 markdown-class" v-html="markdownToHtml" />
         </v-col>
       </v-row>
     </v-container>
