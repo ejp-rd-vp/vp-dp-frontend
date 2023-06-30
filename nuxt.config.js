@@ -128,6 +128,12 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     standalone: true,
-    babel: { compact: true }
+    babel: { compact: true },
+    extend (config) {
+      config.module.rules.push({
+        test: /\.md$/,
+        loader: 'raw-loader'
+      })
+    }
   }
 }
