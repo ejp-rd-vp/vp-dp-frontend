@@ -22,7 +22,8 @@ export default {
       showAutoComplete: false,
       orphaCodes: [],
       selectedCode: null,
-      selectedCodeObject: []
+      selectedCodeObject: [],
+      availableSearchItems: ['Names of diseases', 'Orpha Codes', 'HGNC IDs', 'Symbols of genes', 'Names of genes']
     }
   },
   mounted() {
@@ -65,6 +66,29 @@ export default {
 <template>
   <v-container>
     <v-row no-gutters justify="center" align="center">
+      <v-col class="flex-grow-0">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              color="primary"
+              dark
+              v-bind="attrs"
+              v-on="on"
+              x-large
+            >
+              mdi-information-variant
+            </v-icon>
+          </template>
+          <span>
+            With this search bar, you have the ability to search for the following:
+            <ul>
+              <li v-for="searchItem in availableSearchItems" :key="searchItem">
+                {{ searchItem }}
+              </li>
+            </ul>
+          </span>
+        </v-tooltip>
+      </v-col>
       <v-col class="flex-grow-1">
         <v-text-field
           v-model="searchQuery"
