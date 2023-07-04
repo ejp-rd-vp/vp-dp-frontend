@@ -20,7 +20,7 @@
           VP Network Resources
         </v-btn>
       </v-btn-toggle>
-      <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="loginWithKeycloak" x-large text>
+      <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="handleLogin" x-large text>
         <v-icon>
           mdi-account
         </v-icon>
@@ -104,7 +104,7 @@
           <v-list-item
             v-if="!$auth.loggedIn"
             link
-            @click="loginWithKeycloak"
+            @click="handleLogin"
           >
             <v-icon>
               mdi-account
@@ -114,7 +114,7 @@
           <v-list-item
             v-if="$auth.loggedIn"
             link
-            @click="loginWithKeycloak"
+            @click="handleLogin"
           >
             <v-icon>mdi-logout</v-icon>
             <v-list-item-title>logout</v-list-item-title>
@@ -226,9 +226,9 @@ export default {
     }
   },
   methods: {
-    loginWithKeycloak () {
+    handleLogin () {
       try {
-        this.$auth.loginWith('keycloak')
+        this.$router.push({ path: '/login' })
       } catch (err) {
         console.log(err)
       }
