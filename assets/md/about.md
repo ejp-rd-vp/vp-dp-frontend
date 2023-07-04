@@ -8,9 +8,9 @@ The Virtual Platform is a federated ecosystem, in which resources are enhanced t
 
 ## FAQ
 
-### How can I query and access the data available on the VP-Portal?
+### What are the benefits of using VP-Portal for research?
 
-VP-Portal provides a user-friendly interface that allows researchers to discover and query various resources. To access specific resources, you can utilize the search functionalities and follow the provided guidelines to request access where necessary.
+By using VP-Portal, researchers gain access to a wide range of interconnected resources, eliminating the need to navigate multiple platforms and sources. The platform's federated ecosystem enhances resource discoverability, accessibility, interoperability, and reusability, streamlining the research process and promoting collaboration within the RD community.
 
 ### How can I find out which data resources are part of the VP Network?
 
@@ -36,8 +36,4 @@ Absolutely. VP-Portal prioritizes the protection of patient privacy and complies
 ### How the VP Network resources are selected?
 
 The VP Network is composed in the first place by resources within the EJP RD project. You can see them at a glance in the (link to the MindMap). In the future, the VP Network will be extended to new valuable resources for RD research, willing to comply with the harmonization and interoperability standards adopted by the EJP RD VP.
-
-### What are the benefits of using VP-Portal for research?
-
-By using VP-Portal, researchers gain access to a wide range of interconnected resources, eliminating the need to navigate multiple platforms and sources. The platform's federated ecosystem enhances resource discoverability, accessibility, interoperability, and reusability, streamlining the research process and promoting collaboration within the RD community.
 
