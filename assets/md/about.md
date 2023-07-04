@@ -14,7 +14,7 @@ By using VP-Portal, researchers gain access to a wide range of interconnected re
 
 ### How can I find out which data resources are part of the VP Network?
 
-You can see which resources and data sources are already part of the VP network by opening the VP Network resources menu (https://vp.ejprarediseases.org/discovery/sources). A short description and a link to the resources are provided. A picto indicates the type of resource (catalogue, registry or knowledge base) and whether you can query its content in depth.
+You can see which resources and data sources are already part of the VP network by opening the [VP Network resources menu](https://vp.ejprarediseases.org/discovery/sources). A short description and a link to the resources are provided. A picto indicates the type of resource (catalogue, registry or knowledge base) and whether you can query its content in depth.
 
 ### Which search functionalities are provided?
 
@@ -35,5 +35,5 @@ Absolutely. VP-Portal prioritizes the protection of patient privacy and complies
 
 ### How the VP Network resources are selected?
 
-The VP Network is composed in the first place by resources within the EJP RD project. You can see them at a glance in the (link to the MindMap). In the future, the VP Network will be extended to new valuable resources for RD research, willing to comply with the harmonization and interoperability standards adopted by the EJP RD VP.
+The VP Network is composed in the first place by resources within the EJP RD project. You can see them at a glance in the [MindMap](https://resourcemap.ejprarediseases.org/#/). In the future, the VP Network will be extended to new valuable resources for RD research, willing to comply with the harmonization and interoperability standards adopted by the EJP RD VP.
 
