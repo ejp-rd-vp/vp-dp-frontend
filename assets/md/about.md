@@ -8,21 +8,34 @@ The Virtual Platform is a federated ecosystem, in which resources are enhanced t
 
 ## FAQ
 
-### How can I access the resources available on VP-Portal?
+### How can I query and access the data available on the VP-Portal?
 
 VP-Portal provides a user-friendly interface that allows researchers to discover and query various resources. To access specific resources, you can utilize the search functionalities and follow the provided guidelines to request access where necessary.
 
-### Is my data and privacy protected when using VP-Portal?
+### How can I find out which data resources are part of the VP Network?
+
+You can see which resources and data sources are already part of the VP network by opening the VP Network resources menu (https://vp.ejprarediseases.org/discovery/sources). A short description and a link to the resources are provided. A picto indicates the type of resource (catalogue, registry or knowledge base) and whether you can query its content in depth.
+
+### Which search functionalities are provided?
+
+You can query the data sources connected to the VP by name of disease, by ORPHAcode, by ICD-10 code, by OMIM number, by gene name or symbol or by HGNC number.
+
+### How does the VP Portal work?
+
+Resources in the VP network provide a query end-point to their description and their content. When you search it, the VP Portal sends real-time queries to the connected resources so the results are the most up to date while the data remains at the source. The VP Portal maintains a directory of the resources’ endpoints, that whichis dynamically kept up to date.
+
+### Why should I log in?
+
+Some resources (i.e. patient registries) require authentication to allow for deep queries on some of their data, while others (i.e. catalogues, knowledge bases) can be queried freely. Logging in will allow you to apply some search filters adapted to patient data, such as gender, age at, onset of symptoms or age at diagnosis) and to obtain aggregated results.
+
+
+### Are patient data and privacy protected when querying the VP-Portal?
 
 Absolutely. VP-Portal prioritizes the protection of patient privacy and complies with all relevant data privacy regulations. Data remains at the source level, and queries are executed in a manner that preserves patient confidentiality and adheres to each resource's access conditions.
 
-### Can I perform federated analysis using VP-Portal?
+### How the VP Network resources are selected?
 
-Yes! VP-Portal is designed as a federated ecosystem, enabling federated discovery, query, and analysis. Multiple query points are available, allowing researchers to send queries to different resources and perform collaborative analyses while maintaining data security and privacy.
-
-### How can I contribute my resources to VP-Portal?
-
-If you have valuable resources that align with VP-Portal's objectives, we welcome your contribution! Please reach out to our team through the provided contact information, and we will guide you through the process of integrating your resources into the platform.
+The VP Network is composed in the first place by resources within the EJP RD project. You can see them at a glance in the (link to the MindMap). In the future, the VP Network will be extended to new valuable resources for RD research, willing to comply with the harmonization and interoperability standards adopted by the EJP RD VP.
 
 ### What are the benefits of using VP-Portal for research?
 
