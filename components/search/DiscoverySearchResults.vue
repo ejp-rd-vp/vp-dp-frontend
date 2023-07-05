@@ -22,6 +22,11 @@ export default {
   mounted() {
     this.fetchResults(this.currentOrphaCodes)
   },
+  computed: {
+    loggedIn() {
+      return this.$auth.loggedIn
+    }
+  },
   methods: {
     async fetchResults (orphaCodes) {
       if(!orphaCodes || orphaCodes.length < 1) {
@@ -57,6 +62,13 @@ export default {
     },
     closeResourceInfoDialog () {
       this.resourceInfoDialog.show = false
+    },
+    isResourceWithBeaconQuery (resourceName) {
+      const resource = this.resources.find(resource => resource.resourceName === resourceName)
+      if (resource) {
+        return resource.queryType.includes('individuals')
+      }
+      return false
     }
   }
 }
@@ -85,6 +97,23 @@ export default {
                 <v-icon class="mr-1" @click.native.stop @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
                   mdi-information-variant
                 </v-icon>
+                <v-tooltip
+                  v-if="!loggedIn && isResourceWithBeaconQuery(result.name)"
+                  bottom
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      v-bind="attrs"
+                      v-on="on"
+                      class="mr-1"
+                    >
+                      mdi-lock
+                    </v-icon>
+                  </template>
+                  <span>
+                    Please log in to access the filtering feature for this resource.
+                  </span>
+                </v-tooltip>
                 {{ result.name }}
               </div>
               <div class="eph-results">
