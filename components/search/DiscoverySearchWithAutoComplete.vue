@@ -47,9 +47,6 @@ export default {
   watch: {
     searchQuery() {
       this.showSearchAutoComplete = true
-    },
-    selectedCodesObjects() {
-      this.$emit('updateSelectedObjects', this.selectedCodesObjects)
     }
   }
 }

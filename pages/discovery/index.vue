@@ -87,16 +87,16 @@ export default {
           console.log('Unable to fetch resources: ' + err)
         }.bind(this))
     },
-    async getAssociatedOrphaForHgncId(hgncId) {
-      let orphaCode = '0'
+    async getAssociatedOrphaCodesForHgncId(hgncId) {
+      let orphaCodes = []
       await this.$axios.$get("/genesAndRareDiseasesApi/v1/genes/" + hgncId + "/mapping")
         .then(function(res) {
-          orphaCode = res.orphaCode
+          orphaCodes = res.orphaCodes
         })
         .catch(function (err) {
           console.log('Unable to fetch mapping: ' + err)
         })
-        return orphaCode
+        return orphaCodes
     },
     arraysAreEqual(a, b) {
       if (a === b) return true;
@@ -125,8 +125,8 @@ export default {
           if (this.selectedCodesObjects[i].orphaCode !== '0') {
             orphaCodes.push(this.selectedCodesObjects[i].orphaCode)
           } else {
-            const orphaCode = await this.getAssociatedOrphaForHgncId(this.selectedCodesObjects[i].hgncId)
-            orphaCodes.push(orphaCode)
+            const associatedOrphaCodes = await this.getAssociatedOrphaCodesForHgncId(this.selectedCodesObjects[i].hgncId)
+            orphaCodes.push(...associatedOrphaCodes)
           }
         }
         this.selectedOrphaCodes = orphaCodes.filter(item => item !== '0')
@@ -172,7 +172,7 @@ export default {
         <DiscoverySearchWithAutoComplete
           :reload-needed="searchReloadNeeded"
           @executeSearch="executeSearch"
-          @updateSelectedObjects="addSelectedCodesObjects($event)"
+          @codeObjectIsSelected="addSelectedCodesObjects($event)"
           @updateSearchParams="searchParams = $event"
         />
       </v-col>
