@@ -33,6 +33,11 @@ export default {
       title,
     }
   },
+  beforeMount() {
+    if (this.error.statusCode === 404) {
+      this.$router.push('/')
+    }
+  },
 }
 </script>
 

@@ -83,7 +83,7 @@ export default {
           authorization: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/auth',
           userInfo: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/userinfo',
           token: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/token',
-          logout: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/logout'
+          logout: { url: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/logout', method: 'get'}
         },
         token: {
           property: 'access_token',
@@ -95,8 +95,6 @@ export default {
           property: 'refresh_token',
           maxAge: 60 * 3
         },
-        redirectUri: undefined,
-        logoutRedirectUri: undefined,
         responseType: 'code',
         grantType: 'authorization_code',
         clientId: process.env.KEYCLOAK_CLIENT_ID,
