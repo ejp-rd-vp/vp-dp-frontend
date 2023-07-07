@@ -73,6 +73,9 @@ export default {
           <p>
             The <b>VP Portal</b> allows you to search the VP network resources at once in real time to find those of interest to your research.
           </p>
+          <p>
+            <a href="/about" style="text-decoration: none">Learn More</a>
+          </p>
         </v-col>
         <v-col cols="12" sm="6">
           <v-img :src="require('../assets/images/others/vp-parts.png')" contain height="500px" />
