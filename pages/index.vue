@@ -27,7 +27,7 @@ export default {
           buttonText: 'EXPLORE',
           buttonColor: '#e31a46',
           url: 'https://resourcemap.ejprarediseases.org/#/',
-          text: 'Explore Rare Disease resources with the EJP Mind Map'
+          text: 'Explore Rare Disease resources with the EJP RD Mind Map'
         },
         {
           icon: 'mdi-sync',
