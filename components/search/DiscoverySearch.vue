@@ -23,7 +23,7 @@ export default {
       orphaCodes: [],
       selectedCode: null,
       selectedCodeObject: [],
-      availableSearchItems: ['Names of diseases', 'Orpha Codes', 'HGNC IDs', 'Symbols of genes', 'Names of genes']
+      availableSearchItems: ['Names of diseases', 'Orpha Codes', 'Omim Codes', 'ICD-10 Codes', 'HGNC IDs', 'Symbols of genes', 'Names of genes']
     }
   },
   mounted() {
