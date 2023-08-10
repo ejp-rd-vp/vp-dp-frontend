@@ -23,7 +23,8 @@ export default {
       orphaCodes: [],
       selectedCode: null,
       selectedCodeObject: [],
-      availableSearchItems: ['Names of diseases', 'Orpha Codes', 'Omim Codes', 'ICD-10 Codes', 'HGNC IDs', 'Symbols of genes', 'Names of genes']
+      availableDiseaseSearchItems: ['Disease name', 'Orphacode', 'ICD-10 code', 'OMIM'],
+      availableGeneSearchItems: ['Gene name', 'Gene symbol (HGNC)']
     }
   },
   mounted() {
@@ -80,9 +81,16 @@ export default {
             </v-icon>
           </template>
           <span>
-            With this search bar, you have the ability to search for the following:
+            You can search using the following: <br>
+            <b>Disease:</b>
             <ul>
-              <li v-for="searchItem in availableSearchItems" :key="searchItem">
+              <li v-for="searchItem in availableDiseaseSearchItems" :key="searchItem">
+                {{ searchItem }}
+              </li>
+            </ul>
+            <b>Gene:</b>
+            <ul>
+              <li v-for="searchItem in availableGeneSearchItems" :key="searchItem">
                 {{ searchItem }}
               </li>
             </ul>
