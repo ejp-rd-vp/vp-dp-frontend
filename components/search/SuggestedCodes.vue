@@ -23,7 +23,7 @@ export default {
   methods: {
     async fetchRelatedCodes () {
       this.loadingRelatedCodes = true
-      this.$axios.$get(process.env.backendUrl + '/hierarchy',
+      this.$axios.$get('/queryApi/hierarchy',
         { params: this.hierarchyParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
         .then(function (res) {
           if (res) {

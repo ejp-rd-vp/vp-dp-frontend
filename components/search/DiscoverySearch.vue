@@ -2,10 +2,17 @@
 import Codes from '~/assets/js/orphacode_complete'
 import Countries from '~/assets/js/countries'
 import SelectedObjectsList from "@/components/search/SelectedObjectsList.vue";
+import searchFilters from "@/components/search/SearchFilters.vue";
 export default {
+  computed: {
+    searchFilters() {
+      return searchFilters
+    }
+  },
   components: { SelectedObjectsList },
   props: {
-    reloadNeeded: { required: true }
+    reloadNeeded: { required: true },
+    hideFilters: { required: false, default: false }
   },
   data () {
     return {
@@ -15,7 +22,9 @@ export default {
       showAutoComplete: false,
       orphaCodes: [],
       selectedCode: null,
-      selectedCodeObject: []
+      selectedCodeObject: [],
+      availableDiseaseSearchItems: ['Disease name', 'Orphacode', 'ICD-10 code', 'OMIM'],
+      availableGeneSearchItems: ['Gene name', 'Gene symbol (HGNC)']
     }
   },
   mounted() {
@@ -58,13 +67,43 @@ export default {
 <template>
   <v-container>
     <v-row no-gutters justify="center" align="center">
+      <v-col class="flex-grow-0">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              color="primary"
+              dark
+              v-bind="attrs"
+              v-on="on"
+              x-large
+            >
+              mdi-information-variant
+            </v-icon>
+          </template>
+          <span>
+            You can search using the following: <br>
+            <b>Disease:</b>
+            <ul>
+              <li v-for="searchItem in availableDiseaseSearchItems" :key="searchItem">
+                {{ searchItem }}
+              </li>
+            </ul>
+            <b>Gene:</b>
+            <ul>
+              <li v-for="searchItem in availableGeneSearchItems" :key="searchItem">
+                {{ searchItem }}
+              </li>
+            </ul>
+          </span>
+        </v-tooltip>
+      </v-col>
       <v-col class="flex-grow-1">
         <v-text-field
           v-model="searchQuery"
           class="search-field mt-8"
-          label="Search by rare disease name or orpha/icd10 code ..."
           background-color="white"
           height="80px"
+          label="Search for a disease name (e.g. ADPKD), gene (e.g. PKD1), or Orphacode (e.g. 730)"
           clearable
           outlined
           filled
@@ -80,7 +119,7 @@ export default {
           </v-icon>
         </v-btn>
       </v-col>
-      <v-col class="flex-grow-0">
+      <v-col v-if="!hideFilters" class="flex-grow-0">
         <v-btn dark class="py-6" height="80px" x-large tile color="#1f3863" @click="$emit('hideShowSearchFilters')">
           Filter Search
           <v-icon>
@@ -98,6 +137,36 @@ export default {
   span{
     width: 150px;
     text-align: center;
+  }
+}
+
+.v-text-field ::v-deep label {
+  font-size: 1.8em;
+  min-height: 20px;
+  font-style: italic;
+}
+
+.v-input {
+  ::v-deep .v-label {
+    height: 40px;
+    line-height: 30px;
+    letter-spacing: normal;
+  }
+}
+
+@media (max-width: 900px) {
+  .v-text-field ::v-deep label {
+    font-size: 1em;
+    min-height: 20px;
+    font-style: italic;
+  }
+
+  .v-input {
+    ::v-deep .v-label {
+      height: 20px;
+      line-height: 20px;
+      letter-spacing: normal;
+    }
   }
 }
 

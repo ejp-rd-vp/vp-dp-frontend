@@ -12,11 +12,21 @@
         </v-btn>
       </v-col>
     </v-row>
-    <DiscoverySourcesTable />
+    <DiscoverySourcesTable class="resources-table" />
   </div>
 </template>
 
 <style scoped lang="scss">
+
+.resources-table {
+  margin-bottom: 100px;
+  @media screen and (max-width: 1200px) {
+    margin-bottom: 200px;
+  }
+  @media screen and (max-width: 950px) {
+    margin-bottom: 280px;
+  }
+}
 
 #no-background-hover::before {
   background-color: transparent !important;
@@ -32,6 +42,7 @@
 </style>
 
 <script>
+import DiscoverySourcesTable from "@/components/DiscoverySourcesTable.vue";
 export default {
   name: 'IndexPage',
   data () {

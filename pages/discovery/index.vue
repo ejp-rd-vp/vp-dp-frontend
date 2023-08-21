@@ -1,20 +1,22 @@
 <script>
+import Common from "assets/js/common";
 import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
 import SearchFilters from "@/components/search/SearchFilters.vue";
 import DiscoverySearchResults from "@/components/search/DiscoverySearchResults.vue";
 import FeedBackButton from "@/components/common/FeedBackButton.vue";
-import CookiesNotification from "@/components/common/CookiesNotification.vue";
 import SuggestedCodes from "@/components/search/SuggestedCodes.vue";
+import DiscoverySearchWithAutoComplete from "@/components/search/DiscoverySearchWithAutoComplete.vue";
 
 export default {
-  components: {SuggestedCodes, CookiesNotification, FeedBackButton, DiscoverySearchResults, DiscoverySearch},
+  components: {
+    DiscoverySearchWithAutoComplete,
+    SuggestedCodes, FeedBackButton, DiscoverySearchResults, DiscoverySearch
+  },
   auth: false,
   data () {
     return {
       searchIndex: 0,
       searchQuery: '',
-      showDisclaimerNotification: false,
-      showCookiesNotification: false,
       showSearchAutoComplete: false,
       showSearchFilters: false,
       currentOrphaCodes: [],
@@ -32,10 +34,15 @@ export default {
       }
     }
   },
+  created() {
+    const initSelectedCodeObjects = this.$store.state.selectedObject
+    if (initSelectedCodeObjects) {
+      this.addSelectedCodesObjects(initSelectedCodeObjects)
+      setTimeout(() => this.executeSearch(), 600);
+    }
+  },
   mounted() {
     this.fetchResources()
-    this.showDisclaimerNotification = this.$cookies.get('showDisclaimerNotification')
-    this.showCookiesNotification = this.$cookies.get('showCookiesNotification')
   },
   methods: {
     handleNewSearchQuery(newSearchQuery) {
@@ -53,7 +60,14 @@ export default {
       this.selectedCodesObjects.push(codeObject)
     },
     addSelectedCodesObjects(codesObjects) {
-      this.selectedCodesObjects.push(...codesObjects)
+      const finalArray = this.selectedCodesObjects.concat(codesObjects)
+      this.selectedCodesObjects.length = 0
+      this.selectedCodesObjects.push(...Common.removeDuplicatesFromArray(finalArray))
+    },
+    replaceSelectedCodesObjects(codesObjects) {
+      if (!codesObjects) return
+      this.selectedCodesObjects.length = 0
+      this.selectedCodesObjects.push(...Common.removeDuplicatesFromArray(codesObjects))
     },
     removeSelectedCodeObject(codeObject) {
       this.selectedCodesObjects = this.selectedCodesObjects.filter(obj => obj.orphaCode !== codeObject.orphaCode)
@@ -63,7 +77,7 @@ export default {
       this.currentOrphaCodes = [...this.selectedOrphaCodes]
     },
     async fetchResources () {
-      await this.$axios.$get(process.env.backendUrl + '/resources')
+      await this.$axios.$get('/queryApi/resources')
         .then(function (res) {
           if (res) {
             this.resources = res
@@ -73,16 +87,16 @@ export default {
           console.log('Unable to fetch resources: ' + err)
         }.bind(this))
     },
-    async getAssociatedOrphaForHgncId(hgncId) {
-      let orphaCode = '0'
-      await this.$axios.$get(process.env.genesAndRareDiseasesUrl + "/v1/genes/" + hgncId + "/mapping")
+    async getAssociatedOrphaCodesForHgncId(hgncId) {
+      let orphaCodes = []
+      await this.$axios.$get("/genesAndRareDiseasesApi/v1/genes/" + hgncId + "/mapping")
         .then(function(res) {
-          orphaCode = res.orphaCode
+          orphaCodes = res.orphaCodes
         })
         .catch(function (err) {
           console.log('Unable to fetch mapping: ' + err)
         })
-        return orphaCode
+        return orphaCodes
     },
     arraysAreEqual(a, b) {
       if (a === b) return true;
@@ -111,8 +125,8 @@ export default {
           if (this.selectedCodesObjects[i].orphaCode !== '0') {
             orphaCodes.push(this.selectedCodesObjects[i].orphaCode)
           } else {
-            const orphaCode = await this.getAssociatedOrphaForHgncId(this.selectedCodesObjects[i].hgncId)
-            orphaCodes.push(orphaCode)
+            const associatedOrphaCodes = await this.getAssociatedOrphaCodesForHgncId(this.selectedCodesObjects[i].hgncId)
+            orphaCodes.push(...associatedOrphaCodes)
           }
         }
         this.selectedOrphaCodes = orphaCodes.filter(item => item !== '0')
@@ -129,7 +143,7 @@ export default {
   <div class="main-container">
     <v-row>
       <v-col>
-        <v-btn href="/" class="mt-8 ml-12 home-button" color="#44a0fc" icon id="no-background-hover">
+        <v-btn href="/" class="mt-8 ml-12" color="#44a0fc" icon id="no-background-hover">
           <v-icon size="40">
             mdi-arrow-left
           </v-icon>
@@ -141,9 +155,7 @@ export default {
     </v-row>
     <v-row>
       <v-col>
-        <DisclaimerNotice
-          v-if="showDisclaimerNotification"
-        />
+        <DisclaimerNotice />
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -153,31 +165,14 @@ export default {
           style="margin-bottom: -45px"
           :key="selectedCodesObjects.length"
           :selected-codes-objects="selectedCodesObjects"
-          @updateSelectedCodesObjects="selectedCodesObjects = $event"
+          @updateSelectedCodesObjects="replaceSelectedCodesObjects($event)"
         />
       </v-col>
       <v-col cols="12">
-        <DiscoverySearch
-          :key="selectedCodesObjects.length"
-          :reloadNeeded="searchReloadNeeded"
+        <DiscoverySearchWithAutoComplete
+          :reload-needed="searchReloadNeeded"
           @executeSearch="executeSearch"
-          @hideShowSearchFilters="showSearchFilters = !showSearchFilters"
-          @updateSearchQuery="handleNewSearchQuery($event)"
-        />
-        <SearchAutoComplete
-        style="position: absolute; z-index: 4 !important; margin-top: -54px; left: 50%; transform: translate(-50.05%, 0);"
-        v-if="showSearchAutoComplete"
-        v-custom-click-outside="hideSearchAutoComplete"
-        :key="searchQuery"
-        :query="searchQuery"
-        @addSelectedCodesObjects="addSelectedCodesObjects($event); hideSearchAutoComplete()"
-      />
-      </v-col>
-      <v-col cols="12">
-        <SearchFilters
-          v-show="showSearchFilters"
-          style="margin-top: -42px;"
-          class="search-filters"
+          @codeObjectIsSelected="addSelectedCodesObjects($event)"
           @updateSearchParams="searchParams = $event"
         />
       </v-col>
@@ -209,9 +204,6 @@ export default {
       </v-container>
     </v-row>
     <FeedBackButton />
-    <cookies-notification
-      v-if="showCookiesNotification"
-    />
   </div>
 </template>
 

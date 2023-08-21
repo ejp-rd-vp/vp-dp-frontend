@@ -38,16 +38,8 @@ export default {
     :headers="headers"
     :items="resultContent"
     fixed-header
-    hide-default-footer
     item-key="name"
     disable-sort
-    :footer-props="{
-      showFirstLastPage: true,
-      firstIcon: 'mdi-arrow-collapse-left',
-      lastIcon: 'mdi-arrow-collapse-right',
-      prevIcon: 'mdi-minus',
-      nextIcon: 'mdi-plus'
-    }"
   >
     <template v-slot:item.name="{ item }">
       <v-card :href="item.homepage" target="_blank"  outlined color="transparent" style="width: 200px;" class="py-1">
@@ -114,14 +106,5 @@ export default {
 <style scoped>
 .v-card--link:before {
   background: none;
-}
-
-.item-name {
-  color: black;
-  display: inline-block;
-  text-overflow: ellipsis;
-  overflow: hidden !important;
-  width: 150px;
-  white-space: nowrap;
 }
 </style>

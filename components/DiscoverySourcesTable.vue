@@ -17,8 +17,9 @@
                   </template>
                   <span>The source is actively connected to the VP.</span>
                 </v-tooltip>
-<!--                <h3 v-if="!source.logo"> {{ source.resourceName }}</h3>-->
-                <v-img :src="logos[index]" contain max-width="200px" max-height="100px" />
+                <h3 v-if="!source.logo && !logos[source.resourceName]"> {{ source.resourceName }}</h3>
+                <v-img v-if="logos[source.resourceName]" :src="logos[source.resourceName]" contain max-width="180px" max-height="150px" />
+                <v-img v-if="!logos[source.resourceName] && source.logo" :src="source.logo" contain max-width="180px" max-height="150px" />
               </v-list-item-title>
               <v-list-item-subtitle class="mb-1">{{ source.resourceDescription }}</v-list-item-subtitle>
             </v-list-item-content>
@@ -27,7 +28,7 @@
               height="150px"
             >
               <v-row justify="end">
-                <v-col v-if="source.resourceType.includes('catalogue')" class="flex-grow-0">
+                <v-col v-if="source.resourceType.length > 1" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -42,7 +43,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.resourceType.includes('patientRegistry')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('patientRegistry')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -57,7 +58,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.resourceType.includes('knowledgeBase')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('knowledgeBase')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -83,10 +84,10 @@
                         v-bind="attrs"
                         v-on="on"
                       >
-                        VP Queryable
+                        VpContentDiscovery
                       </v-chip>
                     </template>
-                    <span>The source is queryable via the VP Discovery Portal.</span>
+                    <span>The source is queryable via the VP Portal.</span>
                   </v-tooltip>
                 </v-col>
               </v-row>
@@ -125,29 +126,23 @@ export default {
   name: 'IndexPage',
   data () {
     return {
-      logos: [
-        require('../assets/images/logo/resources/erkreg-logo.png'),
-        require('../assets/images/logo/resources/bbmri-logo.png'),
-        require('../assets/images/logo/resources/img_4.png'),
-        require('../assets/images/logo/resources/cellosaurus-logo.png'),
-        require('../assets/images/logo/resources/img_5.png'),
-        require('../assets/images/logo/resources/img_3.png')
-      ],
-      logo: {
-        'ERKReg': '../assets/images/logo/resources/erkreg-logo.png',
-        'BBMRI-Eric': '../assets/images/logo/resources/bbmri-logo.png',
-        'Orphanet': '../assets/images/logo/resources/img_4.png',
-        'Cellosaurus': '../assets/images/logo/resources/cellosaurus-logo.png',
-        'wikiPathways': '../assets/images/logo/resources/img_5.png',
-        'hPSCreg': '../assets/images/logo/resources/img_3.png'
+      logos: {
+        'ERKReg': require('../assets/images/logo/resources/erkreg-logo.png'),
+        'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
+        'Orphanet': require('../assets/images/logo/resources/img_4.png'),
+        'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
+        'WikiPathways': require('../assets/images/logo/resources/img_5.png'),
+        'hPSCreg': require('../assets/images/logo/resources/img_3.png'),
+        'EuRRECa': require('../assets/images/logo/resources/eurreca-logo.png'),
+        'Genturis': require('../assets/images/logo/resources/Genturis.png'),
+        'DDP': require('../assets/images/logo/resources/img_1.png'),
       },
-      vpIndexUrl: 'https://qb-index.ejprd.semlab-leiden.nl/catalogues',
       sources: []
     }
   },
   methods: {
     async fetchSources () {
-      await this.$axios.$get(process.env.backendUrl + '/resources')
+      await this.$axios.$get('/queryApi/resources')
         .then(function (res) {
           this.sources = res
         }.bind(this))

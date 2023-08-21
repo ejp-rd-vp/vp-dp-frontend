@@ -1,10 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar dark v-if="$route.path !== '/'" color="#1f3863" height="130px" fixed app>
+    <AcceptFunctionalCookiesDialog v-if="!cookiesAccepted" />
+    <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
-        <a href="https://www.ejprarediseases.org/" target="_blank">
-          <img src="@/assets/images/logo/ejp-rd-logo-450.png">
-        </a>
+        <img src="@/assets/images/logo/VP-PORTAL.png">
       </v-toolbar-title>
       <v-spacer />
       <v-btn-toggle
@@ -17,12 +16,11 @@
         <v-btn x-large large tile value="discovery">
           Resource Discovery
         </v-btn>
-
         <v-btn x-large text value="sources">
-          Connected Sources
+          VP Network Resources
         </v-btn>
       </v-btn-toggle>
-      <v-btn v-if="!$auth.loggedIn && $route.path !== '/'" class="mr-5" @click="loginWithKeycloak" x-large text>
+      <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="handleLogin" x-large text>
         <v-icon>
           mdi-account
         </v-icon>
@@ -51,6 +49,78 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <v-btn href="/about" icon>
+        <v-icon>
+          mdi-information-slab-circle-outline
+        </v-icon>
+      </v-btn>
+    </v-app-bar>
+    <v-app-bar  v-else dark color="#1f3863" height="130px" fixed app>
+      <v-toolbar-title>
+        <img src="@/assets/images/logo/ejp-rd-logo-small.png">
+      </v-toolbar-title>
+      <v-spacer />
+      <h1 style="color: #fffeff; font-family: Great Vibes cursive; font-size: 30px; line-height: 30px; font-weight: normal; margin-bottom: 0px; text-align: center; text-shadow: 0 1px 1px #fff;">
+        VP-PORTAL
+      </h1>
+      <v-spacer />
+      <v-menu offset-y>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="white"
+            x-large
+            text
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon x-large>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            link
+            href="/discovery"
+          >
+            <v-list-item-title>
+              Resource Discovery
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
+            href="/discovery/sources"
+          >
+            <v-list-item-title>
+              VP Network Resources
+            </v-list-item-title>
+          </v-list-item>
+          <v-divider />
+          <v-list-item
+            v-if="$auth.loggedIn"
+            link
+          >
+            <v-icon>mdi-account</v-icon>
+            {{ $auth.user.name }}
+          </v-list-item>
+          <v-list-item
+            v-if="!$auth.loggedIn"
+            link
+            @click="handleLogin"
+          >
+            <v-icon>
+              mdi-account
+            </v-icon>
+            <v-list-item-title>login</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            v-if="$auth.loggedIn"
+            link
+            @click="handleLogin"
+          >
+            <v-icon>mdi-logout</v-icon>
+            <v-list-item-title>logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <Nuxt />
@@ -65,6 +135,28 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
+    <v-footer v-if="$route.name !== 'discovery'" absolute class="d-flex justify-space-around mt-4 pt-4">
+      <p>
+        <b>2020-2022 European Rare Diseases Joint Programme</b>
+      </p>
+      <div class="d-flex justify-center">
+        <a href="https://www.ejprarediseases.org/" target="_blank">
+          <img class="mr-2" height="55px" src="@/assets/images/logo/ejp-rd-logo-450.png">
+        </a>
+        <img class="mr-2" src="@/assets/images/others/eu-emblem.jpg" height="55px" />
+        <p style="font-size: 12px; line-height: 14px">
+          This work is supported by the funding from <br>
+          the European Union's Horizon 2020 research <br>
+          and innovation programme under the EJP RD <br>
+          COFUND-EJP N° 825575
+        </p>
+      </div>
+      <p class="float-right">
+        <a href="/legal-notice">
+          <b>Legal Notice</b>
+        </a>
+      </p>
+    </v-footer>
   </v-app>
 </template>
 
@@ -75,7 +167,10 @@ html, body {
 </style>
 
 <script>
+import AcceptFunctionalCookiesDialog from "@/components/dialogs/AcceptFunctionalCookiesDialog.vue";
+
 export default {
+  components: { AcceptFunctionalCookiesDialog },
   data() {
     return {
       discoverySubPages: '',
@@ -125,10 +220,15 @@ export default {
       immediate: true
     }
   },
+  computed: {
+    cookiesAccepted() {
+      return this.$store.getters["user_configs/areCookiesAccepted"]
+    }
+  },
   methods: {
-    loginWithKeycloak () {
+    handleLogin () {
       try {
-        this.$auth.loginWith('keycloak')
+        this.$router.push({ path: '/login' })
       } catch (err) {
         console.log(err)
       }
@@ -141,13 +241,5 @@ export default {
       }
     }
   },
-  created() {
-    if(this.$cookies.get('showDisclaimerNotification') !== false) {
-      this.$cookies.set('showDisclaimerNotification' , true, "1y")
-    }
-    if(this.$cookies.get('showCookiesNotification') !== false) {
-      this.$cookies.set('showCookiesNotification' , true, "1y")
-    }
-  }
 }
 </script>

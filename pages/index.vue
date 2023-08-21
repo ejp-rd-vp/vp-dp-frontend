@@ -1,247 +1,150 @@
 <script>
-import FeedBackButton from "@/components/common/FeedBackButton.vue";
+import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
+import DiscoverySearchWithAutoComplete from "@/components/search/DiscoverySearchWithAutoComplete.vue";
 
 export default {
-  components: {FeedBackButton},
-  data() {
+  components: { DiscoverySearchWithAutoComplete, DiscoverySearch },
+  data () {
     return {
-      viewHeadlineHover: false,
+      searchQuery: '',
+      colors: [
+        'indigo',
+        'warning',
+        'pink darken-2',
+        'red lighten-1',
+        'deep-purple accent-4',
+      ],
+      slides: [
+        'First',
+        'Second',
+        'Third',
+        'Fourth',
+        'Fifth',
+      ],
+      tools: [
+        {
+          icon: 'mdi-arrow-right-circle-outline',
+          buttonText: 'EXPLORE',
+          buttonColor: '#e31a46',
+          url: 'https://resourcemap.ejprarediseases.org/#/',
+          text: 'Explore Rare Disease resources with the EJP RD Mind Map'
+        },
+        {
+          icon: 'mdi-sync',
+          buttonText: 'GUIDANCE',
+          buttonColor: '#fecf00',
+          url: 'https://www.ejprarediseases.org/fairification',
+          text: 'Find out how to make your data more FAIR'
+        },
+        {
+          icon: 'mdi-gesture-double-tap',
+          buttonText: 'CONNECT',
+          buttonColor: '#3bb392',
+          url: 'https://forms.office.com/r/UrgvkD39t8',
+          text: 'Contact us for information or feedback'
+        }
+      ]
+    }
+  },
+  methods: {
+    addObjectAndForwardToDiscoveryPage(codeObject) {
+      this.$store.commit('setSelectedObject', codeObject)
+      this.$router.push({ path: '/discovery' })
     }
   }
+
 }
 </script>
+
 <template>
-  <v-container class="ma-0 pa-0" fluid fill-height>
-    <FeedBackButton />
-    <div class="hidden-md-and-up" style="background-color: #1f3863; width: 100%;">
-      <v-row>
-        <v-col>
-          <a href="https://www.ejprarediseases.org/" target="_blank">
-            <img width="300px" src="@/assets/images/logo/ejp-rd-logo-450.png">
-          </a>
+  <div>
+    <v-container>
+      <v-row class="mt-12">
+        <v-col cols="12" sm="6" style="font-size: max(1vw, 20px);">
+          <h1 class="pb-4">
+            The EJP-RD Virtual Platform
+          </h1>
+          <p>
+            The Virtual Platform (VP) is a growing <b>network</b> of Findable, Accessible, Interoperable and Reusable (FAIR) resources, ready to serve the rare disease (RD) research community.
+          </p>
+          <p>
+            It includes catalogues of resources, registries, biobanks, knowledge bases and tools compliant with agreed standards.
+          </p>
+          <p>
+            The <b>VP Portal</b> allows you to search the VP network resources at once in real time to find those of interest to your research.
+          </p>
+          <p>
+            <a href="/about" style="text-decoration: none">Learn More</a>
+          </p>
         </v-col>
-        <v-col class="flex-grow-0 mr-4 mt-3">
-          <v-menu offset-y>
-            <template v-slot:activator="{ on, attrs }">
-              <v-icon
-                dark
-                x-large
-                v-bind="attrs"
-                v-on="on"
-              >
-                mdi-view-headline
-              </v-icon>
-            </template>
-            <v-list>
-              <v-list-item-group>
-                <v-list-item href="/discovery" style="color: #3bb392;">
-                  <h5>Resource Discovery</h5>
-                </v-list-item>
-                <v-list-item href="https://www.ejprarediseases.org/fairification/" target="_blank" style="color: #e31a46;">
-                  <h5>FAIRification</h5>
-                </v-list-item>
-                <v-list-item href="https://resourcemap.ejprarediseases.org/#/" target="_blank" style="color: #fecf00;">
-                  <h5>RD Knowledge</h5>
-                </v-list-item>
-                <v-list-item href="/imprint" style="color: #44a0fc;">
-                  <h5>Imprint</h5>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-menu>
+        <v-col cols="12" sm="6">
+          <v-img :src="require('../assets/images/others/vp-parts.png')" contain height="500px" />
         </v-col>
       </v-row>
-    </div>
-    <div class="hidden-sm-and-down">
-      <a href="https://www.ejprarediseases.org/" target="_blank">
-        <img class="logo" src="@/assets/images/logo/ejp-rd-logo-450.png">
-      </a>
-      <div
-        @mouseover="viewHeadlineHover = true"
-        @mouseleave="viewHeadlineHover = false"
-      >
-        <v-icon dark class="view-headline">mdi-view-headline</v-icon>
-        <v-list v-if="viewHeadlineHover" class="view-headline-list">
-          <v-list-item-group>
-            <v-list-item href="/discovery" style="color: #3bb392;">
-              <h5>Resource Discovery</h5>
-            </v-list-item>
-            <v-list-item href="https://www.ejprarediseases.org/fairification/" target="_blank" style="color: #e31a46;">
-              <h5>FAIRification</h5>
-            </v-list-item>
-            <v-list-item href="https://resourcemap.ejprarediseases.org/#/" target="_blank" style="color: #fecf00;">
-              <h5>RD Knowledge</h5>
-            </v-list-item>
-            <v-list-item href="/imprint" style="color: #44a0fc;">
-              <h5>Imprint</h5>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </div>
-      <div class="centered-title">
-        <h2>I am looking for ...</h2>
-      </div>
-    </div>
-    <v-row class="main-row" no-gutters>
-      <v-col cols="12">
-        <a @click="$router.push({ path: '/discovery' })">
-          <div class="resources low-opacity-without-hover text-center">
-            <h1>
-              Resources
-            </h1>
-            <p>
-              Use the EJP-RD discovery ecosystem to search connected sources like
-              <span>Patient Registries, Biobanks</span> or
-              <span>Knowledge Bases</span>
-              for rare disease related data
-            </p>
-          </div>
-        </a>
-      </v-col>
-      <v-col cols="12" md="6">
-        <a href="https://www.ejprarediseases.org/fairification/" target="_blank">
-          <div class="fairification low-opacity-without-hover text-center">
-            <h1>
-              FAIRification
-            </h1>
-            <p>
-              Receive support on how to <span>make your data FAIR</span>
-            </p>
-          </div>
-        </a>
-      </v-col>
-      <v-col cols="12" md="6">
-        <a href="https://resourcemap.ejprarediseases.org/#/" target="_blank">
-          <div class="knowledge low-opacity-without-hover text-center">
-            <h1>
-              Knowledge
-            </h1>
-            <p>
-              Discover more information about rare diseases using the <span>EJP-RD Mindmap</span>
-            </p>
-          </div>
-        </a>
-      </v-col>
-    </v-row>
-  </v-container>
+      <v-row class="mt-12">
+        <v-col cols="12" style="background-color: #f3f3f3">
+          <h3>
+            Discover rare diseases resources and data:
+          </h3>
+          <DiscoverySearchWithAutoComplete
+            :reload-needed="false"
+            :hide-filters-button="true"
+            @codeObjectIsSelected="addObjectAndForwardToDiscoveryPage($event)"
+          />
+          <p>
+            <a href="/discovery">Advanced Search</a> to filter by specific criteria
+          </p>
+        </v-col>
+      </v-row>
+      <v-row class="mt-12" style="margin-bottom: 180px;">
+        <v-col cols="12">
+          <h3>
+            Tools and Resources
+          </h3>
+        </v-col>
+        <v-col class="text-center" cols="12" sm="4" v-for="tool in tools" :key="tool.buttonText">
+          <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
+            {{ tool.icon }}
+          </v-icon>
+          <v-img v-if="tool.img" class="mt-4 mb-6" style="display: inline-block;" :src="tool.img" contain max-width="200px" max-height="100px" />
+          <v-btn :href="tool.url" target="_blank" f large width="100%" :color="tool.buttonColor" class="white--text mb-2">
+            {{ tool.buttonText }}
+          </v-btn>
+          <p style="font-size: max(0.6vw, 20px);">
+            {{ tool.text }}
+          </p>
+        </v-col>
+      </v-row>
+<!--      <v-row class="mt-12">-->
+<!--        <v-col cols="12">-->
+<!--          <v-carousel-->
+<!--            cycle-->
+<!--            height="400"-->
+<!--            hide-delimiter-background-->
+<!--            show-arrows-on-hover-->
+<!--          >-->
+<!--            <v-carousel-item-->
+<!--              v-for="(slide, i) in slides"-->
+<!--              :key="i"-->
+<!--            >-->
+<!--              <v-sheet-->
+<!--                :color="colors[i]"-->
+<!--                height="100%"-->
+<!--              >-->
+<!--                <v-row-->
+<!--                  class="fill-height"-->
+<!--                  align="center"-->
+<!--                  justify="center"-->
+<!--                >-->
+<!--                  <div class="text-h2">-->
+<!--                    {{ slide }} Slide-->
+<!--                  </div>-->
+<!--                </v-row>-->
+<!--              </v-sheet>-->
+<!--            </v-carousel-item>-->
+<!--          </v-carousel>-->
+<!--        </v-col>-->
+<!--      </v-row>-->
+    </v-container>
+  </div>
 </template>
-
-<style scoped lang="scss">
-.centered-title {
-  font-size: 30px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  padding: 10px 100px;
-  color: rgb(209, 209, 209);
-  background-color: #1f3863;
-}
-
-h2 {
-  font-weight: 300;
-}
-
-a {
-  text-decoration: none !important;
-}
-
-.view-headline {
-  font-size: 80px;
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 1;
-  background-color: #1f3863;
-}
-
-.view-headline-list {
-  font-size: 25px;
-  position: absolute;
-  top: 85px;
-  right: 15px;
-  z-index: 1;
-  background-color: #1f3863;
-}
-
-.logo {
-  top: 15px;
-  padding: 5px;
-  margin-left: 15px;
-  position: absolute;
-  z-index: 1;
-  -webkit-box-shadow: 0px 0px 5px 0px #333;
-  box-shadow: 0px 0px 5px 0px #333;
-  background-color: #1f3863;
-  width: 350px;
-}
-
-h1 {
-  position: relative;
-  top: 40%;
-  -ms-transform: translateY(-40%);
-  -webkit-transform: translateY(-40%);
-  transform: translateY(-40%);
-  font-size: 50px;
-  color: #333;
-  text-align: center;
-}
-
-p {
-  position: relative;
-  top: 40%;
-  -ms-transform: translateY(-40%);
-  -webkit-transform: translateY(-40%);
-  transform: translateY(-40%);
-  margin-top: 10px;
-  font-size: 22px;
-  color: #333;
-  span {
-    color: white;
-  }
-}
-
-.low-opacity-without-hover {
-  opacity: 0.9;
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.vertical-center {
-  margin: 0;
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-
-.main-row {
-  height: 100%;
-}
-
-.knowledge {
-  height: 100%;
-  padding: 140px 50px;
-  min-height: 300px;
-  background-color: #fecf00;
-}
-
-.fairification {
-  height: 100%;
-  padding: 140px 50px;
-  min-height: 300px;
-  padding-inline: 30px;
-  background-color: #e31a46;
-}
-
-.resources {
-  height: 100%;
-  padding: 140px 50px;
-  min-height: 300px;
-  padding-inline: 30px;
-  background-color: #3bb392;
-}
-</style>

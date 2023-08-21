@@ -1,6 +1,8 @@
 <script>
 import Common from '~/assets/js/common'
+import ResourceInfoDialog from "@/components/dialogs/ResourceInfoDialog.vue";
 export default {
+  components: { ResourceInfoDialog },
   props: {
     currentOrphaCodes: { required: true, type: Array },
     searchParams: { required: true, type: Object },
@@ -9,11 +11,21 @@ export default {
   data () {
     return {
       searchResults: [],
-      loading: false
+      fetchedResources: 0,
+      loading: false,
+      resourceInfoDialog: {
+        show: false,
+        resourceInfo: null
+      }
     }
   },
   mounted() {
     this.fetchResults(this.currentOrphaCodes)
+  },
+  computed: {
+    loggedIn() {
+      return this.$auth.loggedIn
+    }
   },
   methods: {
     async fetchResults (orphaCodes) {
@@ -21,14 +33,20 @@ export default {
         return
       }
       this.loading = true
-      this.searchResults.orphaCodes = orphaCodes
+      this.fetchedResources = 0
       for (let resource of this.resources) {
+        if (!resource.queryable) {
+          this.fetchedResources += 1
+          continue
+        }
         this.searchParams.diseases = this.currentOrphaCodes
         this.searchParams.source = resource
-        this.$axios.$get(process.env.backendUrl + '/search',
+        this.$axios.$get('/queryApi/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
-            if (res) {
+            this.fetchedResources += 1
+            if (res && res.length > 0 && typeof res[0] === 'object') {
+              res[0].resourceInfo = resource
               this.searchResults = this.searchResults.concat(res)
             }
           }.bind(this))
@@ -37,41 +55,82 @@ export default {
           }.bind(this))
       }
       this.loading = false
+    },
+    handleResourceInfoDialogIconClicked (resourceInfo) {
+      this.resourceInfoDialog.resourceInfo = resourceInfo
+      this.resourceInfoDialog.show = !this.resourceInfoDialog.show
+    },
+    closeResourceInfoDialog () {
+      this.resourceInfoDialog.show = false
+    },
+    isResourceWithBeaconQuery (resourceName) {
+      const resource = this.resources.find(resource => resource.resourceName === resourceName)
+      if (resource) {
+        return resource.queryType.includes('individuals')
+      }
+      return false
     }
   }
 }
 </script>
 <template>
   <v-container class="pa-0">
+    <ResourceInfoDialog
+      v-if="resourceInfoDialog.show"
+      :resource-info="resourceInfoDialog.resourceInfo"
+      @closeResourceInfoDialog="closeResourceInfoDialog"
+    />
     <v-row no-gutters justify="center">
       <v-col cols="12">
         <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14">
+          <v-progress-linear
+            v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
+            indeterminate
+            color="blue"
+          ></v-progress-linear>
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
           >
             <v-expansion-panel-header v-if="result && result.name && result.numTotalResults" :disabled="!result || !result.content || !result.content.resourceResponses" :hide-actions="!result || !result.content || !result.content.resourceResponses" class="expansion-header" tile color="rgb(68, 160, 252)">
               <div class="eph-title">
+                <v-icon class="mr-1" @click.native.stop @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
+                  mdi-information-variant
+                </v-icon>
+                <v-tooltip
+                  v-if="!loggedIn && isResourceWithBeaconQuery(result.name)"
+                  bottom
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      v-bind="attrs"
+                      v-on="on"
+                      class="mr-1"
+                    >
+                      mdi-lock
+                    </v-icon>
+                  </template>
+                  <span>
+                    Please log in to access the filtering feature for this resource.
+                  </span>
+                </v-tooltip>
                 {{ result.name }}
               </div>
               <div class="eph-results">
                 {{ result.numTotalResults }} result(s)
               </div>
             </v-expansion-panel-header>
-            <v-expansion-panel-content v-if="result && result.content && result.content.resourceResponses" style="min-width: 100%">
+            <v-expansion-panel-content
+              v-if="result && result.content &&
+              result.content.resourceResponses"
+              style="min-width: 100%;"
+            >
               <SearchResultContent
                 :resultContent="result.content.resourceResponses"
               />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-progress-circular
-          v-if="loading"
-          class="progress-circular"
-          :size="150"
-          color="primary"
-          indeterminate
-        ></v-progress-circular>
       </v-col>
     </v-row>
   </v-container>
@@ -98,13 +157,13 @@ export default {
   text-overflow: ellipsis;
   overflow: hidden;
   max-width: 350px;
-  height: 1.2em;
+  height: 1.7em;
   white-space: nowrap;
   margin-right: 20px;
 }
 
 .expansion-header {
-  height: 40px;
+  height: 55px;
   border-radius: 0;
 }
 </style>

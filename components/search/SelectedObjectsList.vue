@@ -1,4 +1,5 @@
 <script>
+import Common from "assets/js/common";
 export default {
   props: {
     selectedCodesObjects: { required: false, default: () => [] }
@@ -10,7 +11,7 @@ export default {
     deleteSelectedObjectByIndex(itemIndex) {
       this.tags.splice(itemIndex, 1)
       this.selectedCodesObjects.splice(itemIndex, 1)
-      this.$emit('updateSelectedCodesObjects', this.selectedCodesObjects)
+      this.$emit('updateSelectedCodesObjects', Common.removeDuplicatesFromArray(this.selectedCodesObjects))
     }
   },
   watch: {
@@ -21,10 +22,12 @@ export default {
           this.tags.push(
             {
               hgncId: selectedObject.hgncId ? selectedObject.hgncId : -1,
+              hgncSymbol: selectedObject.symbol ? selectedObject.symbol : -1,
               orphaCode: selectedObject.orphaCode !== '0' ? selectedObject.orphaCode : -1
             }
           )
         }
+        this.tags = Common.removeDuplicatesFromArray(this.tags)
       },
       immediate: true
     }
@@ -51,7 +54,7 @@ export default {
               v-for="(tag, index) in tags"
               :key="index"
             >
-              {{ tag.orphaCode !== -1 ? 'orpha:' + tag.orphaCode : '' }} {{ tag.hgncId !== -1 ? 'hgnc:' + tag.hgncId : '' }}
+              {{ tag.orphaCode !== -1 ? 'orpha:' + tag.orphaCode : '' }} {{ tag.hgncId !== -1 ? 'hgnc-symbol:' + tag.hgncSymbol : '' }}
               <v-icon
                 class="ml-1"
                 @click="deleteSelectedObjectByIndex(index)"

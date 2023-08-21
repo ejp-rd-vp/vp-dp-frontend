@@ -1,10 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  env: {
-    backendUrl: process.env.BACKEND_URL_1 || 'http://localhost:3006',
-    genesAndRareDiseasesUrl: process.env.BACKEND_URL_2
-  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: 'EJP-RD Resource Discovery Portal',
@@ -25,7 +21,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/directives.js', ssr: true }
+    { src: '~/plugins/directives.js', ssr: true },
+    { src: '~/plugins/vuex-persist', ssr: false, mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,6 +49,17 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     // baseURL: '/',
+    proxy: true
+  },
+  proxy: {
+    '/genesAndRareDiseasesApi': {
+      target: process.env.BACKEND_URL_2,
+      pathRewrite: {"^/genesAndRareDiseasesApi/": ""}
+    },
+    '/queryApi': {
+      target: process.env.BACKEND_URL_1,
+      pathRewrite: {"^/queryApi/": ""}
+    }
   },
 
   auth: {
@@ -75,7 +83,7 @@ export default {
           authorization: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/auth',
           userInfo: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/userinfo',
           token: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/token',
-          logout: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/logout'
+          logout: { url: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/logout', method: 'get'}
         },
         token: {
           property: 'access_token',
@@ -87,8 +95,6 @@ export default {
           property: 'refresh_token',
           maxAge: 60 * 3
         },
-        redirectUri: undefined,
-        logoutRedirectUri: undefined,
         responseType: 'code',
         grantType: 'authorization_code',
         clientId: process.env.KEYCLOAK_CLIENT_ID,
@@ -120,6 +126,12 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     standalone: true,
-    babel: { compact: true }
+    babel: { compact: true },
+    extend (config) {
+      config.module.rules.push({
+        test: /\.md$/,
+        loader: 'raw-loader'
+      })
+    }
   }
 }
