@@ -32,7 +32,7 @@ $ yarn generate
 
 ## Used Frameworks
 
-* Package Manager: npm
+* Package Manager: yarn
 * UI: Vuetify.js
 * Nuxt Modules: Axios
 * Linting tools: ESLint, StyleLint, Commitlint
