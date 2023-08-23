@@ -1,20 +1,20 @@
-# About VP-Portal
+# About VP Portal
 
-The EJP VP-Portal allows users to discover and search a range of interconnected Rare Disease resources that together comprise the EJP Virtual Platform. These resources include biobanks, patient registries, genomics and multi-omics repositories, knowledge bases, and more. 
+The EJP VP Portal allows users to discover and search a range of interconnected Rare Disease resources that together comprise the EJP Virtual Platform. These resources include biobanks, patient registries, genomics and multi-omics repositories, knowledge bases, and more. 
 
 ## The EJP Virtual Platform
 The Virtual Platform addresses the challenge of scattered, unconnected, and incompatible resources, which pose a significant barrier to advancing treatments for and knowledge about Rare Diseases. 
 
-The Virtual Platform is a federated ecosystem in which resources are made FAIR (Findable, Accessible, Interoperable and Re-usable) using common technical standards. These allow the data held in each resource to remain at that resource, while also being discoverable and queryable through a single point such as the VP-Portal. 
+The Virtual Platform is a federated ecosystem in which resources are made FAIR (Findable, Accessible, Interoperable and Re-usable) using common technical standards. These allow the data held in each resource to remain at that resource, while also being discoverable and queryable through a single point such as the VP Portal. 
 
 Over time and dependent on the access conditions specified by individual resources, further functionality such as federated data analysis will be available through Virtual Platform. This enables the preservation of patient privacy, and ensures that the access conditions required by connected resources are respected. 
 
 ## Frequently Asked Questions (FAQs)
 
-### Why should I use the VP-Portal? 
-The VP-Portal enables researchers to discover, query, and analyse the wide range of interconnected resources of the Virtual Platform through a single entry point, reducing the need navigate multiple platforms and sources. 
+### Why should I use the VP Portal? 
+The VP Portal enables researchers to discover, query, and analyse the wide range of interconnected resources of the Virtual Platform through a single entry point, reducing the need navigate multiple platforms and sources. 
 
-The federated ecosystem of the Virtual Platform, on which the VP-Portal is built, enhances resource discoverability, accessibility, interoperability, and reusability, streamlining the research process and promoting collaboration within the RD community.
+The federated ecosystem of the Virtual Platform, on which the VP Portal is built, enhances resource discoverability, accessibility, interoperability, and reusability, streamlining the research process and promoting collaboration within the RD community.
 
 ### What resources are connected to the Virtual Platform? 
 
@@ -24,13 +24,13 @@ These are listed on the [VP Network resources page](https://vp.ejprarediseases.o
 
 ### How can I search the Virtual Platform?
 
-The VP-Portal provides a search box which lets you query the Virtual Platform. 
+The VP Portal provides a search box which lets you query the Virtual Platform. 
 
 You can search by disease name, ORPHAcode, ICD-10 code, OMIM number, gene name or symbol, or HGNC number. 
 
-### How does the VP-Portal work?
+### How does the VP Portal work?
 
-Resources connected to the Virtual Platform provide a query endpoint to their description and their content. Searching the VP-Portal sends real-time queries to the connected resources. This means that the results are up-to-date, while the data remains at the source. The VP-Portal maintains a directory of the resources’ endpoints, which is dynamically kept up to date.
+Resources connected to the Virtual Platform provide a query endpoint to their description and their content. Searching the VP Portal sends real-time queries to the connected resources. This means that the results are up-to-date, while the data remains at the source. The VP Portal maintains a directory of the resources’ endpoints, which is dynamically kept up to date.
 
 ### Why should I log in?
 
