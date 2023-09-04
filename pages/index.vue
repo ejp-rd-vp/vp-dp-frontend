@@ -1,9 +1,10 @@
 <script>
 import DiscoverySearch from "@/components/search/DiscoverySearch.vue";
 import DiscoverySearchWithAutoComplete from "@/components/search/DiscoverySearchWithAutoComplete.vue";
+import Flashcards from "~/components/Flashcards.vue";
 
 export default {
-  components: { DiscoverySearchWithAutoComplete, DiscoverySearch },
+  components: { DiscoverySearchWithAutoComplete, DiscoverySearch, Flashcards },
   data () {
     return {
       searchQuery: '',
@@ -115,6 +116,11 @@ export default {
           </p>
         </v-col>
       </v-row>
+      <v-row class="mt-6" style="margin-bottom: 180px;">
+        <v-col cols="12">
+          <Flashcards/>
+        </v-col>
+      </v-row>
 <!--      <v-row class="mt-12">-->
 <!--        <v-col cols="12">-->
 <!--          <v-carousel-->
@@ -145,6 +151,8 @@ export default {
 <!--          </v-carousel>-->
 <!--        </v-col>-->
 <!--      </v-row>-->
+
     </v-container>
   </div>
+
 </template>
