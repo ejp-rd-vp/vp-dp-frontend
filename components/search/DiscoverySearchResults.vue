@@ -134,9 +134,10 @@ export default {
         </v-expansion-panels>
 <!--        show a message when search yields no results-->
         <v-expansion-panels v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)">
-          <v-expansion-panels v-if="searchResults[0]?.numTotalResults === 0 || !searchResults[0]?.numTotalResults">
-            <Alert/>
-          </v-expansion-panels >
+          <v-expansion-panels v-if="searchResults.every(result => result?.numTotalResults === 0)">
+            <Alert />
+          </v-expansion-panels>
+
         </v-expansion-panels>
       </v-col>
     </v-row>
