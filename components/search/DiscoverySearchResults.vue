@@ -1,8 +1,9 @@
 <script>
 import Common from '~/assets/js/common'
 import ResourceInfoDialog from "@/components/dialogs/ResourceInfoDialog.vue";
+import Alert from "@/pages/discovery/Alert.vue";
 export default {
-  components: { ResourceInfoDialog },
+  components: {Alert, ResourceInfoDialog },
   props: {
     currentOrphaCodes: { required: true, type: Array },
     searchParams: { required: true, type: Object },
@@ -130,6 +131,12 @@ export default {
               />
             </v-expansion-panel-content>
           </v-expansion-panel>
+        </v-expansion-panels>
+<!--        show a message when search yields no results-->
+        <v-expansion-panels v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)">
+          <v-expansion-panels v-if="searchResults[0]?.numTotalResults === 0 || !searchResults[0]?.numTotalResults">
+            <Alert/>
+          </v-expansion-panels >
         </v-expansion-panels>
       </v-col>
     </v-row>
