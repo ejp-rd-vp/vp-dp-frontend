@@ -131,13 +131,13 @@ export default {
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-<!--        show a message when search yields no results-->
-        <div v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)">
-          <p v-if="searchResults.every(result => !result?.numTotalResults )">
-            no results found for this search.
-          </p>
-        </div>
       </v-col>
+      <!--        show a message when search yields no results-->
+      <div v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)" >
+        <p v-if="searchResults.every(result => !result?.numTotalResults )">
+          no results found for this search.
+        </p>
+      </div>
     </v-row>
   </v-container>
 </template>
