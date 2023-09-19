@@ -11,9 +11,9 @@ export default {
       selectedCodes: [],
       loadingRelatedCodes: false,
       hierarchyParams: {
-        diseases: this.currentOrphaCodes,
-        ways: ['up', 'down'],
-        levels: [1, 2]
+        orphaCode: this.currentOrphaCodes,
+        ways: ['UP', 'DOWN'],
+        numberOfLevels: 2
       }
     }
   },
@@ -23,17 +23,26 @@ export default {
   methods: {
     async fetchRelatedCodes () {
       this.loadingRelatedCodes = true
-      this.$axios.$get('/queryApi/hierarchy',
-        { params: this.hierarchyParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
-        .then(function (res) {
-          if (res) {
-            this.relatedCodes = res.filter(item => !this.currentOrphaCodes.includes(item.code))
-          }
-          this.loadingRelatedCodes = false
-        }.bind(this))
-        .catch(function (err) {
-          console.log('Unable to fetch related codes: ' + err)
-        }.bind(this))
+      this.relatedCodes = []
+      for (let orphaCode of this.currentOrphaCodes) {
+        this.hierarchyParams.orphaCode = orphaCode
+        this.$axios.$get('/api/v1/hierarchy',
+          { params: this.hierarchyParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
+          .then(function (res) {
+            if (res) {
+              res = res.map(result => {
+                result.relatedOrphaCode = orphaCode
+                return result
+              })
+              this.relatedCodes.push(...res)
+              this.relatedCodes = this.relatedCodes.filter(item => !this.currentOrphaCodes.includes(item.code))
+            }
+            this.loadingRelatedCodes = false
+          }.bind(this))
+          .catch(function (err) {
+            console.log('Unable to fetch related codes: ' + err)
+          }.bind(this))
+      }
     },
     emitCodeStatusChanged(orphaCode) {
       if(this.selectedCodes.includes(orphaCode)) {
@@ -94,7 +103,7 @@ export default {
           v-bind="attrs"
           v-on="on"
         >
-          <v-avatar v-if="relatedCode.way === 'up'">
+          <v-avatar v-if="relatedCode.way === 'UP'">
               <v-icon
                 color="green"
               >
@@ -104,7 +113,7 @@ export default {
             </v-avatar>
         </span>
               </template>
-              <span>Parent node.</span>
+              <span>Parent node of {{ relatedCode.relatedOrphaCode }}</span>
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -112,7 +121,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-avatar v-if="relatedCode.way === 'down'">
+                  <v-avatar v-if="relatedCode.way === 'DOWN'">
                       <v-icon
                         color="red"
                       >
@@ -122,7 +131,7 @@ export default {
                     </v-avatar>
                 </span>
               </template>
-              <span>Child node.</span>
+              <span>Child node of {{ relatedCode.relatedOrphaCode }}</span>
             </v-tooltip>
           </v-list-item-action>
         </v-list-item>

@@ -40,13 +40,17 @@ export default {
           continue
         }
         this.searchParams.diseases = this.currentOrphaCodes
+        this.searchParams.resourceId = resource.id
         this.searchParams.source = resource
-        this.$axios.$get('/queryApi/search',
+        if(!this.loggedIn) {
+          this.searchParams = this.discardFiltersNeedingAuthorization(this.searchParams)
+        }
+        this.$axios.$get('/api/v1/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
             this.fetchedResources += 1
-            if (res && res.length > 0 && typeof res[0] === 'object') {
-              res[0].resourceInfo = resource
+            if (res && typeof res.content === 'object') {
+              res.resourceInfo = resource
               this.searchResults = this.searchResults.concat(res)
             }
           }.bind(this))
@@ -56,6 +60,14 @@ export default {
       }
       this.loading = false
     },
+    discardFiltersNeedingAuthorization (searchParams) {
+      delete searchParams['sexes']
+      delete searchParams['ageThisYear']
+      delete searchParams['symptomOnset']
+      delete searchParams['ageAtDiagnoses']
+      delete searchParams['hierarchy']
+      return searchParams;
+    },
     handleResourceInfoDialogIconClicked (resourceInfo) {
       this.resourceInfoDialog.resourceInfo = resourceInfo
       this.resourceInfoDialog.show = !this.resourceInfoDialog.show
@@ -63,12 +75,14 @@ export default {
     closeResourceInfoDialog () {
       this.resourceInfoDialog.show = false
     },
-    isResourceWithBeaconQuery (resourceName) {
-      const resource = this.resources.find(resource => resource.resourceName === resourceName)
-      if (resource) {
-        return resource.queryType.includes('individuals')
+    isBeaconIndividualsResponse (resourceInfo) {
+      if (resourceInfo) {
+        return resourceInfo.queryType.includes('BEACON_INDIVIDUALS')
       }
       return false
+    },
+    resourceHasResponseToBeListed (result) {
+      return !result || !result.content || !result.content.response || !result.content.response.resultSets[0].results;
     }
   }
 }
@@ -92,13 +106,21 @@ export default {
             v-for="(result,i) in searchResults"
             :key="i"
           >
-            <v-expansion-panel-header v-if="result && result.name && result.numTotalResults" :disabled="!result || !result.content || !result.content.resourceResponses" :hide-actions="!result || !result.content || !result.content.resourceResponses" class="expansion-header" tile color="rgb(68, 160, 252)">
+            <v-expansion-panel-header
+              v-if="result && result.resourceName &&
+              result.content && result.content.responseSummary &&
+              result.content.responseSummary.numTotalResults"
+              :disabled="resourceHasResponseToBeListed(result)"
+              :hide-actions="resourceHasResponseToBeListed(result)"
+              class="expansion-header" tile color="rgb(68, 160, 252)"
+            >
               <div class="eph-title">
-                <v-icon class="mr-1" @click.native.stop @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
+                <v-icon class="mr-1" @click.native.stop
+                        @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
                   mdi-information-variant
                 </v-icon>
                 <v-tooltip
-                  v-if="!loggedIn && isResourceWithBeaconQuery(result.name)"
+                  v-if="!loggedIn && isBeaconIndividualsResponse(result.resourceInfo)"
                   bottom
                 >
                   <template v-slot:activator="{ on, attrs }">
@@ -114,27 +136,26 @@ export default {
                     Please log in to access the filtering feature for this resource.
                   </span>
                 </v-tooltip>
-                {{ result.name }}
+                {{ result.resourceName }}
               </div>
               <div class="eph-results">
-                {{ result.numTotalResults }} result(s)
+                {{ result.content.responseSummary.numTotalResults }} result(s)
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content
               v-if="result && result.content &&
-              result.content.resourceResponses"
+              result.content.response"
               style="min-width: 100%;"
             >
               <SearchResultContent
-                :resultContent="result.content.resourceResponses"
+                :resultContent="result.content.response.resultSets[0].results"
               />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-col>
-      <!--        show a message when search yields no results-->
       <div v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)" >
-        <p v-if="searchResults.every(result => !result?.numTotalResults )">
+        <p v-if="searchResults.every(result => !result?.content.responseSummary.numTotalResults )">
           no results found for this search.
         </p>
       </div>
