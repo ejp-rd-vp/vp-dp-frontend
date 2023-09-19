@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       searchParams: {
-        types: [],
+        resourceTypes: [],
         countries: [],
         genders: [],
         ageThisYear: [0,100],
@@ -28,21 +28,21 @@ export default {
         min: 0,
         max: 100
       },
-      sex: [
+      sexes: [
         {
-          type: 'Female',
+          type: 'FEMALE',
           checked: true
         },
         {
-          type: 'Male',
+          type: 'MALE',
           checked: true
         },
         {
-          type: 'Undetermined',
+          type: 'UNDETERMINED',
           checked: true
         },
         {
-          type: 'Unknown',
+          type: 'UNKNOWN',
           checked: true
         }
       ]
@@ -72,15 +72,15 @@ export default {
       deep: true,
       immediate: true
     },
-    sex: {
+    sexes: {
       handler () {
-        let genders = []
-        for (let gender of this.sex) {
-          if (gender.checked) {
-            genders.push(gender.type.toLowerCase())
+        let checkedSexes = []
+        for (let sex of this.sexes) {
+          if (sex.checked) {
+            checkedSexes.push(sex.type)
           }
         }
-        this.searchParams.genders = genders
+        this.searchParams.sexes = checkedSexes
       },
       deep: true,
       immediate: true
@@ -90,16 +90,16 @@ export default {
         let newTypes = []
         for (let type of this.value1) {
           if (type.toLowerCase() === 'patient registries') {
-            newTypes.push('PatientRegistryDataset')
+            newTypes.push('PATIENT_REGISTRY')
           }
           if (type.toLowerCase() === 'biobanks') {
-            newTypes.push('BiobankDataset')
+            newTypes.push('BIO_BANK')
           }
           if (type.toLowerCase() === 'knowledge bases') {
-            newTypes.push('KnowledgeDataset')
+            newTypes.push('KNOWLEDGE_BASE')
           }
         }
-        this.searchParams.types = newTypes
+        this.searchParams.resourceTypes = newTypes
       },
       deep: true,
       immediate: true
@@ -226,7 +226,7 @@ export default {
                 Sex
               </p>
               <v-row style="margin-top: -30px;">
-                <v-col v-for="s in sex" :key="sex.type">
+                <v-col v-for="s in sexes" :key="sexes.type">
                   <v-checkbox
                     v-model="s.checked"
                     :label="s.type"

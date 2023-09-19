@@ -24,13 +24,13 @@ export default {
       selectedCodesObjects: [],
       resources: [],
       searchParams: {
-        types: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
+        resourceTypes: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
         countries: ['DE', 'NL'],
-        genders: ['male', 'female', 'undetermined', 'unknown'],
+        sexes: ['MALE', 'FEMALE', 'UNDETERMINED', 'UNKNOWN'],
         ageThisYear: [20,39],
         symptomOnset: [20,39],
         ageAtDiagnoses: [20,39],
-        hierarchy: ['up']
+        hierarchy: ['UP']
       }
     }
   },
@@ -77,7 +77,7 @@ export default {
       this.currentOrphaCodes = [...this.selectedOrphaCodes]
     },
     async fetchResources () {
-      await this.$axios.$get('/queryApi/resources')
+      await this.$axios.$get('/api/v1/resources')
         .then(function (res) {
           if (res) {
             this.resources = res
@@ -89,7 +89,7 @@ export default {
     },
     async getAssociatedOrphaCodesForHgncId(hgncId) {
       let orphaCodes = []
-      await this.$axios.$get("/genesAndRareDiseasesApi/v1/genes/" + hgncId + "/mapping")
+      await this.$axios.$get("/api/v1/genes/" + hgncId + "/mapping")
         .then(function(res) {
           orphaCodes = res.orphaCodes
         })

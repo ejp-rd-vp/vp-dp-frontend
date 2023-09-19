@@ -11,13 +11,13 @@ export default {
   data () {
     return {
       searchParams: {
-        types: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
+        resourceTypes: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
         countries: ['DE', 'NL'],
-        genders: ['male', 'female', 'undetermined', 'unknown'],
+        sexes: ['MALE', 'FEMALE', 'UNDETERMINED', 'UNKNOWN'],
         ageThisYear: [20,39],
         symptomOnset: [20,39],
         ageAtDiagnoses: [20,39],
-        hierarchy: ['up']
+        hierarchy: ['UP']
       },
       showSearchFilters: false,
       searchQuery: '',

@@ -142,7 +142,7 @@ export default {
   },
   methods: {
     async fetchSources () {
-      await this.$axios.$get('/queryApi/resources')
+      await this.$axios.$get('/api/v1/resources')
         .then(function (res) {
           this.sources = res
         }.bind(this))
