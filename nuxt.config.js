@@ -74,10 +74,9 @@ export default {
       keycloak: {
         scheme: 'oauth2',
         endpoints: {
-          authorization: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/auth',
-          userInfo: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/userinfo',
-          token: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/token',
-          logout: { url: process.env.KEYCLOAK_URL + '/realms/' + process.env.KEYCLOAK_REALM + '/protocol/openid-connect/logout', method: 'get'}
+          authorization: process.env.SSO_AUTH_URL,
+          userInfo: process.env.SSO_USER_INFO_URL,
+          token: process.env.SSO_TOKEN_URL
         },
         token: {
           property: 'access_token',
@@ -91,7 +90,7 @@ export default {
         },
         responseType: 'code',
         grantType: 'authorization_code',
-        clientId: process.env.KEYCLOAK_CLIENT_ID,
+        clientId: process.env.SSO_CLIENT_ID,
         scope: ['openid', 'profile', 'email'],
         codeChallengeMethod: 'S256'
       }
