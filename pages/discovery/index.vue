@@ -77,7 +77,7 @@ export default {
       this.currentOrphaCodes = [...this.selectedOrphaCodes]
     },
     async fetchResources () {
-      await this.$axios.$get('/v1/resources')
+      await this.$axios.$get('/api/v1/resources')
         .then(function (res) {
           if (res) {
             this.resources = res
@@ -89,7 +89,7 @@ export default {
     },
     async getAssociatedOrphaCodesForHgncId(hgncId) {
       let orphaCodes = []
-      await this.$axios.$get("/v1/mapping/gene" + hgncId)
+      await this.$axios.$get("/api/v1/genes/" + hgncId + "/mapping")
         .then(function(res) {
           orphaCodes = res.orphaCodes
         })
