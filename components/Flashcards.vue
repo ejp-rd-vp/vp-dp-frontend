@@ -36,7 +36,7 @@ export default {
 
 <template>
   <div class="flashcards-h2">
-    <v-carousel hide-delimiter-background cycle>
+    <v-carousel hide-delimiter-background cycle show-arrows-on-hover>
       <v-carousel-item v-for="(item, i) in items" :key="i">
         <div class="flashcard-image-container">
           <img :src="item.src" alt="Flashcard" class="flashcard-image" />
@@ -61,6 +61,13 @@ export default {
 }
 
 .v-carousel-item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flashcard-image-container {
   width: 100%;
   height: 100%;
   display: flex;
