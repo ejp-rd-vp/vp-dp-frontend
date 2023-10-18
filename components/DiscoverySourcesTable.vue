@@ -28,7 +28,7 @@
               height="150px"
             >
               <v-row justify="end">
-                <v-col v-if="source.resourceType.length > 1" class="flex-grow-0">
+                <v-col v-if="source.resourceType.includes('CATALOG')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -43,7 +43,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-else-if="source.resourceType.includes('patientRegistry')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('PATIENT_REGISTRY')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -58,7 +58,7 @@
                     <span>The source is a registry or a network of registries.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-else-if="source.resourceType.includes('knowledgeBase')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('DATASET')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -67,7 +67,37 @@
                         v-bind="attrs"
                         v-on="on"
                       >
-                        mdi-lightbulb-on-outline
+                        mdi-database-search-outline
+                      </v-icon>
+                    </template>
+                    <span>This source hold knowledge on rare diseases.</span>
+                  </v-tooltip>
+                </v-col>
+                <v-col v-else-if="source.resourceType.includes('GUIDELINE')" class="flex-grow-0">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        :color="'yellow'"
+                        large
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-book-check-outline
+                      </v-icon>
+                    </template>
+                    <span>This source hold knowledge on rare diseases.</span>
+                  </v-tooltip>
+                </v-col>
+                <v-col v-else-if="source.resourceType.includes('BIO_BANK')" class="flex-grow-0">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-icon
+                        :color="'blue'"
+                        large
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        mdi-test-tube
                       </v-icon>
                     </template>
                     <span>This source hold knowledge on rare diseases.</span>
