@@ -1,4 +1,4 @@
-<template>
+   <template>
   <v-container>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" v-for="(source, index) in sources" :key="index">
