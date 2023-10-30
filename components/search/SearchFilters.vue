@@ -12,8 +12,8 @@ export default {
         symptomOnset: [0,100],
         ageAtDiagnoses: [0,100],
       },
-      items1: ['Patient Registries', 'Biobanks', 'Dataset', 'Guidelines', 'Catalog'],
-      value1: ['Patient Registries', 'Biobanks', 'Dataset', 'Guidelines', 'Catalog'],
+      items1: ['Patient Registries', 'Biobanks', 'Dataset','Catalog', 'Guidelines' ],
+      value1: ['Patient Registries', 'Biobanks', 'Dataset','Catalog', 'Guidelines'],
       items2: Countries.euCountriesNames(),
       value2: Countries.euCountriesNames(),
       symptomOnset: {
@@ -98,12 +98,13 @@ export default {
           if (type.toLowerCase() === 'Dataset') {
             newTypes.push('DATASET')
           }
-          if (type.toLowerCase() === 'Guidelines') {
-            newTypes.push('GUIDELINES')
-          }
           if (type.toLowerCase() === 'Catalog') {
             newTypes.push('CATALOG')
           }
+          if (type.toLowerCase() === 'Guidelines') {
+            newTypes.push('GUIDELINES')
+          }
+
         }
         this.searchParams.resourceTypes = newTypes
       },
