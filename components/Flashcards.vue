@@ -39,7 +39,7 @@ export default {
     <v-carousel hide-delimiter-background cycle show-arrows-on-hover>
       <v-carousel-item v-for="(item, i) in items" :key="i">
         <div class="flashcard-image-container">
-          <img :src="item.src" alt="Flashcard" class="flashcard-image" />
+          <v-img :src="item.src" alt="Flashcard" contain class="flashcard-image" />
         </div>
       </v-carousel-item>
     </v-carousel>
