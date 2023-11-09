@@ -75,8 +75,8 @@ export default {
   align-items: center;
 }
 .flashcard-image {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
   object-fit: cover; /* This ensures the image covers the entire space */
 }
 </style>
