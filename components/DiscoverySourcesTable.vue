@@ -100,7 +100,7 @@
                         mdi-test-tube
                       </v-icon>
                     </template>
-                    <span>This source contains biological samples</span>
+                    <span>This source contains biological samples.</span>
                   </v-tooltip>
                 </v-col>
                 <v-col v-if="source.queryable" class="flex-grow-0">
