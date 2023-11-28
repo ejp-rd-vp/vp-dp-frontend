@@ -28,7 +28,7 @@
               height="150px"
             >
               <v-row justify="end">
-                <v-col v-if="source.resourceType.includes('CATALOG')" class="flex-grow-0">
+                <v-col v-if="source.resourceType.length > 1 || source.resourceType.includes('CATALOG')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
