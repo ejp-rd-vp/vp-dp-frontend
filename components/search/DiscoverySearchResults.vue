@@ -103,7 +103,7 @@ export default {
     <v-row no-gutters justify="center">
       <v-col cols="12">
         <div>
-          <h4 v-if="!(searchResults.every(result => !result?.content.responseSummary.numTotalResults ))">
+          <h4 v-if="!(searchResults.every(result => !result?.content?.responseSummary?.numTotalResults ))">
             Resource Level Results
           </h4>
         </div>
@@ -121,9 +121,9 @@ export default {
             v-if="!loggedIn && isBeaconCatalogsResponse(result.resourceInfo)"
           >
             <v-expansion-panel-header
-              v-if="result && result.resourceName &&
-              result.content && result.content.responseSummary &&
-              result.content.responseSummary.numTotalResults"
+              v-if="result && result?.resourceName &&
+              result?.content && result?.content?.responseSummary &&
+              result?.content?.responseSummary?.numTotalResults"
               :disabled="resourceHasResponseToBeListed(result)"
               :hide-actions="resourceHasResponseToBeListed(result)"
               class="expansion-header" tile color="rgb(68, 160, 252)"
@@ -152,7 +152,7 @@ export default {
         </v-expansion-panels>
 
         <div>
-          <h4 v-if="!(searchResults.every(result => !result?.content.responseSummary.numTotalResults ))">Record Level Results</h4>
+          <h4 v-if="!(searchResults.every(result => !result?.content?.responseSummary?.numTotalResults))">Record Level Results</h4>
         </div>
 
         <v-expansion-panels
@@ -173,9 +173,9 @@ export default {
 
           >
             <v-expansion-panel-header
-              v-if="result && result.resourceName &&
-              result.content && result.content.responseSummary &&
-              result.content.responseSummary.numTotalResults"
+              v-if="result && result?.resourceName &&
+              result?.content && result?.content?.responseSummary &&
+              result?.content?.responseSummary?.numTotalResults"
               :disabled="resourceHasResponseToBeListed(result)"
               :hide-actions="resourceHasResponseToBeListed(result)"
               class="expansion-header" tile color="rgb(68, 160, 252)"
@@ -214,13 +214,13 @@ export default {
 
       </v-col>
       <div v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)" >
-        <p v-if="searchResults.every(result => !result?.content.responseSummary.numTotalResults )">
+        <p v-if="searchResults.every(result => !result?.content?.responseSummary?.numTotalResults )">
           no results found for this search.
         </p>
       </div>
-
     </v-row>
   </v-container>
+
 </template>
 
 <style scoped lang="scss">
