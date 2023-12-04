@@ -103,16 +103,16 @@ export default {
     <v-row no-gutters justify="center">
       <v-col cols="12">
         <div>
-          <h4 v-if="!(searchResults.every(result => !result?.content.responseSummary.numTotalResults )) ">
+          <h4 v-if="!(searchResults.every(result => !result?.content.responseSummary.numTotalResults ))">
             Resource Level Results
           </h4>
         </div>
-
-        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14" style="border: none">
+        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14" flat>
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
             indeterminate
             color="blue"
+
           ></v-progress-linear>
 
           <v-expansion-panel
@@ -142,7 +142,7 @@ export default {
             <v-expansion-panel-content
               v-if="result && result.content &&
               result.content.response"
-              style="min-width: 100%;"
+              style="min-width: 100%"
             >
               <SearchResultContent
                 :resultContent="result.content.response.resultSets[0].results"
@@ -158,7 +158,7 @@ export default {
         <v-expansion-panels
           v-if="searchResults.length > 0 && !loading"
           class="mb-14"
-          style="border: none"
+          flat
         >
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
@@ -211,12 +211,14 @@ export default {
             </v-expansion-panel-header>
           </v-expansion-panel>
         </v-expansion-panels>
+
       </v-col>
       <div v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)" >
         <p v-if="searchResults.every(result => !result?.content.responseSummary.numTotalResults )">
           no results found for this search.
         </p>
       </div>
+
     </v-row>
   </v-container>
 </template>
