@@ -102,14 +102,13 @@ export default {
     />
     <v-row no-gutters justify="center">
       <v-col cols="12">
-
         <div>
           <h4 v-if="!(searchResults.every(result => !result?.content.responseSummary.numTotalResults )) ">
             Resource Level Results
           </h4>
         </div>
 
-        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14">
+        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14" style="border: none">
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
             indeterminate
@@ -159,6 +158,7 @@ export default {
         <v-expansion-panels
           v-if="searchResults.length > 0 && !loading"
           class="mb-14"
+          style="border: none"
         >
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
@@ -170,6 +170,7 @@ export default {
             v-for="(result,i) in searchResults"
             :key="i"
             v-if="isBeaconIndividualsResponse(result.resourceInfo)"
+
           >
             <v-expansion-panel-header
               v-if="result && result.resourceName &&
