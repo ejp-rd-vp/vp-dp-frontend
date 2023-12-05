@@ -81,6 +81,12 @@ export default {
       }
       return false
     },
+    isBeaconCatalogsResponse (resourceInfo) {
+      if (resourceInfo) {
+        return resourceInfo.queryType.includes('BEACON_CATALOG')
+      }
+      return false
+    },
     resourceHasResponseToBeListed (result) {
       return !result || !result.content || !result.content.response || !result.content.response.resultSets[0].results;
     }
@@ -96,20 +102,28 @@ export default {
     />
     <v-row no-gutters justify="center">
       <v-col cols="12">
-        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14">
+        <div>
+          <h4 v-if="!(searchResults.every(result => !result?.content?.responseSummary?.numTotalResults ))">
+            Resource Level Results
+          </h4>
+        </div>
+        <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14" flat>
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
             indeterminate
             color="blue"
+
           ></v-progress-linear>
+
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
+            v-if="!loggedIn && isBeaconCatalogsResponse(result.resourceInfo)"
           >
             <v-expansion-panel-header
-              v-if="result && result.resourceName &&
-              result.content && result.content.responseSummary &&
-              result.content.responseSummary.numTotalResults"
+              v-if="result && result?.resourceName &&
+              result?.content && result?.content?.responseSummary &&
+              result?.content?.responseSummary?.numTotalResults"
               :disabled="resourceHasResponseToBeListed(result)"
               :hide-actions="resourceHasResponseToBeListed(result)"
               class="expansion-header" tile color="rgb(68, 160, 252)"
@@ -119,23 +133,6 @@ export default {
                         @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
                   mdi-information-variant
                 </v-icon>
-                <v-tooltip
-                  v-if="!loggedIn && isBeaconIndividualsResponse(result.resourceInfo)"
-                  bottom
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-icon
-                      v-bind="attrs"
-                      v-on="on"
-                      class="mr-1"
-                    >
-                      mdi-lock
-                    </v-icon>
-                  </template>
-                  <span>
-                    Please log in to access the filtering feature for this resource.
-                  </span>
-                </v-tooltip>
                 {{ result.resourceName }}
               </div>
               <div class="eph-results">
@@ -145,7 +142,7 @@ export default {
             <v-expansion-panel-content
               v-if="result && result.content &&
               result.content.response"
-              style="min-width: 100%;"
+              style="min-width: 100%"
             >
               <SearchResultContent
                 :resultContent="result.content.response.resultSets[0].results"
@@ -153,14 +150,77 @@ export default {
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+
+        <div>
+          <h4 v-if="!(searchResults.every(result => !result?.content?.responseSummary?.numTotalResults))">Record Level Results</h4>
+        </div>
+
+        <v-expansion-panels
+          v-if="searchResults.length > 0 && !loading"
+          class="mb-14"
+          flat
+        >
+          <v-progress-linear
+            v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
+            indeterminate
+            color="blue"
+          ></v-progress-linear>
+
+          <v-expansion-panel
+            v-for="(result,i) in searchResults"
+            :key="i"
+            v-if="isBeaconIndividualsResponse(result.resourceInfo)"
+
+          >
+            <v-expansion-panel-header
+              v-if="result && result?.resourceName &&
+              result?.content && result?.content?.responseSummary &&
+              result?.content?.responseSummary?.numTotalResults"
+              :disabled="resourceHasResponseToBeListed(result)"
+              :hide-actions="resourceHasResponseToBeListed(result)"
+              class="expansion-header" tile color="rgb(68, 160, 252)"
+            >
+              <div class="eph-title">
+                <v-icon class="mr-1" @click.native.stop
+                        @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
+                  mdi-information-variant
+                </v-icon>
+
+                {{ result.resourceName }}
+              </div>
+              <div class="eph-results">
+                {{ result.content.responseSummary.numTotalResults }} result(s)
+              </div>
+              <v-tooltip
+                v-if="!loggedIn"
+                bottom
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    v-bind="attrs"
+                    v-on="on"
+                    class="mr-1"
+                  >
+                    mdi-lock
+                  </v-icon>
+                </template>
+                <span>
+                    Contact the Resource to access more information
+                  </span>
+              </v-tooltip>
+            </v-expansion-panel-header>
+          </v-expansion-panel>
+        </v-expansion-panels>
+
       </v-col>
       <div v-if="!(fetchedResources !== 0 && fetchedResources !== resources.length)" >
-        <p v-if="searchResults.every(result => !result?.content.responseSummary.numTotalResults )">
+        <p v-if="searchResults.every(result => !result?.content?.responseSummary?.numTotalResults )">
           no results found for this search.
         </p>
       </div>
     </v-row>
   </v-container>
+
 </template>
 
 <style scoped lang="scss">
