@@ -118,7 +118,7 @@ export default {
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
-            v-if="!loggedIn && isBeaconCatalogsResponse(result.resourceInfo)"
+            v-if="isBeaconCatalogsResponse(result.resourceInfo)"
           >
             <v-expansion-panel-header
               v-if="result && result?.resourceName &&
