@@ -6,7 +6,7 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
-                <v-tooltip bottom>
+                <v-tooltip v-if="source.queryable" bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       small
@@ -40,7 +40,7 @@
                         mdi-notebook-multiple
                       </v-icon>
                     </template>
-                    <span>The source is a registry or a network of registries.</span>
+                    <span> Catalogue of resources</span>
                   </v-tooltip>
                 </v-col>
                 <v-col v-else-if="source.resourceType.includes('PATIENT_REGISTRY')" class="flex-grow-0">
@@ -55,10 +55,10 @@
                         mdi-clipboard-text-search-outline
                       </v-icon>
                     </template>
-                    <span>The source is a patient information register.</span>
+                    <span>Patient data register</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-else-if="source.resourceType.includes('DATASET')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('KNOWLEDGE_BASE')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -70,7 +70,7 @@
                         mdi-database-search-outline
                       </v-icon>
                     </template>
-                    <span>This source hold knowledge on rare diseases.</span>
+                    <span>Data and services for research</span>
                   </v-tooltip>
                 </v-col>
                 <v-col v-else-if="source.resourceType.includes('GUIDELINE')" class="flex-grow-0">
@@ -85,7 +85,7 @@
                         mdi-book-check-outline
                       </v-icon>
                     </template>
-                    <span>This source contains recommendations or instructions.</span>
+                    <span>Collection of guidelines</span>
                   </v-tooltip>
                 </v-col>
                 <v-col v-else-if="source.resourceType.includes('BIO_BANK')" class="flex-grow-0">
@@ -100,7 +100,7 @@
                         mdi-test-tube
                       </v-icon>
                     </template>
-                    <span>This source contains biological samples.</span>
+                    <span>Biosamples repository</span>
                   </v-tooltip>
                 </v-col>
                 <v-col v-if="source.queryable" class="flex-grow-0">
