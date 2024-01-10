@@ -59,7 +59,6 @@ export default {
     margin: 0.5rem;
   }
 }
-
 .v-carousel-item {
   width: 100%;
   height: 100%;

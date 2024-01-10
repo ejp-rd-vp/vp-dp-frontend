@@ -141,7 +141,6 @@ v-avatar {
   margin: 0 10px;
   height: 20px;
 }
-
 .low-opacity-without-hover {
   opacity: 0.9;
   &:hover {
