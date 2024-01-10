@@ -3,7 +3,9 @@
     <AcceptFunctionalCookiesDialog v-if="!cookiesAccepted" />
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
+        <a href="https://vp.ejprarediseases.org/">
         <img src="@/assets/images/logo/VP-PORTAL.png">
+        </a>
       </v-toolbar-title>
       <v-spacer />
       <v-btn-toggle
