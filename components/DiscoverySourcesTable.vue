@@ -1,4 +1,4 @@
-   <template>
+<template>
   <v-container>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" v-for="(source, index) in sources" :key="index">
@@ -6,7 +6,7 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
-                <v-tooltip bottom>
+                <v-tooltip v-if="source.queryable" bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       small
@@ -28,6 +28,23 @@
               height="150px"
             >
               <v-row justify="end">
+                <v-col v-if="source.queryable" class="flex-grow-0">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-chip
+                        class="mr-3"
+                        color="lightblue"
+                        label
+                        outlined
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        VpContentDiscovery
+                      </v-chip>
+                    </template>
+                    <span>The source is queryable via the VP Portal.</span>
+                  </v-tooltip>
+                </v-col>
                 <v-col v-if="source.resourceType.length > 1 || source.resourceType.includes('CATALOG')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
@@ -58,7 +75,7 @@
                     <span>The source is a patient information register.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-else-if="source.resourceType.includes('DATASET')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('KNOWLEDGE_BASE')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -103,23 +120,6 @@
                     <span>This source contains biological samples.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.queryable" class="flex-grow-0">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-chip
-                        class="mr-3"
-                        color="lightblue"
-                        label
-                        outlined
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        VpContentDiscovery
-                      </v-chip>
-                    </template>
-                    <span>The source is queryable via the VP Portal.</span>
-                  </v-tooltip>
-                </v-col>
               </v-row>
             </v-list-item-avatar>
           </v-list-item>
@@ -141,7 +141,6 @@ v-avatar {
   margin: 0 10px;
   height: 20px;
 }
-
 .low-opacity-without-hover {
   opacity: 0.9;
   &:hover {
@@ -171,6 +170,11 @@ export default {
     }
   },
   methods: {
+    checkavailaibilityofresource() {
+      if (source.queryable) {
+
+      }
+    },
     async fetchSources () {
       await this.$axios.$get('/api/v1/resources')
         .then(function (res) {
