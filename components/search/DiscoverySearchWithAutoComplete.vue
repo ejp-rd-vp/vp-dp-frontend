@@ -11,7 +11,7 @@ export default {
   data () {
     return {
       searchParams: {
-        resourceTypes: ['KnowledgeDataset', 'PatientRegistryDataset', 'BiobankDataset'],
+        resourceTypes: ['PatientRegistryDataset', 'BiobankDataset', 'Dataset', 'Catalog', 'Guideline'],
         countries: ['DE', 'NL'],
         sexes: ['MALE', 'FEMALE', 'UNDETERMINED', 'UNKNOWN'],
         ageThisYear: [20,39],
