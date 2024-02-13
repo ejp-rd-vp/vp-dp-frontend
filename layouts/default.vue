@@ -24,6 +24,9 @@
         <v-btn x-large text value="sources">
           VP Network Resources
         </v-btn>
+        <v-btn x-large text href="/releasenote">
+          Whats New!
+        </v-btn>
       </v-btn-toggle>
       <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="handleLogin" x-large text>
         <v-icon>
