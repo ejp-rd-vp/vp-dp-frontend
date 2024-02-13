@@ -3,28 +3,18 @@
 This is a release note to inform you about current changes
 ## v1.5.0
 
-### VP Network
-- release of ...
-- release of...
+### Login with AAI
+- Logging now directly via AAI, bypassing keycloak authentication.
+
+### Alignment with updated VP components
+- Beacon API
+- Metadata schema 
 
 ### VP Portal frontend
-- feature 1
-- feature 2
+- Flashcards: Access to flashcards in EJP Landing Page.
+- Results list redesign: The results list has been redesigned to make it easier for non-specialist users to understand. It now separates resource level results from record level results.
 
-### VP Portal backend
-- feature 3
-- feature 4
+### VP Portal backend: Monitoring Feature + Test
+- Monitoring Service Backend: A monitoring service has been added to check resource availability.
+- Test implementation: We've implemented unit and integration tests for the Notification Service, Resource Service, Mapping Service and Monitoring Service to ensure correct functionality and to catch any regressions.
 
-## v1.0.0
-
-### VP Network
-- release of ...
-- release of...
-
-### VP Portal frontend
-- feature 5
-- feature 6
-
-### VP Portal backend
-- feature 7
-- feature 8
