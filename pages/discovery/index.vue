@@ -89,7 +89,7 @@ export default {
     },
     async getAssociatedOrphaCodesForHgncId(hgncId) {
       let orphaCodes = []
-      await this.$axios.$get("/api/v1/genes/" + hgncId + "/mapping")
+      await this.$axios.$get("/api/v1/mapping/gene/" + hgncId)
         .then(function(res) {
           orphaCodes = res.orphaCodes
         })
@@ -122,7 +122,7 @@ export default {
       async handler() {
         let orphaCodes = []
         for (let i = 0; i < this.selectedCodesObjects.length; i++) {
-          if (this.selectedCodesObjects[i].orphaCode !== '0') {
+          if (this.selectedCodesObjects[i].orphaCode !== '0' && this.selectedCodesObjects[i].orphaCode !== undefined) {
             orphaCodes.push(this.selectedCodesObjects[i].orphaCode)
           } else {
             const associatedOrphaCodes = await this.getAssociatedOrphaCodesForHgncId(this.selectedCodesObjects[i].hgncId)
