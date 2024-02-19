@@ -6,7 +6,18 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
-                <v-tooltip v-if="source.queryable" bottom>
+                <v-tooltip v-if="availabilityResults[source.id]?.numberOfSuccessfulResponses <= 0 && availabilityResults[source.id]?.numberOfTests <= 0" bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      color="red"
+                      v-bind="attrs"
+                      v-on="on"
+                    >mdi-connection</v-icon>
+                  </template>
+                  <span>The source is actively not connected to the VP.</span>
+                </v-tooltip>
+                <v-tooltip v-else bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       small
@@ -166,24 +177,48 @@ export default {
         'Genturis': require('../assets/images/logo/resources/Genturis.png'),
         'DDP': require('../assets/images/logo/resources/img_1.png'),
       },
-      sources: []
+      sources: [],
+      period: 3,
+      availabilityResults:{},
+
     }
   },
   methods: {
-    checkavailaibilityofresource() {
-      if (source.queryable) {
-
+    async fetchSources() {
+      try {
+        this.sources = await this.$axios.$get('/api/v1/resources');
+      } catch (error) {
+        console.error(error);
+        throw error;
       }
     },
-    async fetchSources () {
-      await this.$axios.$get('/api/v1/resources')
-        .then(function (res) {
-          this.sources = res
-        }.bind(this))
+    async checkAllAvailabilities() {
+      try {
+        const promises = this.sources.map(source => this.availability(source.id, 3));
+        const results = await Promise.all(promises);
+        this.availabilityResults = results.reduce((acc, result, index) => {
+          acc[this.sources[index].id] = result;
+          return acc;
+        }, {});
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    async availability(resourceId, period) {
+      try {
+        const res = await this.$axios.$get(`/api/v1/monitoring?resourceId=${resourceId}&periodInDays=${period}`);
+        return res;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
   },
   beforeMount() {
     this.fetchSources()
+      .then(() => this.checkAllAvailabilities());
   }
+
 }
 </script>
