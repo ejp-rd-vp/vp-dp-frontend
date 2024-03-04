@@ -1,17 +1,14 @@
 # Release Note of the VP Portal
 
 This is a release note to inform you about current changes
-## v1.6.0 - xx.03.2024
 
-Coming soon
-<br><hr>
 
 ## v1.5.0 - 28.02.2024
 
  </p>
 
 ### Login only via AAI
-Login is now only via AAI and the bypass via local Keycloak authentication as a temporary solution has been removed. </p>
+Login is now only via AAI ([Elixir Authentication and Authorisation Infrastructur](https://elixir-europe.org/platforms/compute/aai)) and the bypass via local Keycloak authentication as a temporary solution has been removed. </p>
 
 ### Technical Alignment with other VP components
 Check out the adjustment of the resource types, due to changes in the [metadata schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The changes are visible in the list of resources as well as in the filter criteria options.
@@ -26,12 +23,7 @@ We are constantly working on improving the design and as part of this, minor cha
 The stability of the VP Portal was improved through automated test implementation (JUnit tests as well as integration tests), which ensures correct functionality and to catch any regressions.
 Additionally, a monitoring service has been developed to check resource availability. This functionality will be developed further to make it also visible in the VP Portal User Interface.
 
-### Onboarding service
-the onboarding service is working intensively on supporting resources to connect to the VP Network and also improve the visibility via the VP Portal.
 
-The onboarding of x resources at level 1 and x resources at level 2 is currently being supported and tested.</p>
-<br><hr>
-
-## v1.0.0 - 30.07.2023 </p>
+## v1.0.0 - 14.08.2023 </p>
 
 **We are pleased to announce the first official release of the VP portal!**
