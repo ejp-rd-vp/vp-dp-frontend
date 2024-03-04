@@ -157,15 +157,15 @@ export default {
   data () {
     return {
       logos: {
-        'ERKReg': require('../assets/images/logo/resources/erkreg-logo.png'),
-        'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
-        'Orphanet': require('../assets/images/logo/resources/img_4.png'),
-        'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
+        // 'ERKReg': require('../assets/images/logo/resources/erkreg-logo.png'),
+        // 'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
+        // 'Orphanet': require('../assets/images/logo/resources/img_4.png'),
+        // 'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
         'WikiPathways': require('../assets/images/logo/resources/img_5.png'),
-        'hPSCreg': require('../assets/images/logo/resources/img_3.png'),
-        'EuRRECa': require('../assets/images/logo/resources/eurreca-logo.png'),
-        'Genturis': require('../assets/images/logo/resources/Genturis.png'),
-        'DDP': require('../assets/images/logo/resources/img_1.png'),
+        // 'hPSCreg': require('../assets/images/logo/resources/img_3.png'),
+        // 'EuRRECa': require('../assets/images/logo/resources/eurreca-logo.png'),
+        // 'Genturis': require('../assets/images/logo/resources/Genturis.png'),
+        // 'DDP': require('../assets/images/logo/resources/img_1.png'),
       },
       sources: []
     }
