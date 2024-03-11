@@ -28,7 +28,7 @@ export default {
       this.$emit('addSelectedCodesObjects', [item])
     },
     isGene(item) {
-      return item.orphaCode === '0'
+      return item.hgncId
     },
     autoCompleteText (item) {
       let finalTitle = item.name
@@ -51,7 +51,7 @@ export default {
       return  str.replace(reg, '<mark>$1</mark>');
     },
     async fetchAutoCompletes () {
-      await this.$axios.$get('/genesAndRareDiseasesApi/v1/autocomplete',
+      await this.$axios.$get('/api/v1/autocomplete',
         {
           params: this.params, paramsSerializer (params) { return Common.paramsSerializer(params) },
           headers: {}

@@ -3,7 +3,9 @@
     <AcceptFunctionalCookiesDialog v-if="!cookiesAccepted" />
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title>
+        <a href="/">
         <img src="@/assets/images/logo/VP-PORTAL.png">
+        </a>
       </v-toolbar-title>
       <v-spacer />
       <v-btn-toggle
@@ -13,11 +15,17 @@
         group
         borderless
       >
+        <v-btn x-large large tile href="https://www.ejprarediseases.org/" target="_blank">
+          EJP RD
+        </v-btn>
         <v-btn x-large large tile value="discovery">
           Resource Discovery
         </v-btn>
         <v-btn x-large text value="sources">
           VP Network Resources
+        </v-btn>
+        <v-btn x-large text href="/releasenote">
+          Whats New!
         </v-btn>
       </v-btn-toggle>
       <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="handleLogin" x-large text>
