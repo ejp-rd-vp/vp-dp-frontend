@@ -8,7 +8,7 @@ This is a release note to inform you about current changes
  </p>
 
 ### Login only via AAI
-Login is now only via AAI ([Elixir Authentication and Authorisation Infrastructur](https://elixir-europe.org/platforms/compute/aai)) and the bypass via local Keycloak authentication as a temporary solution has been removed. </p>
+Login is now only via AAI ([Elixir Authentication and Authorisation Infrastructure](https://elixir-europe.org/platforms/compute/aai)) and the bypass via local Keycloak authentication as a temporary solution has been removed. </p>
 
 ### Technical Alignment with other VP components
 Check out the adjustment of the resource types, due to changes in the [metadata schema](https://github.com/ejp-rd-vp/resource-metadata-schema). The changes are visible in the list of resources as well as in the filter criteria options.
