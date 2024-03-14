@@ -229,7 +229,6 @@ export default {
         </p>
       </div>
     </v-row>
-    {{searchResults}}
   </v-container>
 
 </template>
