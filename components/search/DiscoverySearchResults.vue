@@ -138,6 +138,11 @@ export default {
               <div class="eph-results">
                 {{ result.content.responseSummary.numTotalResults }} result(s)
               </div>
+              <div>
+                <div v-for="(filters, warningKey) in result.content?.info?.warnings" :key="warningKey">
+                  <div v-for="(filter, index) in filters" :key="index">Ignored filters: {{ filter }}</div>
+                </div>
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content
               v-if="result && result.content &&
@@ -191,6 +196,11 @@ export default {
               <div class="eph-results">
                 {{ result.content.responseSummary.numTotalResults }} result(s)
               </div>
+              <div>
+                <div v-for="(filters, warningKey) in result.content?.info?.warnings" :key="warningKey">
+                  <div v-for="(filter, index) in filters" :key="index">Ignored filters: {{ filter }}</div>
+                </div>
+              </div>
               <v-tooltip
                 v-if="!loggedIn"
                 bottom
@@ -219,6 +229,7 @@ export default {
         </p>
       </div>
     </v-row>
+    {{searchResults}}
   </v-container>
 
 </template>
