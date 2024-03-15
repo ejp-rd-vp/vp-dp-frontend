@@ -16,7 +16,8 @@ export default {
       resourceInfoDialog: {
         show: false,
         resourceInfo: null
-      }
+      },
+      negotiatorRedirectUrl: ''
     }
   },
   mounted() {
@@ -89,6 +90,60 @@ export default {
     },
     resourceHasResponseToBeListed (result) {
       return !result || !result.content || !result.content.response || !result.content.response.resultSets[0].results;
+    },
+    fetchNegotiator () {
+      const url = 'https://negotiator.acc.bbmri-eric.eu/api/v3/requests';
+      let idObjects = '';
+
+      this.searchResults.forEach((resource) => {
+        if (resource.resourceName === "BBMRI-ERIC Directory"){
+          resource.content.response.resultSets[0].results.forEach(result => {
+            let idObject = '{"id": "' + result.id + '"},';
+            idObjects = idObjects + idObject;
+          });
+        }
+      });
+
+      //Test: works -> example from Vittorio
+      const result = {
+          "url": "https://vp.ejprarediseases.org/",
+          "humanReadable": "",
+          "resources": [{
+            "id": "bbmri-eric:ID:EXT_44001:collection:MainCollection"
+          }, {
+            "id": "bbmri-eric:ID:IT_1382965524316631:collection:1444717339490516"
+          }]
+        };
+
+      //Test: does not work -> generated from VP-Portal after searching for Orphacode:730
+      const result1= {
+        "url": "https://vp.ejprarediseases.org/",
+        "humanReadable": "",
+        "resources": [
+          {
+            "id": "bbmri-eric:ID:EXT_76957:collection:MainCollection"
+          },
+          {
+            "id": "bbmri-eric:ID:IT_1382965524316631:collection:1444717339490516"
+          },
+          {
+            "id": "bbmri-eric:ID:IT_1385652938842205:collection:77630"
+          }
+        ]
+      };
+
+      //final solution
+      const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0,idObjects.length-1) + '] }';
+
+      this.$axios.$post(url, result1 /*JSON.parse(data)*/)
+        .then(response => {
+          this.negotiatorRedirectUrl = response.redirectUrl;
+          //console.log(this.negotiatorUrl)
+          window.open(this.negotiatorRedirectUrl, '_blank');
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     }
   }
 }
@@ -147,6 +202,12 @@ export default {
               <SearchResultContent
                 :resultContent="result.content.response.resultSets[0].results"
               />
+              <v-btn v-if="result?.resourceName === 'BBMRI-ERIC Directory'"
+                     class="white--text me-2 "
+                     variant="flat"
+                     color="#1f3863"
+                     @click="fetchNegotiator"
+              >Negotiator</v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
