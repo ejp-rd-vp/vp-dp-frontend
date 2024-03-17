@@ -104,38 +104,10 @@ export default {
         }
       });
 
-      //Test: works -> example from Vittorio
-      const result = {
-          "url": "https://vp.ejprarediseases.org/",
-          "humanReadable": "",
-          "resources": [{
-            "id": "bbmri-eric:ID:EXT_44001:collection:MainCollection"
-          }, {
-            "id": "bbmri-eric:ID:IT_1382965524316631:collection:1444717339490516"
-          }]
-        };
-
-      //Test: does not work -> generated from VP-Portal after searching for Orphacode:730
-      const result1= {
-        "url": "https://vp.ejprarediseases.org/",
-        "humanReadable": "",
-        "resources": [
-          {
-            "id": "bbmri-eric:ID:EXT_76957:collection:MainCollection"
-          },
-          {
-            "id": "bbmri-eric:ID:IT_1382965524316631:collection:1444717339490516"
-          },
-          {
-            "id": "bbmri-eric:ID:IT_1385652938842205:collection:77630"
-          }
-        ]
-      };
-
       //final solution
       const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0,idObjects.length-1) + '] }';
 
-      this.$axios.$post(url, result1 /*JSON.parse(data)*/)
+      this.$axios.$post(url, JSON.parse(data))
         .then(response => {
           this.negotiatorRedirectUrl = response.redirectUrl;
           //console.log(this.negotiatorUrl)
