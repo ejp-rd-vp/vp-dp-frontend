@@ -4,11 +4,6 @@ export default {
     return {
       dialog: true,
       usedCookies: [
-        'auth._refresh_token.keycloak',
-        'auth._refresh_token_expiration.keycloak',
-        'auth._token.keycloak',
-        'auth._token_expiration.keycloak',
-        'auth.keycloak.pkce_state',
         'auth.strategy',
         'cookiesAccepted'
       ]
