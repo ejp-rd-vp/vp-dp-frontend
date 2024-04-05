@@ -6,6 +6,7 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
+                <div v-if="source.queryable">
                 <v-tooltip v-if="availabilityResults[source.id]?.numberOfSuccessfulResponses <= 0 && availabilityResults[source.id]?.numberOfTests >= 0" bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
@@ -28,6 +29,7 @@
                   </template>
                   <span>The source is actively connected to the VP.</span>
                 </v-tooltip>
+                </div>
                 <h3 v-if="!source.logo && !logos[source.resourceName]"> {{ source.resourceName }}</h3>
                 <v-img v-if="logos[source.resourceName]" :src="logos[source.resourceName]" contain max-width="180px" max-height="150px" />
                 <v-img v-if="!logos[source.resourceName] && source.logo" :src="source.logo" contain max-width="180px" max-height="150px" />
