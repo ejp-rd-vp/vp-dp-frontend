@@ -75,7 +75,7 @@
                     <span>The source is a patient information register.</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-else-if="source.resourceType.includes('KNOWLEDGE_BASE')" class="flex-grow-0">
+                <v-col v-else-if="source.resourceType.includes('DATASET')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
                       <v-icon
@@ -170,11 +170,6 @@ export default {
     }
   },
   methods: {
-    checkavailaibilityofresource() {
-      if (source.queryable) {
-
-      }
-    },
     async fetchSources () {
       await this.$axios.$get('/api/v1/resources')
         .then(function (res) {
