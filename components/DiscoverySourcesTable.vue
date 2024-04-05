@@ -1,4 +1,4 @@
-   <template>
+<template>
   <v-container>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" v-for="(source, index) in sources" :key="index">
@@ -6,7 +6,19 @@
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title class="text-h5 mb-1">
-                <v-tooltip bottom>
+                <div v-if="source.queryable">
+                <v-tooltip v-if="availabilityResults[source.id]?.numberOfSuccessfulResponses <= 0 && availabilityResults[source.id]?.numberOfTests >= 0" bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      small
+                      color="red"
+                      v-bind="attrs"
+                      v-on="on"
+                    >mdi-connection</v-icon>
+                  </template>
+                  <span>The source is actively not connected to the VP.</span>
+                </v-tooltip>
+                <v-tooltip v-else bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon
                       small
@@ -17,6 +29,7 @@
                   </template>
                   <span>The source is actively connected to the VP.</span>
                 </v-tooltip>
+                </div>
                 <h3 v-if="!source.logo && !logos[source.resourceName]"> {{ source.resourceName }}</h3>
                 <v-img v-if="logos[source.resourceName]" :src="logos[source.resourceName]" contain max-width="180px" max-height="150px" />
                 <v-img v-if="!logos[source.resourceName] && source.logo" :src="source.logo" contain max-width="180px" max-height="150px" />
@@ -28,6 +41,23 @@
               height="150px"
             >
               <v-row justify="end">
+                <v-col v-if="source.queryable" class="flex-grow-0">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-chip
+                        class="mr-3"
+                        color="lightblue"
+                        label
+                        outlined
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        VpContentDiscovery
+                      </v-chip>
+                    </template>
+                    <span>The source is queryable via the VP Portal.</span>
+                  </v-tooltip>
+                </v-col>
                 <v-col v-if="source.resourceType.length > 1 || source.resourceType.includes('CATALOG')" class="flex-grow-0">
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on, attrs }">
@@ -103,23 +133,6 @@
                     <span>Biosamples repository</span>
                   </v-tooltip>
                 </v-col>
-                <v-col v-if="source.queryable" class="flex-grow-0">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-chip
-                        class="mr-3"
-                        color="lightblue"
-                        label
-                        outlined
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        VpContentDiscovery
-                      </v-chip>
-                    </template>
-                    <span>The source is queryable via the VP Portal.</span>
-                  </v-tooltip>
-                </v-col>
               </v-row>
             </v-list-item-avatar>
           </v-list-item>
@@ -141,7 +154,6 @@ v-avatar {
   margin: 0 10px;
   height: 20px;
 }
-
 .low-opacity-without-hover {
   opacity: 0.9;
   &:hover {
@@ -157,29 +169,57 @@ export default {
   data () {
     return {
       logos: {
-        'ERKReg': require('../assets/images/logo/resources/erkreg-logo.png'),
-        'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
-        'Orphanet': require('../assets/images/logo/resources/img_4.png'),
-        'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
+        // 'ERKReg': require('../assets/images/logo/resources/erkreg-logo.png'),
+        // 'BBMRI-Eric': require('../assets/images/logo/resources/bbmri-logo.png'),
+        // 'Orphanet': require('../assets/images/logo/resources/img_4.png'),
+        // 'Cellosaurus': require('../assets/images/logo/resources/cellosaurus-logo.png'),
         'WikiPathways': require('../assets/images/logo/resources/img_5.png'),
-        'hPSCreg': require('../assets/images/logo/resources/img_3.png'),
-        'EuRRECa': require('../assets/images/logo/resources/eurreca-logo.png'),
-        'Genturis': require('../assets/images/logo/resources/Genturis.png'),
-        'DDP': require('../assets/images/logo/resources/img_1.png'),
+        // 'hPSCreg': require('../assets/images/logo/resources/img_3.png'),
+        // 'EuRRECa': require('../assets/images/logo/resources/eurreca-logo.png'),
+        // 'Genturis': require('../assets/images/logo/resources/Genturis.png'),
+        // 'DDP': require('../assets/images/logo/resources/img_1.png'),
       },
-      sources: []
+      sources: [],
+      period: 3,
+      availabilityResults:{},
+
     }
   },
   methods: {
-    async fetchSources () {
-      await this.$axios.$get('/api/v1/resources')
-        .then(function (res) {
-          this.sources = res
-        }.bind(this))
+    async fetchSources() {
+      try {
+        this.sources = await this.$axios.$get('/api/v1/resources');
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    async checkAllAvailabilities() {
+      try {
+        const promises = this.sources.map(source => this.availability(source.id, 3));
+        const results = await Promise.all(promises);
+        this.availabilityResults = results.reduce((acc, result, index) => {
+          acc[this.sources[index].id] = result;
+          return acc;
+        }, {});
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+    async availability(resourceId, period) {
+      try {
+        const res = await this.$axios.$get(`/api/v1/monitoring?resourceId=${resourceId}&periodInDays=${period}`);
+        return res;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     }
   },
   beforeMount() {
     this.fetchSources()
+      .then(() => this.checkAllAvailabilities());
   }
 }
 </script>

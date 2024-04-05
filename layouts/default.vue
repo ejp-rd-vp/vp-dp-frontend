@@ -24,6 +24,9 @@
         <v-btn x-large text value="sources">
           VP Network Resources
         </v-btn>
+        <v-btn x-large text href="/releasenote">
+          Whats New!
+        </v-btn>
       </v-btn-toggle>
       <v-btn v-if="!$auth.loggedIn" class="mr-5" @click="handleLogin" x-large text>
         <v-icon>
@@ -142,7 +145,7 @@
     </v-navigation-drawer>
     <v-footer v-if="$route.name !== 'discovery'" absolute class="d-flex justify-space-around mt-4 pt-4">
       <p>
-        <b>2020-2022 European Rare Diseases Joint Programme</b>
+        <b>2019-2024 European Joint Programme on Rare Diseases</b>
       </p>
       <div class="d-flex justify-center">
         <a href="https://www.ejprarediseases.org/" target="_blank">

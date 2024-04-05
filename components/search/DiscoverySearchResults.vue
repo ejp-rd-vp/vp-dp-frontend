@@ -16,7 +16,8 @@ export default {
       resourceInfoDialog: {
         show: false,
         resourceInfo: null
-      }
+      },
+      negotiatorRedirectUrl: ''
     }
   },
   mounted() {
@@ -89,6 +90,32 @@ export default {
     },
     resourceHasResponseToBeListed (result) {
       return !result || !result.content || !result.content.response || !result.content.response.resultSets[0].results;
+    },
+    fetchNegotiator () {
+      const url = 'https://negotiator.acc.bbmri-eric.eu/api/v3/requests';
+      let idObjects = '';
+
+      this.searchResults.forEach((resource) => {
+        if (resource.resourceName === "BBMRI-ERIC Directory"){
+          resource.content.response.resultSets[0].results.forEach(result => {
+            let idObject = '{"id": "' + result.id + '"},';
+            idObjects = idObjects + idObject;
+          });
+        }
+      });
+
+      //final solution
+      const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0,idObjects.length-1) + '] }';
+
+      this.$axios.$post(url, JSON.parse(data))
+        .then(response => {
+          this.negotiatorRedirectUrl = response.redirectUrl;
+          //console.log(this.negotiatorUrl)
+          window.open(this.negotiatorRedirectUrl, '_blank');
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     }
   }
 }
@@ -152,6 +179,12 @@ export default {
               <SearchResultContent
                 :resultContent="result.content.response.resultSets[0].results"
               />
+              <v-btn v-if="result?.resourceName === 'BBMRI-ERIC Directory'"
+                     class="white--text me-2 "
+                     variant="flat"
+                     color="#1f3863"
+                     @click="fetchNegotiator"
+              >Negotiator</v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
