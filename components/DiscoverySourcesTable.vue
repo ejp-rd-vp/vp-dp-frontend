@@ -1,5 +1,14 @@
    <template>
   <v-container>
+    <div>
+      <p>The following resources are part of the VP Network. The resources can be viewed by opening the individual labels. A short description and a link to the resources are provided and whether you can query their content in more detail. The VP Network includes the following resource types:</p>
+      <ul>
+        <li>Patient Registries</li>
+        <li>Catalogues</li>
+        <li>Biobanks</li>
+      </ul>
+      <p> Interested in more Rare Disease resources?   <a href="https://resourcemap.ejprarediseases.org/#/" class="text-decoration-underline mr-16" style="margin-left: 8px;"><v-icon large color="#1976D2">mdi-launch</v-icon>Explore Rare Disease resources with the EJP RD Mind Map.</a> </p>
+    </div>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" v-for="(source, index) in sources" :key="index">
         <v-card :href="source.resourceHomePage" target="_blank" class="low-opacity-without-hover" tile outlined width="100%">

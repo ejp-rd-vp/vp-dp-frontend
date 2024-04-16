@@ -30,10 +30,10 @@ export default {
       tools: [
         {
           icon: 'mdi-arrow-right-circle-outline',
-          buttonText: 'EXPLORE',
+          buttonText: 'VP INDEX',
           buttonColor: '#e31a46',
-          url: 'https://resourcemap.ejprarediseases.org/#/',
-          text: 'Explore Rare Disease resources with the EJP RD Mind Map'
+          url: 'https://index.vp.ejprarediseases.org/',
+          text: 'Get more informations about the connected resources'
         },
         {
           icon: 'mdi-sync',
@@ -128,12 +128,15 @@ export default {
     </v-row>
     </div>
     <v-row class="mt-12" style="margin-bottom: 180px;">
-      <v-col cols="12">
-        <h3>
-          Tools and Resources
-        </h3>
+      <v-col cols="12" style="margin-bottom:15px ">
+        <h2>
+          Tools and resources that the VP also offers you:
+        </h2> <br>
+
+        <p> The Virtual Portal allows you to search the Virtual Platform(VP) at once in real time to find resources of interest to your research.
+          The VP is a growing network of Findable, Accessible, Interoperable and Reusable(FAIR) resources, ready to serve the rare disease(RD) research community.</p>
       </v-col>
-      <v-col class="text-center" cols="12" sm="4" v-for="tool in tools" :key="tool.buttonText">
+      <v-col class="text-center" cols="12" sm="4" v-for="tool in tools" :key="tool.buttonText" >
         <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
           {{ tool.icon }}
         </v-icon>
@@ -150,29 +153,6 @@ export default {
           <Flashcards/>
         </v-col>
       </v-row>
-      <v-row class="mb-12" style="background-color: rgb(188,215,243)">
-        <v-col cols="12">
-        <h2> What is the Virtual Platform?</h2>
-        </v-col>
-        <v-col cols="12">
-        <p> The Virtual Portal allows you to search the Virtual Platform(VP) at once in real time to find resources of interest to your research.
-          The VP is a growing network of Findable, Accessible, Interoperable and Reusable(FAIR) resources, ready to serve the rare disease(RD) research community</p>
-        </v-col>
-
-        <v-col cols="12" sm="4">
-          <p> The VP also offers you:</p>
-          <ul>
-            <li><strong>Guidance</strong> on how to make your data more FAIR </li>
-            <v-icon large color="#1976D2">mdi-launch</v-icon> <a href="https://www.ejprarediseases.org/fairification/" class="text-decoration-underline mr-16">Access information to  make rare disease resources FAIR</a>
-            <li><strong>Connection</strong> of your rare disease resource to the VP </li>
-            <v-icon large color="#1976D2" >mdi-launch</v-icon> <a href="https://www.ejprarediseases.org/fairification/" class="text-decoration-underline mr-16">Learn how to connect your rare disease resource to the VP</a>
-          </ul>
-        </v-col>
-        <v-col cols="12" sm="2">
-          <v-img :src="require('../assets/images/logo/img.png')"/>
-        </v-col>
-
-      </v-row>
       <v-row class="mb-4">
         <v-col cols="12">
         <h2> About EJP RD</h2>
@@ -182,8 +162,8 @@ export default {
         </v-col>
         <v-col cols="10">
         <p> The European Joint Programm on Rare Diseases (EJP RD) is a programme aiming to create an effective rare diseases research ecosystem for progress, innovation and for the benefit of everyone with a rare disease.
-          We support rare diseases stakeholders by funding research, bringing together data resources & Tools, providing dedicated training courses, and translationg high quality research into effective treatments. <v-icon large color="#1976D2">mdi-launch</v-icon> <a href="https://www.ejprarediseases.org/" class=" text-decoration-underline mr-16" >
-            Learn more about EJP RD</a> </p>
+          We support rare diseases stakeholders by funding research, bringing together data resources & Tools, providing dedicated training courses, and translationg high quality research into effective treatments. <a href="https://www.ejprarediseases.org/" class=" text-decoration-underline mr-16" >
+            <v-icon large color="#1976D2">mdi-launch</v-icon>Learn more about EJP RD</a> </p>
         </v-col>
       </v-row>
 

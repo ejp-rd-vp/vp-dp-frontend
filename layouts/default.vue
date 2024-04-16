@@ -15,10 +15,7 @@
         group
         borderless
       >
-        <v-btn x-large large tile href="https://www.ejprarediseases.org/" target="_blank">
-          EJP RD
-        </v-btn>
-        <v-btn x-large large tile value="discovery">
+       <v-btn x-large large tile value="discovery">
           Resource Discovery
         </v-btn>
         <v-btn x-large text value="sources">
