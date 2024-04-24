@@ -58,19 +58,21 @@ export default {
 <template>
   <v-card
     v-if="relatedCodes && relatedCodes.length > 0 && !loadingRelatedCodes"
-    width="300px"
     class="mx-auto"
   >
     <v-subheader>
       Related Orphanet Codes:
     </v-subheader>
+    <p> The searched and related diseases are organized in a hierarchical structure according to the <strong>Orphanet classification</strong>, defining <strong>parent diseases</strong>(those above) and <strong>child diseases</strong>(those below). Different levels indicate the degree of specify, e.g. "parent 1" is one level higher, while "child 2" is two levels lower and more specific.<br>
+    click on a disease to view resources on that disease.
+    </p>
     <v-list
-      style="max-height: 250px; overflow-y: scroll"
+      style=" overflow-y: scroll"
       subheader
       two-line
       flat
     >
-
+{{relatedCodes}}
       <v-list-item-group>
         <v-list-item v-for="relatedCode in relatedCodes" :key="relatedCode.code">
           <v-list-item-action>
