@@ -1,6 +1,7 @@
    <template>
   <v-container>
     <div>
+      <h2>VP NETWORK RESOURCES</h2><br>
       <p>The following resources are part of the VP Network. The resources can be viewed by opening the individual labels. A short description and a link to the resources are provided and whether you can query their content in more detail. The VP Network includes the following resource types:</p>
       <ul>
         <li>Patient Registries</li>
