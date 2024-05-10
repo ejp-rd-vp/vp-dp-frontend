@@ -2,11 +2,11 @@
   <v-app>
     <AcceptFunctionalCookiesDialog v-if="!cookiesAccepted" />
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
-      <v-toolbar-title>
+      <v-toolbar-title style="margin-top: -30px">
         <a href="/">
-        <img src="@/assets/images/logo/VP-PORTAL.png">
+        <img src="../assets/images/logo/VP-Portal-new-Logo.png">
         </a>
-      </v-toolbar-title>
+        </v-toolbar-title>
       <v-spacer />
       <v-btn-toggle
         v-model="discoverySubPages"
@@ -61,13 +61,11 @@
       </v-btn>
     </v-app-bar>
     <v-app-bar  v-else dark color="#1f3863" height="130px" fixed app>
-      <v-toolbar-title>
-        <img src="@/assets/images/logo/ejp-rd-logo-small.png">
+      <v-toolbar-title style="margin-top: -30px">
+        <a href="/">
+          <img src="../assets/images/logo/VP-Portal-new-Logo.png">
+        </a>
       </v-toolbar-title>
-      <v-spacer />
-      <h1 style="color: #fffeff; font-family: Great Vibes cursive; font-size: 30px; line-height: 30px; font-weight: normal; margin-bottom: 0px; text-align: center; text-shadow: 0 1px 1px #fff;">
-        VP-PORTAL
-      </h1>
       <v-spacer />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
