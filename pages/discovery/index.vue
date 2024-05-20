@@ -193,7 +193,9 @@ export default {
               :search-params="searchParams"
             />
           </v-col>
-          <v-col class="flex-grow-0">
+         </v-row>
+        <v-row>
+          <v-col>
             <SuggestedCodes
               :currentOrphaCodes="currentOrphaCodes"
               @selectOrphaCode="addSelectedCodeObject(orphaCodeToCodeObject($event))"

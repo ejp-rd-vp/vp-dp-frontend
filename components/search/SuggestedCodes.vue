@@ -1,5 +1,6 @@
 <script>
 import Common from "assets/js/common";
+import { ref } from 'vue';
 
 export default {
   props: {
@@ -24,6 +25,7 @@ export default {
     async fetchRelatedCodes () {
       this.loadingRelatedCodes = true
       this.relatedCodes = []
+      this.finalOrganizedData=[]
       for (let orphaCode of this.currentOrphaCodes) {
         this.hierarchyParams.orphaCode = orphaCode
         this.$axios.$get('/api/v1/hierarchy',
@@ -50,8 +52,36 @@ export default {
       } else {
         this.$emit('unselectOrphaCode', orphaCode)
       }
-    }
+    },
+
   },
+  setup() {
+    const rawData = [];
+    const transformData = (data) => {
+      let index= 1
+      const groupedData = data.reduce((acc, item) => {
+        const levelKey = `level ${item.level}`;
+        if (!acc[levelKey]) {
+          acc[levelKey] = {
+            id: index++,
+            name: `parent ${item.level}`,
+            children: [{name:`${item.label}`}]
+          };
+        }
+        acc[levelKey].children.push(item);
+        return acc;
+      }, {});
+
+      return Object.values(groupedData);
+    };
+    const groupedData = ref(transformData(rawData));
+      console.log(groupedData)
+    return {
+      transformData
+    };
+
+  }
+
 }
 </script>
 
@@ -60,85 +90,150 @@ export default {
     v-if="relatedCodes && relatedCodes.length > 0 && !loadingRelatedCodes"
     class="mx-auto"
   >
-    <v-subheader>
-      Related Orphanet Codes:
-    </v-subheader>
-    <p> The searched and related diseases are organized in a hierarchical structure according to the <strong>Orphanet classification</strong>, defining <strong>parent diseases</strong>(those above) and <strong>child diseases</strong>(those below). Different levels indicate the degree of specify, e.g. "parent 1" is one level higher, while "child 2" is two levels lower and more specific.<br>
-    click on a disease to view resources on that disease.
+    <v-subheader>Related Orphanet Codes:</v-subheader>
+    <p>The searched and related diseases are organized in a hierarchical structure according to the Orphanet classification, defining parent diseases(those above) and child diseases(those below). Different levels indicate the degree of specify, e.g. "parent level 1" is one level higher, while "child level 2" is two levels lower and more specific.
+      click on a disease to view resources on that disease.
     </p>
-    <v-list
-      style=" overflow-y: scroll"
-      subheader
-      two-line
-      flat
-    >
-{{relatedCodes}}
-      <v-list-item-group>
-        <v-list-item v-for="relatedCode in relatedCodes" :key="relatedCode.code">
-          <v-list-item-action>
-            <v-checkbox
-              v-model="selectedCodes"
-              :value="relatedCode.code"
-              @click="emitCodeStatusChanged(relatedCode.code)"
-              color="primary"
-            ></v-checkbox>
-          </v-list-item-action>
+    <v-expansion-panels>
+      <!-- Level 2 Way UP  -->
+      <v-expansion-panel v-if="relatedCodes.some(code => code.level === 2 && code.way === 'UP')">
+        <v-expansion-panel-header>
+          Parent Level 2
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-list>
+            <v-list-item
+              v-for="code in relatedCodes.filter(code => code.level === 2 && code.way === 'UP')"
+              :key="code.code"
+            >
+              <v-list-item-action>
+                <v-checkbox
+                  v-model="selectedCodes"
+                  :value="code.code"
+                  @click="emitCodeStatusChanged(code.code)"
+                  color="primary"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                                    <span v-bind="attrs" v-on="on">
+                                        <v-list-item-title>{{ code.label }}</v-list-item-title>
+                                        <v-list-item-subtitle>Orpha: {{ code.code }}</v-list-item-subtitle>
+                                    </span>
+                  </template>
+                  <span>{{ code.label }}</span>
+                </v-tooltip>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <!-- Level 1 Way UP -->
+      <v-expansion-panel  v-if="relatedCodes.some(code => code.level === 1 && code.way === 'UP')">
+        <v-expansion-panel-header>
+          Parent Level 1
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-list>
+            <v-list-item
+              v-for="code in relatedCodes.filter(code => code.level === 1 && code.way === 'UP')"
+              :key="code.code"
+            >
+              <v-list-item-action>
+                <v-checkbox
+                  v-model="selectedCodes"
+                  :value="code.code"
+                  @click="emitCodeStatusChanged(code.code)"
+                  color="primary"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                                    <span v-bind="attrs" v-on="on">
+                                        <v-list-item-title>{{ code.label }}</v-list-item-title>
+                                        <v-list-item-subtitle>Orpha: {{ code.code }}</v-list-item-subtitle>
+                                    </span>
+                  </template>
+                  <span>{{ code.label }}</span>
+                </v-tooltip>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
-          <v-list-item-content>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <span
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-list-item-title>{{ relatedCode.label }}</v-list-item-title>
-                  <v-list-item-subtitle>Orpha: {{ relatedCode.code }}</v-list-item-subtitle>
-                </span>
-              </template>
-              <span>{{ relatedCode.label }}</span>
-            </v-tooltip>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-        <span
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-avatar v-if="relatedCode.way === 'UP'">
-              <v-icon
-                color="green"
-              >
-                mdi-arrow-up-thick
-              </v-icon>
-              ({{ relatedCode.level }})
-            </v-avatar>
-        </span>
-              </template>
-              <span>Parent node of {{ relatedCode.relatedOrphaCode }}</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <span
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-avatar v-if="relatedCode.way === 'DOWN'">
-                      <v-icon
-                        color="red"
-                      >
-                        mdi-arrow-down-thick
-                      </v-icon>
-                      ({{ relatedCode.level }})
-                    </v-avatar>
-                </span>
-              </template>
-              <span>Child node of {{ relatedCode.relatedOrphaCode }}</span>
-            </v-tooltip>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
+     <!-- Level 1 Way Down -->
+      <v-expansion-panel  v-if="relatedCodes.some(code => code.level === 1 && code.way === 'DOWN')">
+        <v-expansion-panel-header>
+          Child Level 1
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-list>
+            <v-list-item
+              v-for="code in relatedCodes.filter(code => code.level === 1 && code.way === 'DOWN')"
+              :key="code.code"
+            >
+              <v-list-item-action>
+                <v-checkbox
+                  v-model="selectedCodes"
+                  :value="code.code"
+                  @click="emitCodeStatusChanged(code.code)"
+                  color="primary"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                                    <span v-bind="attrs" v-on="on">
+                                        <v-list-item-title>{{ code.label }}</v-list-item-title>
+                                        <v-list-item-subtitle>Orpha: {{ code.code }}</v-list-item-subtitle>
+                                    </span>
+                  </template>
+                  <span>{{ code.label }}</span>
+                </v-tooltip>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <!-- Level 2 Way Down -->
+      <v-expansion-panel v-if="relatedCodes.some(code => code.level === 2 && code.way === 'DOWN')">
+        <v-expansion-panel-header>
+          Child Level 2
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <v-list>
+            <v-list-item
+              v-for="code in relatedCodes.filter(code => code.level === 1 && code.way === 'DOWN')"
+              :key="code.code"
+            >
+              <v-list-item-action>
+                <v-checkbox
+                  v-model="selectedCodes"
+                  :value="code.code"
+                  @click="emitCodeStatusChanged(code.code)"
+                  color="primary"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                                    <span v-bind="attrs" v-on="on">
+                                        <v-list-item-title>{{ code.label }}</v-list-item-title>
+                                        <v-list-item-subtitle>Orpha: {{ code.code }}</v-list-item-subtitle>
+                                    </span>
+                  </template>
+                  <span>{{ code.label }}</span>
+                </v-tooltip>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </v-card>
   <v-card
     v-else-if="loadingRelatedCodes"
