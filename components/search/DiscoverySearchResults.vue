@@ -113,8 +113,10 @@ export default {
           //console.log(this.negotiatorUrl)
           window.open(this.negotiatorRedirectUrl, '_blank');
         })
-        .catch(function (error) {
-          console.error(error);
+        .catch((error) => {
+          if( error.response ){
+            alert(error.response.data.status + " " + error.response.data.title + " : " + error.response.data.detail); // => the response payload
+          }
         });
     }
   }
