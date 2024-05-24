@@ -193,8 +193,6 @@ export default {
               :search-params="searchParams"
             />
           </v-col>
-         </v-row>
-        <v-row>
           <v-col>
             <SuggestedCodes
               :currentOrphaCodes="currentOrphaCodes"
@@ -202,7 +200,7 @@ export default {
               @unselectOrphaCode="removeSelectedCodeObject(orphaCodeToCodeObject($event))"
             />
           </v-col>
-        </v-row>
+         </v-row>
       </v-container>
     </v-row>
     <FeedBackButton />
