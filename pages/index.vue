@@ -5,11 +5,12 @@ import Flashcards from "~/components/Flashcards.vue";
 import InfoSearchOptions from "@/components/dialogs/InfoSearchOptions.vue";
 import BasicSearchOptions from "@/components/dialogs/BasicSearchOptions.vue";
 import AdvancedSearchOptions from "@/components/dialogs/AdvancedSearchOptions.vue";
+import ConnectPage from "@/pages/ConnectPage.vue";
 
 export default {
   components: {
     AdvancedSearchOptions,
-    BasicSearchOptions, InfoSearchOptions, DiscoverySearchWithAutoComplete, DiscoverySearch, Flashcards },
+    BasicSearchOptions, InfoSearchOptions, DiscoverySearchWithAutoComplete, DiscoverySearch, Flashcards, ConnectPage },
   data () {
     return {
       searchQuery: '',
@@ -46,7 +47,7 @@ export default {
           icon: 'mdi-gesture-double-tap',
           buttonText: 'CONNECT',
           buttonColor: '#3bb392',
-          url: 'https://forms.office.com/r/UrgvkD39t8',
+          url: '/ConnectPage',
           text: 'Contact us for information or feedback'
         }
       ],
@@ -148,7 +149,7 @@ export default {
           {{ tool.text }}
         </p>
       </v-col>
-      <v-row class="mt-12" style="margin-bottom: 130px;">
+      <v-row class="mt-12" style="margin-bottom: 30px;">
         <v-col cols="12">
           <Flashcards/>
         </v-col>
