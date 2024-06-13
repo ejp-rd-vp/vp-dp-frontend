@@ -186,14 +186,14 @@ export default {
     >
       <v-container>
         <v-row :key="searchIndex" dense>
-          <v-col>
+          <v-col cols="12" md="7">
             <DiscoverySearchResults
               :resources="resources"
               :currentOrphaCodes="currentOrphaCodes"
               :search-params="searchParams"
             />
           </v-col>
-          <v-col>
+          <v-col cols="12" md="5">
             <SuggestedCodes
               :currentOrphaCodes="currentOrphaCodes"
               @selectOrphaCode="addSelectedCodeObject(orphaCodeToCodeObject($event))"

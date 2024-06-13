@@ -120,26 +120,6 @@ export default {
                   <span>{{ relatedCode.label }}</span>
                 </v-tooltip>
               </v-list-item-content>
-              <v-list-item-action>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                <span
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-avatar>
-                      <v-icon
-                        color="green"
-                      >
-                        mdi-arrow-up-thick
-                      </v-icon>
-                      ({{ relatedCode.level }})
-                    </v-avatar>
-                </span>
-                  </template>
-                  <span>Parent node of {{ relatedCode.relatedOrphaCode }}</span>
-                </v-tooltip>
-              </v-list-item-action>
             </v-list-item>
           </v-list>
         </v-expansion-panel-content>
@@ -176,19 +156,6 @@ export default {
                   <span>{{ relatedCode.label }}</span>
                 </v-tooltip>
               </v-list-item-content>
-              <v-list-item-action>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on">
-                <v-avatar>
-                  <v-icon color="green">mdi-arrow-up-thick</v-icon>
-                  ({{ relatedCode.level }})
-                </v-avatar>
-              </span>
-                  </template>
-                  <span>Parent node of {{ relatedCode.relatedOrphaCode }}</span>
-                </v-tooltip>
-              </v-list-item-action>
             </v-list-item>
           </v-list>
         </v-expansion-panel-content>
@@ -226,26 +193,6 @@ export default {
                   <span>{{ relatedCode.label }}</span>
                 </v-tooltip>
               </v-list-item-content>
-              <v-list-item-action>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                <span
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-avatar>
-                      <v-icon
-                        color="red"
-                      >
-                        mdi-arrow-up-thick
-                      </v-icon>
-                      ({{ relatedCode.level }})
-                    </v-avatar>
-                </span>
-                  </template>
-                  <span>Child node of {{ relatedCode.relatedOrphaCode }}</span>
-                </v-tooltip>
-              </v-list-item-action>
             </v-list-item>
           </v-list>
         </v-expansion-panel-content>
@@ -283,26 +230,6 @@ export default {
                   <span>{{ relatedCode.label }}</span>
                 </v-tooltip>
               </v-list-item-content>
-              <v-list-item-action>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on, attrs }">
-                <span
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-avatar>
-                      <v-icon
-                        color="red"
-                      >
-                        mdi-arrow-up-thick
-                      </v-icon>
-                      ({{ relatedCode.level }})
-                    </v-avatar>
-                </span>
-                  </template>
-                  <span>Child node of {{ relatedCode.relatedOrphaCode }}</span>
-                </v-tooltip>
-              </v-list-item-action>
             </v-list-item>
           </v-list>
         </v-expansion-panel-content>
