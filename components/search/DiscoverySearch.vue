@@ -67,36 +67,6 @@ export default {
 <template>
   <v-container>
     <v-row no-gutters justify="center" align="center">
-      <v-col class="flex-grow-0">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-              color="primary"
-              dark
-              v-bind="attrs"
-              v-on="on"
-              x-large
-            >
-              mdi-information-variant
-            </v-icon>
-          </template>
-          <span>
-            You can search using the following: <br>
-            <b>Disease:</b>
-            <ul>
-              <li v-for="searchItem in availableDiseaseSearchItems" :key="searchItem">
-                {{ searchItem }}
-              </li>
-            </ul>
-            <b>Gene:</b>
-            <ul>
-              <li v-for="searchItem in availableGeneSearchItems" :key="searchItem">
-                {{ searchItem }}
-              </li>
-            </ul>
-          </span>
-        </v-tooltip>
-      </v-col>
       <v-col class="flex-grow-1">
         <v-text-field
           v-model="searchQuery"
