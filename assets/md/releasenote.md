@@ -2,6 +2,22 @@
 
 This is a release note to inform you about current changes
 
+## V1.6.0 – 07.06.2024
+
+  </p>
+
+### Update AAI
+Integration of the new LS AAI version 2 was established.
+
+### Integration of VP Index
+Previously, information on resources in the VP network was manually updated and maintained. With the integration of the VP Index, this information is now retrieved dynamically. As the VP network grows, new resources will automatically appear in the portal.
+
+### Beacon query update
+Prefixes are now supplied in the Beacon query.
+
+### Connect Negotiator
+Once relevant resources of interest are discovered, a data request can be submitted for further analysis. Within the BBMRI network, the Negotiator is already established for requesting data and biosamples from the biobanks. This integration allows users, after receiving a successful response from BBMRI, to be forwarded to the Negotiator with the result resources preselected.
+
 
 ## v1.5.0 - 28.02.2024
 
