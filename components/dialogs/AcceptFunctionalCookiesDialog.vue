@@ -4,8 +4,8 @@ export default {
     return {
       dialog: true,
       usedCookies: [
-        'auth.strategy',
-        'cookiesAccepted'
+        // 'auth.strategy',
+        // 'cookiesAccepted'
       ]
     }
   },
