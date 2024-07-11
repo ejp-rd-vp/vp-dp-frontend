@@ -26,7 +26,7 @@ export default {
       this.relatedCodes = []
       for (let orphaCode of this.currentOrphaCodes) {
         this.hierarchyParams.orphaCode = orphaCode
-        console.log('Query Parameters:', this.hierarchyParams.orphaCode); // Log the query parameters before the request
+        console.log('Query Parameters:', JSON.stringify(this.hierarchyParams.orphaCode, null, 2)); // Log the query parameters before the request
         this.$axios.$get('/api/v1/hierarchy',
           { params: this.hierarchyParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {

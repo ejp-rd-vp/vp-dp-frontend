@@ -46,7 +46,7 @@ export default {
         if(!this.loggedIn) {
           this.searchParams = this.discardFiltersNeedingAuthorization(this.searchParams)
         }
-        console.log('Query Parameters:', this.searchParams); // Log the query parameters before the request
+        console.log('Query sent to backend:', JSON.stringify(this.searchParams,null, 2)); // Log the query parameters before the request
         this.$axios.$get('/api/v1/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
