@@ -30,6 +30,15 @@ export default {
   },
   methods: {
     async fetchResults (orphaCodes) {
+      //to be deleted
+      const headers = {};
+      if (this.loggedIn) {
+        const token = localStorage.getItem('auth._token.LSAAI');
+        console.log(token);
+        headers['Authorization'] = `Bearer ${token }`;
+      }
+      console.log(headers);
+
       if(!orphaCodes || orphaCodes.length < 1) {
         return
       }
@@ -46,6 +55,7 @@ export default {
         if(!this.loggedIn) {
           this.searchParams = this.discardFiltersNeedingAuthorization(this.searchParams)
         }
+        console.log('Query sent to backend:', JSON.stringify(this.searchParams,null, 2)); // Log the query parameters before the request
         this.$axios.$get('/api/v1/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
@@ -107,7 +117,14 @@ export default {
       //final solution
       const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0,idObjects.length-1) + '] }';
 
-      this.$axios.$post(url, JSON.parse(data))
+      // Create headers object
+      const headers = {};
+      if (this.loggedIn) {
+        const token = localStorage.getItem('auth._token.LSAAI');
+        headers['Authorization'] = `Bearer ${token }`;
+      }
+
+      this.$axios.$post(url, JSON.parse(data),  { headers })
         .then(response => {
           this.negotiatorRedirectUrl = response.redirectUrl;
           //console.log(this.negotiatorUrl)
