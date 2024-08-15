@@ -26,6 +26,7 @@ export default {
       this.relatedCodes = []
       for (let orphaCode of this.currentOrphaCodes) {
         this.hierarchyParams.orphaCode = orphaCode
+        console.log('Query Parameters:', JSON.stringify(this.hierarchyParams.orphaCode, null, 2)); // Log the query parameters before the request
         this.$axios.$get('/api/v1/hierarchy',
           { params: this.hierarchyParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
@@ -35,6 +36,7 @@ export default {
                 return result
               })
               this.relatedCodes.push(...res)
+              this.relatedCodes = this.removeDuplicates(this.relatedCodes);
               this.relatedCodes = this.relatedCodes.filter(item => !this.currentOrphaCodes.includes(item.code))
             }
             this.loadingRelatedCodes = false
@@ -43,6 +45,14 @@ export default {
             console.log('Unable to fetch related codes: ' + err)
           }.bind(this))
       }
+    },
+    removeDuplicates(items) {
+      const seen = new Set();
+      return items.filter(item => {
+        const duplicate = seen.has(item.code);
+        seen.add(item.code);
+        return !duplicate;
+      });
     },
     emitCodeStatusChanged(orphaCode) {
       if(this.selectedCodes.includes(orphaCode)) {

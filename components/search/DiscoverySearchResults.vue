@@ -46,6 +46,7 @@ export default {
         if(!this.loggedIn) {
           this.searchParams = this.discardFiltersNeedingAuthorization(this.searchParams)
         }
+        console.log('Query sent to backend:', JSON.stringify(this.searchParams,null, 2)); // Log the query parameters before the request
         this.$axios.$get('/api/v1/search',
           { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
@@ -106,8 +107,13 @@ export default {
 
       //final solution
       const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0,idObjects.length-1) + '] }';
+      // Create headers object
+      const headers = {};
+      if (this.loggedIn) {
+        headers['Authorization'] = `Bearer ${this.auth.user.token }`; //  'auth.user.token' contains the token for the logged-in user
+      }
 
-      this.$axios.$post(url, JSON.parse(data))
+      this.$axios.$post(url, JSON.parse(data),  { headers })
         .then(response => {
           this.negotiatorRedirectUrl = response.redirectUrl;
           //console.log(this.negotiatorUrl)
