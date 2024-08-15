@@ -7,7 +7,6 @@ export default {
       searchParams: {
         resourceTypes: [],
         countries: [],
-        genders: [],
         ageThisYear: [0,100],
         symptomOnset: [0,100],
         ageAtDiagnoses: [0,100],
