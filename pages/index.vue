@@ -33,7 +33,7 @@ export default {
           buttonText: 'VP INDEX',
           buttonColor: '#e31a46',
           url: 'https://index.vp.ejprarediseases.org/',
-          text: 'Get more informations about the connected resources'
+          text: 'Access the resources\' FDPs in the VP network'
         },
         {
           icon: 'mdi-sync',
@@ -76,7 +76,7 @@ export default {
           Welcome to the EJP RD <strong>Virtual Platform Portal!</strong>
         </h1>
         <p>
-          Search platform for clinical researchers specializing in rare diseases facilitating resource discovery
+          Discovery portal for rare diseases researchers looking for resources in the Virtual Platform network
         </p>
       </v-col>
     </v-row>
@@ -94,7 +94,7 @@ export default {
     <v-row justify="space-around" class="mt-16" style="margin-bottom: 180px;" id="searchsection">
       <v-col class="text-center" cols="12" sm="3">
         <v-icon large>mdi-magnify</v-icon>
-        <div>Search for a rare disease of your interest</div>
+        <div>Search for resources by the rare disease of your interest</div>
       </v-col>
       <v-col class="text-center" cols="12" sm="3">
         <v-icon large>mdi-filter</v-icon>
@@ -106,7 +106,7 @@ export default {
       </v-col>
       <v-col class="text-center" cols="12" sm="3">
         <v-icon large>mdi-molecule</v-icon>
-        <div>Explore related rare diseases to your disease of interest</div>
+        <div>Explore resources on rare diseases related to your disease of interest</div>
       </v-col>
     </v-row>
     <div id="searchsection">
@@ -133,8 +133,8 @@ export default {
           Tools and resources that the VP also offers you:
         </h2> <br>
 
-        <p> The Virtual Portal allows you to search the Virtual Platform(VP) at once in real time to find resources of interest to your research.
-          The VP is a growing network of Findable, Accessible, Interoperable and Reusable(FAIR) resources, ready to serve the rare disease(RD) research community.</p>
+        <p> The Virtual Portal allows you to search the Virtual Platform (VP) at once in real time to find resources of interest to your research.
+          The VP is a growing network of Findable, Accessible, Interoperable and Reusable (FAIR) resources, ready to serve the rare disease (RD) research community.</p>
       </v-col>
       <v-col class="text-center" cols="12" sm="4" v-for="tool in tools" :key="tool.buttonText" >
         <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
