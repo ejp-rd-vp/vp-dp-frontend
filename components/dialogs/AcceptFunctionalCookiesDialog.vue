@@ -4,8 +4,13 @@ export default {
     return {
       dialog: true,
       usedCookies: [
-        // 'auth.strategy',
-        // 'cookiesAccepted'
+        'auth.strategy',
+        'auth._refresh_token.LSAAI',
+        'auth._refresh_token_expiration.LSAAI',
+        'auth.LSAAI.pkce_state',
+        'auth._token.LSAAI',
+        'auth._token_expiration.LSAAI',
+        'cookiesAccepted'
       ]
     }
   },
