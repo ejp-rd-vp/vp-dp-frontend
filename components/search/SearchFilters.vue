@@ -11,6 +11,7 @@ export default {
         ageThisYear: [0,100],
         symptomOnset: [0,100],
         ageAtDiagnoses: [0,100],
+        biospecimenType:[],
       },
       items1: ['Patient Registries', 'Biobanks', 'Dataset','Catalog', 'Guideline' ],
       value1: ['Patient Registries', 'Biobanks', 'Dataset','Catalog', 'Guideline'],
@@ -45,7 +46,9 @@ export default {
           type: 'UNKNOWN',
           checked: true
         }
-      ]
+      ],
+      items3: ['blood specimen', 'bone marrow', 'buffy coat','peripheral blood mononuclear cell', 'blood plasma specimen', 'blood serum', 'ascites fluid', 'cerebrospinal fluid','saliva', 'feces', 'urine', 'swab', 'bodily fluid specimen','FFPE specimen', 'frozen specimen', 'specimen with known storage state', 'DNA extract', 'RNA extract','specimen from organism', 'An array of any of the above' ],
+      value3: ['blood specimen', 'bone marrow', 'buffy coat','peripheral blood mononuclear cell', 'blood plasma specimen', 'blood serum', 'ascites fluid', 'cerebrospinal fluid','saliva', 'feces', 'urine', 'swab', 'bodily fluid specimen','FFPE specimen', 'frozen specimen', 'specimen with known storage state', 'DNA extract', 'RNA extract','specimen from organism', 'An array of any of the above'],
     }
   },
   computed: {
@@ -114,6 +117,77 @@ export default {
     value2: {
       handler () {
         this.searchParams.countries = Countries.euCountriesNamesToCodes(this.value2)
+      },
+      deep: true,
+      immediate: true
+    },
+    value3: {
+      handler () {
+        let newTypes = []
+        for (let type of this.value3) {
+          if (type.toLowerCase() === 'blood specimen') {
+            newTypes.push('BLOOD_SPECIMEN')
+          }
+          if (type.toLowerCase() === 'bone marrow') {
+            newTypes.push('BONE_MARROW')
+          }
+          if (type.toLowerCase() === 'buffy coat') {
+            newTypes.push('BUFFY_COAT')
+          }
+          if (type.toLowerCase() === 'peripheral blood mononuclear cell') {
+            newTypes.push('PERIPHERAL_BLOOD_MONONUCLEAR_CELL')
+          }
+          if (type.toLowerCase() === 'blood plasma specimen') {
+            newTypes.push('BLOOD_PLASMA_SPECIMEN')
+          }
+          if (type.toLowerCase() === 'blood serum') {
+            newTypes.push('BLOOD_SERUM')
+          }
+          if (type.toLowerCase() === 'ascites fluid') {
+            newTypes.push('ASCITES_FLUID')
+          }
+          if (type.toLowerCase() === 'cerebrospinal fluid') {
+            newTypes.push('CEREBROSPINAL_FLUID')
+          }
+          if (type.toLowerCase() === 'saliva') {
+            newTypes.push('SALIVA')
+          }
+          if (type.toLowerCase() === 'feces') {
+            newTypes.push('FECES')
+          }
+          if (type.toLowerCase() === 'urine') {
+            newTypes.push('URINE')
+          }
+          if (type.toLowerCase() === 'swab') {
+            newTypes.push('SWAB')
+          }
+          if (type.toLowerCase() === 'bodily fluid specimen') {
+            newTypes.push('BODILY_FLUID_SPECIMEN')
+          }
+          if (type.toLowerCase() === 'FFPE specimen') {
+            newTypes.push('FFPE_SPECIMEN')
+          }
+          if (type.toLowerCase() === 'frozen specimen') {
+            newTypes.push('FROZEN_SPECIMEN')
+          }
+          if (type.toLowerCase() === 'specimen with known storage state') {
+            newTypes.push('SPECIMEN_WITH_KNOWN_STORAGE_STATE')
+          }
+          if (type.toLowerCase() === 'DNA extract') {
+            newTypes.push('DNA_EXTRACT')
+          }
+          if (type.toLowerCase() === 'RNA extract') {
+            newTypes.push('RNA_EXTRACT')
+          }
+          if (type.toLowerCase() === 'specimen from organism') {
+            newTypes.push('SPECIMEN_FROM_ORGANISM')
+          }
+          if (type.toLowerCase() === 'An array of any of the above') {
+            newTypes.push('AN_ARRAY_OF_ANY_OF_THE_ABOVE')
+          }
+
+        }
+        this.searchParams.biospecimenType = newTypes
       },
       deep: true,
       immediate: true
@@ -243,7 +317,7 @@ export default {
                   ></v-checkbox>
                 </v-col>
               </v-row>
-              <p class="mt-2">
+              <p class="mt-8">
                 Symptom Onset
               </p>
               <v-range-slider
@@ -260,6 +334,27 @@ export default {
               </v-range-slider>
             </v-col>
             <v-col>
+              <p>
+                Biospecimen Type
+              </p>
+              <v-select
+                v-model="value3"
+                :items="items3"
+                label="Select Item"
+                multiple
+              >
+                <template v-slot:selection="{ item, index }">
+                  <v-chip v-if="index === 0">
+                    <span>{{ item }}</span>
+                  </v-chip>
+                  <span
+                    v-if="index === 1"
+                    class="grey--text text-caption"
+                  >
+                    (+{{ value3.length - 1 }} others)
+                  </span>
+                </template>
+              </v-select>
               <p>
                 Age this year
               </p>
