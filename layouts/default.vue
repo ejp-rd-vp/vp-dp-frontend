@@ -108,8 +108,6 @@
           >
             <v-icon>mdi-account</v-icon>
             {{ $auth.user.name }}
-<!--            to be deleted-->
-            {{ $auth.user}}
           </v-list-item>
           <v-list-item
             v-if="!$auth.loggedIn"
