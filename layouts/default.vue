@@ -244,8 +244,6 @@ export default {
     async logout () {
       try {
         await this.$auth.logout()
-        localStorage.removeItem('auth._token');
-        console.log('Token entfernt');
       } catch (err) {
 
       }
