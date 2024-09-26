@@ -71,7 +71,7 @@ export default {
     },
     strategies: {
       local: false,
-      keycloak: {
+      LSAAI: {
         scheme: 'oauth2',
         endpoints: {
           authorization: process.env.SSO_AUTH_URL,
