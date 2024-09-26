@@ -4,7 +4,7 @@
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title style="margin-top: 15px">
         <a href="/">
-        <img src="../assets/images/logo/Rare_diseases_research_VP-Portal__4.png">
+        <img src="../assets/images/logo/Rare_diseases_research_VP-Portal__3.png">
         </a>
         </v-toolbar-title>
       <v-spacer />
@@ -63,7 +63,7 @@
     <v-app-bar  v-else dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title style="margin-top: -30px">
         <a href="/">
-          <img src="../assets/images/logo/VP-Portal-new-Logo.png">
+          <img src="../assets/images/logo/VP-Portal-new-Logo_short.png">
         </a>
       </v-toolbar-title>
       <v-spacer />
