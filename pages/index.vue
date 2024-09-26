@@ -38,21 +38,21 @@ export default {
         {
           icon: 'mdi-sync',
           buttonText: 'GUIDANCE',
-          buttonColor: '#fecf00',
+          buttonColor: '#3bb392',
           url: 'https://www.ejprarediseases.org/fairification',
           text: 'Find out how to make your data more FAIR'
         },
         {
           icon: 'mdi-gesture-double-tap',
           buttonText: 'ONBOARD',
-          buttonColor: '#51a4f7',
+          buttonColor: '#fecf00',
           url: 'https://vp-onboarding-doc.readthedocs.io/en/latest/vp/index.html',
           text: 'Find out how to onboard into the VP Network'
         },
         {
           icon: 'mdi-message-text-outline',
           buttonText: 'CONNECT',
-          buttonColor: '#3bb392',
+          buttonColor: '#51a4f7',
           url: 'https://forms.office.com/r/UrgvkD39t8',
           text: 'Contact us for information or feedback'
         }
