@@ -44,6 +44,13 @@ export default {
         },
         {
           icon: 'mdi-gesture-double-tap',
+          buttonText: 'ONBOARD',
+          buttonColor: '#51a4f7',
+          url: 'https://vp-onboarding-doc.readthedocs.io/en/latest/vp/index.html',
+          text: 'Find out how to onboard into the VP Network'
+        },
+        {
+          icon: 'mdi-message-text-outline',
           buttonText: 'CONNECT',
           buttonColor: '#3bb392',
           url: 'https://forms.office.com/r/UrgvkD39t8',
@@ -136,7 +143,7 @@ export default {
         <p> The Virtual Portal allows you to search the Virtual Platform (VP) at once in real time to find resources of interest to your research.
           The VP is a growing network of Findable, Accessible, Interoperable and Reusable (FAIR) resources, ready to serve the rare disease (RD) research community.</p>
       </v-col>
-      <v-col class="text-center" cols="12" sm="4" v-for="tool in tools" :key="tool.buttonText" >
+      <v-col class="text-center" cols="12" sm="3" v-for="tool in tools" :key="tool.buttonText" >
         <v-icon v-if="tool.icon" class="black--text mb-6 align-center justify-center" size="120px">
           {{ tool.icon }}
         </v-icon>
