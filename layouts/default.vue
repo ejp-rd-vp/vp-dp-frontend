@@ -82,6 +82,14 @@
         <v-list>
           <v-list-item
             link
+            href="https://www.ejprarediseases.org/" target="_blank"
+          >
+            <v-list-item-title>
+              EJP RD
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
             href="/discovery"
           >
             <v-list-item-title>
@@ -94,6 +102,14 @@
           >
             <v-list-item-title>
               VP Network Resources
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
+            href="/releasenote"
+          >
+            <v-list-item-title>
+              Whats New!
             </v-list-item-title>
           </v-list-item>
           <v-divider />
@@ -121,6 +137,14 @@
           >
             <v-icon>mdi-logout</v-icon>
             <v-list-item-title>logout</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
+            href="/about"
+          >
+            <v-icon>
+              mdi-information-slab-circle-outline
+            </v-icon>
           </v-list-item>
         </v-list>
       </v-menu>
