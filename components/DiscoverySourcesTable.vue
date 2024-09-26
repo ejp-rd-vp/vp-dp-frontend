@@ -8,7 +8,7 @@
         <li>Catalogues</li>
         <li>Biobanks</li>
       </ul>
-      <p> Interested in more Rare Disease resources?   <a href="https://resourcemap.ejprarediseases.org/#/" class="text-decoration-underline mr-16" style="margin-left: 8px;"><v-icon large color="#1976D2">mdi-launch</v-icon>Explore Rare Disease resources with the EJP RD Mind Map.</a> </p>
+      <p> Interested in more Rare Disease resources?   <a href="https://resourcemap.ejprarediseases.org/#/" target="_blank" class="text-decoration-underline mr-16" style="margin-left: 8px;"><v-icon large color="#1976D2">mdi-launch</v-icon>Explore Rare Disease resources with the EJP RD Mind Map.</a> </p>
     </div>
     <v-row no-gutters justify="center" align="center">
       <v-col cols="12" v-for="(source, index) in sources" :key="index">
