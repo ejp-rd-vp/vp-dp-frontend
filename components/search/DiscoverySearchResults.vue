@@ -67,6 +67,7 @@ export default {
       delete searchParams['symptomOnset']
       delete searchParams['ageAtDiagnoses']
       delete searchParams['hierarchy']
+      delete searchParams['biospecimenType']
       return searchParams;
     },
     handleResourceInfoDialogIconClicked (resourceInfo) {

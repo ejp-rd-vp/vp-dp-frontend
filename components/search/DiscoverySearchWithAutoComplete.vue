@@ -17,7 +17,8 @@ export default {
         ageThisYear: [20,39],
         symptomOnset: [20,39],
         ageAtDiagnoses: [20,39],
-        hierarchy: ['UP']
+        hierarchy: ['UP'],
+        biospecimenType:['blood specimen', 'bone marrow', 'buffy coat','peripheral blood mononuclear cell', 'blood plasma specimen', 'blood serum', 'ascites fluid', 'cerebrospinal fluid','saliva', 'feces', 'urine', 'swab', 'bodily fluid specimen','FFPE specimen', 'frozen specimen', 'specimen with known storage state', 'DNA extract', 'RNA extract','specimen from organism', 'An array of any of the above' ]
       },
       showSearchFilters: false,
       searchQuery: '',
