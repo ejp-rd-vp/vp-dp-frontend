@@ -2,7 +2,7 @@
 export default {
   beforeCreate() {
     try {
-      this.$auth.loginWith('keycloak')
+      this.$auth.loginWith('LSAAI')
     } catch (err) {
       console.log(err)
     }
@@ -10,7 +10,7 @@ export default {
   methods: {
     loginWithKeycloak () {
       try {
-        this.$auth.loginWith('keycloak')
+        this.$auth.loginWith('LSAAI')
       } catch (err) {
         console.log(err)
       }

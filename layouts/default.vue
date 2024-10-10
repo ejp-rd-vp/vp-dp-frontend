@@ -2,11 +2,11 @@
   <v-app>
     <AcceptFunctionalCookiesDialog v-if="!cookiesAccepted" />
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
-      <v-toolbar-title>
+      <v-toolbar-title style="margin-top: 15px">
         <a href="/">
-        <img src="@/assets/images/logo/VP-PORTAL.png">
+        <img src="../assets/images/logo/Rare_diseases_research_VP-Portal__3.png">
         </a>
-      </v-toolbar-title>
+        </v-toolbar-title>
       <v-spacer />
       <v-btn-toggle
         v-model="discoverySubPages"
@@ -15,10 +15,7 @@
         group
         borderless
       >
-        <v-btn x-large large tile href="https://www.ejprarediseases.org/" target="_blank">
-          EJP RD
-        </v-btn>
-        <v-btn x-large large tile value="discovery">
+       <v-btn x-large large tile value="discovery">
           Resource Discovery
         </v-btn>
         <v-btn x-large text value="sources">
@@ -64,13 +61,11 @@
       </v-btn>
     </v-app-bar>
     <v-app-bar  v-else dark color="#1f3863" height="130px" fixed app>
-      <v-toolbar-title>
-        <img src="@/assets/images/logo/ejp-rd-logo-small.png">
+      <v-toolbar-title style="margin-top: -30px">
+        <a href="/">
+          <img src="../assets/images/logo/VP-Portal-new-Logo_short.png">
+        </a>
       </v-toolbar-title>
-      <v-spacer />
-      <h1 style="color: #fffeff; font-family: Great Vibes cursive; font-size: 30px; line-height: 30px; font-weight: normal; margin-bottom: 0px; text-align: center; text-shadow: 0 1px 1px #fff;">
-        VP-PORTAL
-      </h1>
       <v-spacer />
       <v-menu offset-y>
         <template #activator="{ on, attrs }">
@@ -87,6 +82,14 @@
         <v-list>
           <v-list-item
             link
+            href="https://www.ejprarediseases.org/" target="_blank"
+          >
+            <v-list-item-title>
+              EJP RD
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
             href="/discovery"
           >
             <v-list-item-title>
@@ -99,6 +102,14 @@
           >
             <v-list-item-title>
               VP Network Resources
+            </v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
+            href="/releasenote"
+          >
+            <v-list-item-title>
+              Whats New!
             </v-list-item-title>
           </v-list-item>
           <v-divider />
@@ -126,6 +137,14 @@
           >
             <v-icon>mdi-logout</v-icon>
             <v-list-item-title>logout</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            link
+            href="/about"
+          >
+            <v-icon>
+              mdi-information-slab-circle-outline
+            </v-icon>
           </v-list-item>
         </v-list>
       </v-menu>
