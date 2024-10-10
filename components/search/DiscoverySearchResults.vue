@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     async fetchResults (orphaCodes) {
-      if(!orphaCodes || orphaCodes.length < 1) {
+       if(!orphaCodes || orphaCodes.length < 1) {
         return
       }
       this.loading = true
@@ -91,31 +91,45 @@ export default {
     resourceHasResponseToBeListed (result) {
       return !result || !result.content || !result.content.response || !result.content.response.resultSets[0].results;
     },
-    fetchNegotiator () {
+
+    async fetchNegotiator() {
       const url = 'https://negotiator.acc.bbmri-eric.eu/api/v3/requests';
       let idObjects = '';
 
       this.searchResults.forEach((resource) => {
-        if (resource.resourceName === "BBMRI-ERIC Directory"){
+        if (resource.resourceName === "BBMRI-ERIC Directory") {
           resource.content.response.resultSets[0].results.forEach(result => {
             let idObject = '{"id": "' + result.id + '"},';
-            idObjects = idObjects + idObject;
+            idObjects += idObject;
           });
         }
       });
-
       //final solution
-      const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0,idObjects.length-1) + '] }';
+      const data = '{ "url": "https://vp.ejprarediseases.org/", "humanReadable": "", "resources":  [' + idObjects.substring(0, idObjects.length - 1) + '] }';
 
-      this.$axios.$post(url, JSON.parse(data))
-        .then(response => {
-          this.negotiatorRedirectUrl = response.redirectUrl;
-          //console.log(this.negotiatorUrl)
-          window.open(this.negotiatorRedirectUrl, '_blank');
-        })
-        .catch(function (error) {
-          console.error(error);
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(JSON.parse(data))
         });
+// Check if the response is not correct
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(`${errorData.status} ${errorData.title}: ${errorData.detail}`);
+        }
+
+        const responseData = await response.json();
+        this.negotiatorRedirectUrl = responseData.redirectUrl;
+        window.open(this.negotiatorRedirectUrl, '_blank');
+
+      } catch (error) {
+        console.error('Error:', error.message || error);
+        alert(error.message || 'An error occurred');
+      }
     }
   }
 }
@@ -164,6 +178,11 @@ export default {
               </div>
               <div class="eph-results">
                 {{ result.content.responseSummary.numTotalResults }} result(s)
+              </div>
+              <div>
+                <div v-for="(filters, warningKey) in result.content?.info?.warnings" :key="warningKey">
+                  <div v-for="(filter, index) in filters" :key="index">Ignored filters: {{ filter }}</div>
+                </div>
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content
@@ -223,6 +242,11 @@ export default {
               </div>
               <div class="eph-results">
                 {{ result.content.responseSummary.numTotalResults }} result(s)
+              </div>
+              <div>
+                <div v-for="(filters, warningKey) in result.content?.info?.warnings" :key="warningKey">
+                  <div v-for="(filter, index) in filters" :key="index">Ignored filters: {{ filter }}</div>
+                </div>
               </div>
               <v-tooltip
                 v-if="!loggedIn"
