@@ -4,14 +4,15 @@ export default {
     return {
       dialog: true,
       usedCookies: [
-        'auth.strategy',
-        'auth._refresh_token.LSAAI',
-        'auth._refresh_token_expiration.LSAAI',
-        'auth.LSAAI.pkce_state',
-        'auth._token.LSAAI',
-        'auth._token_expiration.LSAAI',
-        'cookiesAccepted'
+        'auth.strategy: Authentication method',
+        'auth._refresh_token.LSAAI: LSAAI refresh token for session refresh',
+        'auth._refresh_token_expiration.LSAAI: Expiration time of the LSAAI refresh token',
+        'auth.LSAAI.pkce_state:PKCE state for LSAAI authentication',
+        'auth._token.LSAAI:LSAAI access token (for access to protected areas)',
+        'auth._token_expiration.LSAAI: Expiration time of the LSAAI access token',
+        'cookiesAccepted: Registers that cookies have been accepted'
       ]
+
     }
   },
 }
@@ -47,10 +48,11 @@ export default {
           <v-list-item-title>Display utilized cookies</v-list-item-title>
         </template>
 
-        <v-list-item v-for="cookie in usedCookies" :key="cookie">
-          <v-list-item-subtitle>
-            {{ cookie }}
-          </v-list-item-subtitle>
+        <v-list-item v-for="(cookie, index) in usedCookies" :key="index">
+          <v-list-item-content>
+            <v-list-item-title>{{ cookie.split(':')[0] }}</v-list-item-title>
+            <v-list-item-subtitle>{{ cookie.split(':')[1].trim() }}</v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list-group>
 
