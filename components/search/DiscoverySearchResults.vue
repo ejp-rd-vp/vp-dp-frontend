@@ -67,6 +67,7 @@ export default {
       delete searchParams['symptomOnset']
       delete searchParams['ageAtDiagnoses']
       delete searchParams['hierarchy']
+      delete searchParams['biospecimenType']
       return searchParams;
     },
     handleResourceInfoDialogIconClicked (resourceInfo) {
@@ -79,6 +80,12 @@ export default {
     isBeaconIndividualsResponse (resourceInfo) {
       if (resourceInfo) {
         return resourceInfo.queryType.includes('BEACON_INDIVIDUALS')
+      }
+      return false
+    },
+    isBeaconBiosamplesResponse (resourceInfo) {
+      if (resourceInfo) {
+        return resourceInfo.queryType.includes('BEACON_BIOSAMPLE')
       }
       return false
     },
@@ -221,7 +228,7 @@ export default {
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
-            v-if="isBeaconIndividualsResponse(result.resourceInfo)"
+            v-if="isBeaconIndividualsResponse(result.resourceInfo) || isBeaconBiosamplesResponse(result.resourceInfo)"
 
           >
             <v-expansion-panel-header
