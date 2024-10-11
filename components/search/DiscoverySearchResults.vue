@@ -83,6 +83,12 @@ export default {
       }
       return false
     },
+    isBeaconBiosamplesResponse (resourceInfo) {
+      if (resourceInfo) {
+        return resourceInfo.queryType.includes('BEACON_BIOSAMPLE')
+      }
+      return false
+    },
     isBeaconCatalogsResponse (resourceInfo) {
       if (resourceInfo) {
         return resourceInfo.queryType.includes('BEACON_CATALOG')
@@ -222,7 +228,7 @@ export default {
           <v-expansion-panel
             v-for="(result,i) in searchResults"
             :key="i"
-            v-if="isBeaconIndividualsResponse(result.resourceInfo)"
+            v-if="isBeaconIndividualsResponse(result.resourceInfo) || isBeaconBiosamplesResponse(result.resourceInfo)"
 
           >
             <v-expansion-panel-header
