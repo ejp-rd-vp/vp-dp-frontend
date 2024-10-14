@@ -40,15 +40,20 @@ export default {
           this.fetchedResources += 1
           continue
         }
-        this.searchParams.diseases = this.currentOrphaCodes
-        this.searchParams.resourceId = resource.id
-        this.searchParams.source = resource
+        let actualSearchParams = { ...this.searchParams }; //copy the content of searchParams
+        actualSearchParams.diseases = this.currentOrphaCodes
+        actualSearchParams.resourceId = resource.id
+        actualSearchParams.source = resource
         if(!this.loggedIn) {
-          this.searchParams = this.discardFiltersNeedingAuthorization(this.searchParams)
+          actualSearchParams = this.discardFiltersNeedingAuthorization(actualSearchParams)
         }
-        console.log('Query sent to backend:', JSON.stringify(this.searchParams,null, 2)); // Log the query parameters before the request
+        //Check if the value of the parameters ageThisYear, symptomOnset and ageAtDiagnoses is 0.
+        if(this.loggedIn) {
+          actualSearchParams = this.discardFiltersIfZero(actualSearchParams)
+        }
+        console.log('Query sent to backend:', JSON.stringify(actualSearchParams,null, 2)); // Log the query parameters before the request
         this.$axios.$get('/api/v1/search',
-          { params: this.searchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
+          { params: actualSearchParams, paramsSerializer (params) { return Common.paramsSerializer(params) } })
           .then(function (res) {
             this.fetchedResources += 1
             if (res && typeof res.content === 'object') {
@@ -70,6 +75,19 @@ export default {
       delete searchParams['hierarchy']
       return searchParams;
     },
+    //Method to remove the ageThisYear, symptomOnset and ageAtDiagnoses parameters from the search parameters if their values are 0.
+    discardFiltersIfZero (searchParams) {
+      if (searchParams.ageThisYear[0] === 0 && searchParams.ageThisYear[1] === 0) {
+        delete searchParams['ageThisYear'];
+      }
+      if (searchParams.symptomOnset[0] === 0 && searchParams.symptomOnset[1] === 0) {
+        delete searchParams['symptomOnset']
+      }
+      if (searchParams.ageAtDiagnoses[0] === 0 && searchParams.ageAtDiagnoses[1] === 0) {
+        delete searchParams['ageAtDiagnoses']
+      }
+      return searchParams;
+    },
     handleResourceInfoDialogIconClicked (resourceInfo) {
       this.resourceInfoDialog.resourceInfo = resourceInfo
       this.resourceInfoDialog.show = !this.resourceInfoDialog.show
@@ -80,6 +98,12 @@ export default {
     isBeaconIndividualsResponse (resourceInfo) {
       if (resourceInfo) {
         return resourceInfo.queryType.includes('BEACON_INDIVIDUALS')
+      }
+      return false
+    },
+    isBeaconBiosampleResponse (resourceInfo) {
+      if (resourceInfo) {
+        return resourceInfo.queryType.includes('BEACON_BIOSAMPLE')
       }
       return false
     },
@@ -135,7 +159,7 @@ export default {
       :resource-info="resourceInfoDialog.resourceInfo"
       @closeResourceInfoDialog="closeResourceInfoDialog"
     />
-    <v-row no-gutters justify="center">
+    <v-row justify="center" no-gutters>
       <v-col cols="12">
         <div>
           <h4 v-if="!(searchResults.every(result => !result?.content?.responseSummary?.numTotalResults ))">
@@ -145,15 +169,15 @@ export default {
         <v-expansion-panels v-if="searchResults.length > 0 && !loading" class="mb-14" flat>
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
-            indeterminate
             color="blue"
+            indeterminate
 
           ></v-progress-linear>
 
           <v-expansion-panel
             v-for="(result,i) in searchResults"
-            :key="i"
             v-if="isBeaconCatalogsResponse(result.resourceInfo)"
+            :key="i"
           >
             <v-expansion-panel-header
               v-if="result && result?.resourceName &&
@@ -161,11 +185,11 @@ export default {
               result?.content?.responseSummary?.numTotalResults"
               :disabled="resourceHasResponseToBeListed(result)"
               :hide-actions="resourceHasResponseToBeListed(result)"
-              class="expansion-header" tile color="rgb(68, 160, 252)"
+              class="expansion-header" color="rgb(68, 160, 252)" tile
             >
               <div class="eph-title">
-                <v-icon class="mr-1" @click.native.stop
-                        @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
+                <v-icon class="mr-1" @click="handleResourceInfoDialogIconClicked(result.resourceInfo)"
+                        @click.native.stop>
                   mdi-information-variant
                 </v-icon>
                 {{ result.resourceName }}
@@ -189,8 +213,8 @@ export default {
               />
               <v-btn v-if="result?.resourceName === 'BBMRI-ERIC Directory'"
                      class="white--text me-2 "
-                     variant="flat"
                      color="#1f3863"
+                     variant="flat"
                      @click="fetchNegotiator"
               >Negotiator</v-btn>
             </v-expansion-panel-content>
@@ -208,14 +232,14 @@ export default {
         >
           <v-progress-linear
             v-if="fetchedResources !== 0 && fetchedResources !== resources.length"
-            indeterminate
             color="blue"
+            indeterminate
           ></v-progress-linear>
 
           <v-expansion-panel
             v-for="(result,i) in searchResults"
+            v-if="isBeaconIndividualsResponse(result.resourceInfo) || isBeaconBiosampleResponse(result.resourceInfo)"
             :key="i"
-            v-if="isBeaconIndividualsResponse(result.resourceInfo)"
 
           >
             <v-expansion-panel-header
@@ -224,11 +248,11 @@ export default {
               result?.content?.responseSummary?.numTotalResults"
               :disabled="resourceHasResponseToBeListed(result)"
               :hide-actions="resourceHasResponseToBeListed(result)"
-              class="expansion-header" tile color="rgb(68, 160, 252)"
+              class="expansion-header" color="rgb(68, 160, 252)" tile
             >
               <div class="eph-title">
-                <v-icon class="mr-1" @click.native.stop
-                        @click="handleResourceInfoDialogIconClicked(result.resourceInfo)">
+                <v-icon class="mr-1" @click="handleResourceInfoDialogIconClicked(result.resourceInfo)"
+                        @click.native.stop>
                   mdi-information-variant
                 </v-icon>
 
@@ -248,9 +272,9 @@ export default {
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
+                    class="mr-1"
                     v-bind="attrs"
                     v-on="on"
-                    class="mr-1"
                   >
                     mdi-lock
                   </v-icon>
@@ -274,7 +298,7 @@ export default {
 
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .progress-circular {
   top: 60%;
   left: 50%;

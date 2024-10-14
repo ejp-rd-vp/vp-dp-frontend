@@ -7,14 +7,14 @@ export default {
       searchParams: {
         resourceTypes: [],
         countries: [],
-        ageThisYear: [0,100],
-        symptomOnset: [0,100],
-        ageAtDiagnoses: [0,100],
+        ageThisYear: [0,0],
+        symptomOnset: [0,0],
+        ageAtDiagnoses: [0,0]
       },
       items1: ['Patient Registries', 'Biobanks', 'Dataset','Catalog', 'Guideline' ],
-      value1: ['Patient Registries', 'Biobanks', 'Dataset','Catalog', 'Guideline'],
+      value1: [],
       items2: Countries.euCountriesNames(),
-      value2: Countries.euCountriesNames(),
+      value2: "",
       symptomOnset: {
         min: 0,
         max: 100
@@ -30,19 +30,19 @@ export default {
       sexes: [
         {
           type: 'FEMALE',
-          checked: true
+          checked: false
         },
         {
           type: 'MALE',
-          checked: true
+          checked: false
         },
         {
           type: 'UNDETERMINED',
-          checked: true
+          checked: false
         },
         {
           type: 'UNKNOWN',
-          checked: true
+          checked: false
         }
       ]
     }
@@ -66,7 +66,7 @@ export default {
   watch: {
     searchParams: {
       handler () {
-        this.$emit('updateSearchParams', this.searchParams)
+      this.$emit('updateSearchParams', this.searchParams);
       },
       deep: true,
       immediate: true
@@ -117,7 +117,7 @@ export default {
       deep: true,
       immediate: true
     },
-  },
+    },
   methods: {
     selectOrUnselectAllCountries () {
       this.$nextTick(() => {
@@ -206,6 +206,7 @@ export default {
         </span>
                 </template>
               </v-select>
+
             </v-col>
           </v-row>
         </v-card>
@@ -265,8 +266,8 @@ export default {
               <v-range-slider
                 color="primary"
                 v-model="searchParams.ageThisYear"
-                :max="ageThisYear.max"
                 :min="ageThisYear.min"
+                :max="ageThisYear.max"
                 hide-details
                 class="align-center"
               >
@@ -280,8 +281,9 @@ export default {
               <v-range-slider
                 color="primary"
                 v-model="searchParams.ageAtDiagnoses"
-                :max="ageAtDiagnosis.max"
                 :min="ageAtDiagnosis.min"
+                :max="ageAtDiagnosis.max"
+                :step="1"
                 hide-details
                 class="align-center"
               >
