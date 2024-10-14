@@ -198,7 +198,7 @@ export default {
                      variant="flat"
                      color="#1f3863"
                      @click="fetchNegotiator"
-              >Negotiator</v-btn>
+              >REQUEST DATA ACCESS FOR THE ABOVE RESOURCES</v-btn>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
