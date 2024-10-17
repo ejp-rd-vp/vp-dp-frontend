@@ -76,7 +76,6 @@ export default {
 
 <template>
   <v-container>
-    <!-- <div class="background">-->
     <v-row class="mt-12">
       <v-col class="text-center align-center" style="font-size: max(1vw, 20px);">
         <h1 class="pb-4 text-center" >
@@ -184,15 +183,9 @@ export default {
       </v-row>
     </v-row>
   </v-container>
-
 </template>
 <style>
-.background {
-  background-color: #a7d5ed;
-  border-bottom-left-radius: 100% 10%;
-  border-bottom-right-radius: 100% 10%;
-}
- .resize-image {
+.resize-image {
    max-width: 90px;
    max-height: 90px;
  }

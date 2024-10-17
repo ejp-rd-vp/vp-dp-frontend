@@ -4,7 +4,7 @@
     <v-app-bar  v-if="this.$vuetify.breakpoint.mdAndUp" dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title style="margin-top: 15px">
         <a href="/">
-        <img src="../assets/images/logo/Rare_diseases_research_VP-Portal__3.png">
+        <img src="../assets/images/logo/Rare_diseases_research_VP-Portal__4.png" alt="Logo" class="responsive-logo">
         </a>
         </v-toolbar-title>
       <v-spacer />
@@ -63,7 +63,7 @@
     <v-app-bar  v-else dark color="#1f3863" height="130px" fixed app>
       <v-toolbar-title style="margin-top: -30px">
         <a href="/">
-          <img src="../assets/images/logo/VP-Portal-new-Logo_short.png">
+          <img src="../assets/images/logo/Rare_diseases_research_VP-Portal__4.png" alt="Logo" class="responsive-logo">
         </a>
       </v-toolbar-title>
       <v-spacer />
@@ -162,15 +162,15 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer v-if="$route.name !== 'discovery'" absolute class="d-flex justify-space-around mt-4 pt-4">
+    <v-footer absolute class="d-flex justify-space-around mt-4 pt-4 fixed-footer">
       <p>
         <b>2019-2024 European Joint Programme on Rare Diseases</b>
       </p>
       <div class="d-flex justify-center">
         <a href="https://www.ejprarediseases.org/" target="_blank">
-          <img class="mr-2" height="55px" src="@/assets/images/logo/ejp-rd-logo-450.png">
+          <img class="mr-2" height="55px" alt="ejp-rd-logo" src="@/assets/images/logo/ejp-rd-logo-450.png">
         </a>
-        <img class="mr-2" src="@/assets/images/others/eu-emblem.jpg" height="55px" />
+        <img class="mr-2" alt="eu-emblem" src="@/assets/images/others/eu-emblem.jpg" height="55px" />
         <p style="font-size: 12px; line-height: 14px">
           This work is supported by the funding from <br>
           the European Union's Horizon 2020 research <br>
@@ -191,6 +191,15 @@
 html, body {
   font-family: Arial, Helvetica, sans-serif;
 }
+.fixed-footer {
+  position: fixed;
+  z-index: 1000; /* Ensures that the footer is positioned above other elements */
+}
+ .responsive-logo {
+   max-width: 100%;
+   height: auto;
+   object-fit: contain;
+ }
 </style>
 
 <script>
